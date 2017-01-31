@@ -59,7 +59,10 @@ class FilterRender implements SubscriberInterface
     {
         $containerId = $this->container->get('config')->getByNamespace('WbmTagManager', 'container_id');
 
-        if(!empty($containerId)) {
+        if(
+            !empty($containerId) &&
+            strtolower($this->container->get('front')->Request()->getModuleName()) != 'backend'
+        ) {
             $source = $args->getReturn();
 
             if(!$this->container->get('front')->Request()->isXmlHttpRequest()) {
