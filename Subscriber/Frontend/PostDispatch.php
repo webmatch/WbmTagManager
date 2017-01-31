@@ -109,7 +109,7 @@ class PostDispatch implements SubscriberInterface
                 $arguments = explode(' as ', $foreachObj->startArrayOf);
                 $dataLayer = str_replace(
                     $search,
-                    '{/literal}{foreach from=' . $arguments[0] . ' item= ' . ltrim($arguments[1], '$') . ' name=loop}{literal}',
+                    '{/literal}{foreach from=' . $arguments[0] . ' item=' . ltrim($arguments[1], '$') . ' name=loop}{literal}',
                     $dataLayer
                 );
             }
