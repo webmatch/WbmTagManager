@@ -54,7 +54,7 @@ class Property extends ModelEntity
      * @var string
      * @ORM\Column(name="value", type="string", length=255, nullable=false)
      */
-    private $value;
+    private $value = '';
 
     /**
      * @return int

@@ -127,7 +127,6 @@ Ext.define('Shopware.apps.WbmTagManager.view.main.Panel', {
                         dataIndex: 'value',
                         editor: {
                             xtype: 'combo',
-                            allowBlank: false,
                             editable: true
                         }
                     }
