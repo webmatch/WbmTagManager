@@ -48,7 +48,7 @@ Ext.define('Shopware.apps.WbmTagManager.view.main.Panel', {
                     {
                         xtype: 'treecolumn',
                         width: '30%',
-                        text: 'Property',
+                        text: '{s name=propertyLabel}Property{/s}',
                         sortable: false,
                         dataIndex: 'name',
                         editor: {
@@ -70,22 +70,24 @@ Ext.define('Shopware.apps.WbmTagManager.view.main.Panel', {
                                         var parentId = rec.get('id');
                                     }
 
-                                    Ext.MessageBox.prompt('Name', 'Property name:', function(btn, propertyName){
-                                        Ext.Ajax.request({
-                                            url: '{url controller="WbmTagManager" action="create"}',
-                                            method: 'POST',
-                                            params: {
-                                                moduleName: me.module,
-                                                parentID: parentId,
-                                                name: propertyName,
-                                                value: ''
-                                            },
-                                            success: function(){
-                                                me.store.load();
-                                            },
-                                            failure: function(){
-                                            }
-                                        });
+                                    Ext.MessageBox.prompt('Name', '{s name=propertyNamePrompt}Property name:{/s}', function(btn, propertyName){
+                                        if(propertyName) {
+                                            Ext.Ajax.request({
+                                                url: '{url controller="WbmTagManager" action="create"}',
+                                                method: 'POST',
+                                                params: {
+                                                    moduleName: me.module,
+                                                    parentID: parentId,
+                                                    name: propertyName,
+                                                    value: ''
+                                                },
+                                                success: function () {
+                                                    me.store.load();
+                                                },
+                                                failure: function () {
+                                                }
+                                            });
+                                        }
                                     });
                                 }
                             },
@@ -99,7 +101,7 @@ Ext.define('Shopware.apps.WbmTagManager.view.main.Panel', {
                                 handler:function (view, rowIndex, colIndex, item) {
                                     var rec = view.getStore().getAt(rowIndex);
 
-                                    Ext.MessageBox.confirm('Delete Property?', 'Are you sure you want to delete the property?' , function (response) {
+                                    Ext.MessageBox.confirm('{s name=deletePropertyWindow}Delete Property?{/s}', '{s name=deleteProperty}Are you sure you want to delete the property?{/s}' , function (response) {
                                         if ( response !== 'yes' ) {
                                             return;
                                         }
@@ -121,7 +123,7 @@ Ext.define('Shopware.apps.WbmTagManager.view.main.Panel', {
                         ]
                     },
                     {
-                        text: 'Value',
+                        text: '{s name=valueLabel}Value{/s}',
                         flex: 1,
                         sortable: false,
                         dataIndex: 'value',
