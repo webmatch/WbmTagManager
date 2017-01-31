@@ -70,6 +70,10 @@ class PostDispatch implements SubscriberInterface
         $replace = ['frontend_listing_index'];
         $module = str_replace($search, $replace, $module);
 
+        if($module == 'frontend_checkout_ajaxcart'){
+            $module = 'frontend_checkout_' . strtolower($args->getSubject()->Request()->getParam('action'));
+        }
+
         /** @var Repository $propertyRepo */
         $propertyRepo = $this->container->get('models')->getRepository('WbmTagManager\Models\Property');
         $dataLayer = $propertyRepo->getChildrenList(0, $module, true);
@@ -118,6 +122,10 @@ class PostDispatch implements SubscriberInterface
         return json_decode($dataLayer);
     }
 
+    /**
+     * @param $string
+     * @return string
+     */
     private function compileString($string)
     {
         $view = new \Enlight_View_Default(
