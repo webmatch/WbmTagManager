@@ -81,8 +81,8 @@ class FilterRender implements SubscriberInterface
                 );
 
                 if($dataLayer = $this->container->get('wbm_tag_manager.variables')->getVariables()) {
-                    $bodyTag = $bodyTag . "<script>
-                        dataLayer.push(" .
+                    $bodyTag = $bodyTag .
+                        "<script>dataLayer.push(" .
                         json_encode($dataLayer) .
                         ");</script>";
 
@@ -103,8 +103,7 @@ class FilterRender implements SubscriberInterface
                     return $injectedHTML;
                 }
             } else if($dataLayer = $this->container->get('wbm_tag_manager.variables')->getVariables()) {
-                $source = "<script>
-                        dataLayer.push(" .
+                $source = "<script>dataLayer.push(" .
                     json_encode($dataLayer) .
                     ");</script>" . $source;
 
