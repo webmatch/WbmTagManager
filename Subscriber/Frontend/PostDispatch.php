@@ -100,15 +100,13 @@ class PostDispatch implements SubscriberInterface
 
         $dataLayer = str_replace($search, $replace, $dataLayer);
 
-        $matches = preg_split('/({"startArrayOf":".*?"},)/i', $dataLayer, -1, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
-
-        if(isset($matches[1])){
-            $search = $matches[1];
-            $foreachObj = json_decode(rtrim($search, ','));
+        preg_match('/({"startArrayOf":".*?"},)/i', $dataLayer, $matches);
+        foreach($matches as $match){
+            $foreachObj = json_decode(rtrim($match, ','));
             if($foreachObj->startArrayOf){
                 $arguments = explode(' as ', $foreachObj->startArrayOf);
                 $dataLayer = str_replace(
-                    $search,
+                    $match,
                     '{/literal}{foreach from=' . $arguments[0] . ' item=' . ltrim($arguments[1], '$') . ' name=loop}{literal}',
                     $dataLayer
                 );
