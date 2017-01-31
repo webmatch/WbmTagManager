@@ -80,6 +80,8 @@ class FilterRender implements SubscriberInterface
                         dataLayer.push(" .
                         json_encode($dataLayer) .
                         ");</script>";
+
+                    $this->container->get('wbm_tag_manager.variables')->setVariables(null);
                 }
 
                 /* split the string contained in $html in three parts:
@@ -100,6 +102,8 @@ class FilterRender implements SubscriberInterface
                         dataLayer.push(" .
                     json_encode($dataLayer) .
                     ");</script>" . $source;
+
+                $this->container->get('wbm_tag_manager.variables')->setVariables(null);
 
                 return $source;
             }

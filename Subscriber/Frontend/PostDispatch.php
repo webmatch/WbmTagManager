@@ -43,7 +43,8 @@ class PostDispatch implements SubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            'Enlight_Controller_Action_PostDispatch_Frontend' => 'onPostDispatch'
+            'Enlight_Controller_Action_PostDispatch_Frontend' => 'onPostDispatch',
+            'Enlight_Controller_Action_PostDispatch_Widgets' => 'onPostDispatch'
         ];
     }
 
@@ -65,6 +66,10 @@ class PostDispatch implements SubscriberInterface
             '_' . strtolower($args->getSubject()->Request()->getControllerName()) .
             '_' . strtolower($args->getSubject()->Request()->getActionName());
 
+        $search = ['widgets_listing_ajaxlisting'];
+        $replace = ['frontend_listing_index'];
+        $module = str_replace($search, $replace, $module);
+
         /** @var Repository $propertyRepo */
         $propertyRepo = $this->container->get('models')->getRepository('WbmTagManager\Models\Property');
         $dataLayer = $propertyRepo->getChildrenList(0, $module, true);
@@ -80,6 +85,7 @@ class PostDispatch implements SubscriberInterface
 
     /**
      * @param $dataLayer
+     * @return mixed
      */
     private function fillValues($dataLayer)
     {
