@@ -113,7 +113,7 @@ class Property extends ModelEntity
     }
 
     /**
-     * @param string $module
+     * @param string $moduleName
      */
     public function setModuleName($moduleName)
     {

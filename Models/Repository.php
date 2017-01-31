@@ -16,7 +16,6 @@
 
 namespace WbmTagManager\Models;
 
-use Doctrine\ORM\AbstractQuery;
 use Shopware\Components\Model\ModelRepository;
 
 /**

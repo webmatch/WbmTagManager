@@ -18,7 +18,6 @@ namespace WbmTagManager\Subscriber\Frontend;
 
 use Enlight\Event\SubscriberInterface;
 use Shopware\Components\DependencyInjection\Container;
-use WbmTagManager\Models\Repository;
 
 /**
  * Class FilterRender

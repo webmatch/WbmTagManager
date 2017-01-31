@@ -51,7 +51,7 @@ class Shopware_Controllers_Backend_WbmTagManager extends Shopware_Controllers_Ba
         $this->View()->loadTemplate("backend/wbm_tag_manager/app.js");
     }
     
-    public function listAction($parentId = 0)
+    public function listAction()
     {
         $id = (int)$this->Request()->getParam('id', null);
         $module = $this->Request()->getParam('moduleName', null);
