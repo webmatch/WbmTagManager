@@ -131,7 +131,7 @@ class PostDispatch implements SubscriberInterface
         );
         $view->loadTemplate('frontend/index/index.tpl');
 
-        $compiler = new \Shopware_Components_StringCompiler($view);
+        $compiler = new \Shopware_Components_StringCompiler($view->Engine());
 
         $compiler->setContext($this->viewVariables);
 
