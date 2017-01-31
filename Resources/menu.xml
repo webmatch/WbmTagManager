@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../engine/Shopware/Components/Plugin/schema/menu.xsd">
+    <entries>
+        <entry>
+            <name>Tag Manager</name>
+            <label lang="en">Tag Manager</label>
+            <label lang="de">Tag Manager</label>
+            <controller>WbmTagManager</controller>
+            <action>index</action>
+            <class>sprite-gear</class>
+            <parent identifiedBy="controller">ConfigurationMenu</parent>
+        </entry>
+    </entries>
+</menu>

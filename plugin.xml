@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../engine/Shopware/Components/Plugin/schema/plugin.xsd">
+    <label lang="de">Tag Manager</label>
+    <label lang="en">Tag Manager</label>
+
+    <version>2.0.0</version>
+    <link>http://www.webmatch.de</link>
+    <author>Webmatch GmbH</author>
+    <compatibility minVersion="5.2.0" />
+
+    <changelog version="2.0.0">
+        <changes lang="de">Veröffentlichung Open-Source</changes>
+        <changes lang="en">Release Open-Source</changes>
+    </changelog>
+</plugin>
