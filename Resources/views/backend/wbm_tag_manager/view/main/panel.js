@@ -144,5 +144,11 @@ Ext.define('Shopware.apps.WbmTagManager.view.main.Panel', {
             }
         ];
         me.callParent(arguments);
+    },
+    listeners: {
+        single: true,
+        activate: function(tab) {
+            tab.store.load();
+        }
     }
 });

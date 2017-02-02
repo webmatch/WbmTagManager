@@ -17,7 +17,7 @@ Ext.define('Shopware.apps.WbmTagManager.store.Property', {
     extend: 'Ext.data.TreeStore',
     remoteFilter: true,
     remoteSort: false,
-    autoLoad : true,
+    autoLoad: false,
     model : 'Shopware.apps.WbmTagManager.model.Property',
     proxy: {
         type: 'ajax',
@@ -33,6 +33,7 @@ Ext.define('Shopware.apps.WbmTagManager.store.Property', {
     root: {
         name: 'dataLayer',
         id: 0,
-        expanded: true
+        expanded: true,
+        loaded: true
     }
 });
