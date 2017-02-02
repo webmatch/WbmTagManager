@@ -66,13 +66,13 @@ class PostDispatch implements SubscriberInterface
             '_' . strtolower($args->getSubject()->Request()->getControllerName()) .
             '_' . strtolower($args->getSubject()->Request()->getActionName());
 
-        $search = ['widgets_listing_ajaxlisting'];
-        $replace = ['frontend_listing_index'];
-        $module = str_replace($search, $replace, $module);
-
         if($module == 'frontend_checkout_ajaxcart'){
             $module = 'frontend_checkout_' . strtolower($args->getSubject()->Request()->getParam('action'));
         }
+
+        $search = ['widgets_listing_ajaxlisting', 'frontend_checkout_ajaxcart'];
+        $replace = ['frontend_listing_index', 'frontend_checkout_cart'];
+        $module = str_replace($search, $replace, $module);
 
         /** @var Repository $propertyRepo */
         $propertyRepo = $this->container->get('models')->getRepository('WbmTagManager\Models\Property');
