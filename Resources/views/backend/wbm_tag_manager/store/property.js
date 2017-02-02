@@ -18,7 +18,7 @@ Ext.define('Shopware.apps.WbmTagManager.store.Property', {
     remoteFilter: true,
     remoteSort: false,
     autoLoad: false,
-    model : 'Shopware.apps.WbmTagManager.model.Property',
+    model: 'Shopware.apps.WbmTagManager.model.Property',
     proxy: {
         type: 'ajax',
         url: '{url controller="WbmTagManager" action="list"}',
