@@ -9,7 +9,11 @@ INSERT IGNORE INTO `wbm_data_layer_modules` (`id`, `module`, `variables`) VALUES
   (4, 'frontend_checkout_confirm', NULL),
   (5, 'frontend_checkout_finish', NULL),
   (6, 'frontend_checkout_ajaxaddarticlecart', NULL),
-  (7, 'frontend_checkout_ajaxdeletearticlecart', NULL);
+  (7, 'frontend_checkout_ajaxdeletearticlecart', NULL),
+  (8, 'frontend_search_defaultsearch', NULL),
+  (9, 'frontend_register_index', NULL),
+  (10, 'frontend_checkout_shippingpayment', NULL),
+  (11, 'frontend_index_index', NULL);
 
 INSERT IGNORE INTO `wbm_data_layer_properties` (`id`, `module`, `parentID`, `name`, `value`) VALUES
   (1, 'frontend_listing_index', 0, 'ecommerce', ''),
@@ -78,4 +82,14 @@ INSERT IGNORE INTO `wbm_data_layer_properties` (`id`, `module`, `parentID`, `nam
   (70, 'frontend_checkout_finish', 68, 'id', '{$sArticle.ordernumber}'),
   (71, 'frontend_checkout_finish', 68, 'price', '{$sArticle.priceNumeric}'),
   (72, 'frontend_checkout_finish', 68, 'brand', '{$sArticle.additional_details.supplierName}'),
-  (73, 'frontend_checkout_finish', 68, 'quantity', '{$sArticle.quantity}');
+  (73, 'frontend_checkout_finish', 68, 'quantity', '{$sArticle.quantity}'),
+  (74, 'frontend_search_defaultsearch', 0, 'ecommerce', ''),
+  (75, 'frontend_search_defaultsearch', 74, 'currencyCode', 'EUR'),
+  (76, 'frontend_search_defaultsearch', 74, 'impressions', '$sSearchResults.sArticles as $sArticle'),
+  (77, 'frontend_search_defaultsearch', 76, 'name', '{$sArticle.articleName}'),
+  (79, 'frontend_search_defaultsearch', 76, 'id', '{$sArticle.ordernumber}'),
+  (80, 'frontend_search_defaultsearch', 76, 'price', '{$sArticle.price_numeric}'),
+  (81, 'frontend_search_defaultsearch', 76, 'brand', '{$sArticle.supplierName}'),
+  (82, 'frontend_search_defaultsearch', 76, 'list', 'Search Results'),
+  (83, 'frontend_search_defaultsearch', 0, 'siteSearchTerm', '{$smarty.request.sSearch}'),
+  (84, 'frontend_search_defaultsearch', 0, 'siteSearchResults', '{$sSearchResults.sArticlesCount}');
