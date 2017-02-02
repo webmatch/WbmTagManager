@@ -19,7 +19,6 @@ Ext.define('Shopware.apps.WbmTagManager.view.main.Window', {
     extend: 'Enlight.app.Window',
     title: '{s name="pluginTitle"}Tag Manager{/s}',
     alias: 'widget.tag-manager-window',
-    id: 'WbmTagManagerWindow',
     border: false,
     autoShow: true,
     height: 620,
