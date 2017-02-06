@@ -16,47 +16,17 @@
 
 namespace WbmTagManager\Services;
 
-use Shopware\Components\DependencyInjection\Container;
-
 /**
- * Class TagManagerVariables
+ * Class TagManagerVariablesInterface
  * @package WbmTagManager\Services
  */
-class TagManagerVariables implements TagManagerVariablesInterface {
+interface TagManagerVariablesInterface {
 
-    /**
-     * @var Container
-     */
-    private $container;
-
-    /**
-     * @var mixed
-     */
-    private $variables;
-
-    /**
-     * TagManagerVariables constructor.
-     * @param Container $container
-     */
-    public function __construct(Container $container)
-    {
-        $this->container = $container;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getVariables()
-    {
-        return $this->variables;
-    }
+    public function getVariables();
 
     /**
      * @param mixed $variables
      */
-    public function setVariables($variables)
-    {
-        $this->variables = $variables;
-    }
+    public function setVariables($variables);
 
 }
