@@ -17,7 +17,7 @@
 namespace WbmTagManager\Services;
 
 /**
- * Class TagManagerVariablesInterface
+ * Interface TagManagerVariablesInterface
  * @package WbmTagManager\Services
  */
 interface TagManagerVariablesInterface {
