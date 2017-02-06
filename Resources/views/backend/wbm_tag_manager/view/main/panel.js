@@ -128,7 +128,7 @@ Ext.define('Shopware.apps.WbmTagManager.view.main.Panel', {
                         sortable: false,
                         dataIndex: 'value',
                         editor: {
-                            xtype: 'combo',
+                            xtype: 'textfield',
                             editable: true
                         }
                     }
