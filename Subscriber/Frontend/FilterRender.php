@@ -56,7 +56,7 @@ class FilterRender implements SubscriberInterface
      */
     public function onFilterRender(\Enlight_Event_EventArgs $args)
     {
-        $containerId = $this->container->get('config')->getByNamespace('WbmTagManager', 'container_id');
+        $containerId = $this->container->get('config')->getByNamespace('WbmTagManager', 'wbmTagManagerContainer');
         $source = $args->getReturn();
 
         if(strpos($source, '<html') === false && !$this->container->get('front')->Request()->isXmlHttpRequest()) {
