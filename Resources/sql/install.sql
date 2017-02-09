@@ -93,4 +93,5 @@ INSERT IGNORE INTO `wbm_data_layer_properties` (`id`, `module`, `parentID`, `nam
   (82, 'frontend_search_defaultsearch', 76, 'list', 'Search Results'),
   (83, 'frontend_search_defaultsearch', 0, 'siteSearchTerm', '{$smarty.request.sSearch|escape}'),
   (84, 'frontend_search_defaultsearch', 0, 'siteSearchResults', '{$sSearchResults.sArticlesCount}'),
-  (85, 'frontend_listing_index', 4, 'position', '{($pageIndex|default:1 - 1) * {config name=articlesperpage} + {$smarty.foreach.loop.iteration}}');
+  (85, 'frontend_listing_index', 4, 'position', '{($pageIndex|default:1 - 1) * {config name=articlesperpage} + {$smarty.foreach.loop.iteration}}'),
+  (86, 'frontend_search_defaultsearch', 76, 'position', '{$smarty.foreach.loop.iteration}');
