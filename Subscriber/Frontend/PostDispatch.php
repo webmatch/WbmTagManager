@@ -129,7 +129,6 @@ class PostDispatch implements SubscriberInterface
         $view = new \Enlight_View_Default(
             $this->container->get('Template')
         );
-        $view->loadTemplate('frontend/index/index.tpl');
 
         $compiler = new \Shopware_Components_StringCompiler($view->Engine());
 
