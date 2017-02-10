@@ -1,5 +1,5 @@
 {
-  "name": "webmatch/WbmTagManager",
+  "name": "webmatch/wbm-tag-manager",
   "keywords": ["datalayer", "datalayer-configuration", "google-tag-manager", "shopware", "shopware-plugin"],
   "description": "GTM integration and dataLayer configuration for Shopware",
   "license": "GPL3",
