@@ -34,3 +34,24 @@ The module will be accessible in backend through a new menu point under the Sett
 The plugin comes pre-configured for the default Enhanced Ecommerce Tracking of Google Analytics.
 
 Use syntax like "$sArticles as $sArticle" as value for properties that are supposed to contain iterative elements.
+
+Adding modules
+=====
+There is currently no UI for adding modules/pages for the dataLayer configuration.
+It's scheduled for an upcoming release.
+
+You can however add your own modules by inserting into the corresponding table directly.
+
+A query to do so would look like this:
+
+``` INSERT INTO `wbm_data_layer_modules` ( `module`, `variables`) VALUES ('frontend_forms_index', NULL); ```
+
+Afterwards clear the cache and reload the backend. Open the Tag Manager Backend App and a new tab
+will appear without a label. The label can be updated by editing the text snippet within namespace
+*/backend/plugins/wbm/tagmanager/* named *frontend_forms_index*
+
+Following this example you could configure a dataLayer that is exclusive to all pages dispatched by
+Action *index* of Frontend Controller *forms*
+
+Note: The column *variables* is currently unused and, at some point in the future,
+is supposed to contain a preset of available view variables for the corresponding module.
