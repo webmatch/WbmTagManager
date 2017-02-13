@@ -57,6 +57,7 @@ class FilterRender implements SubscriberInterface
     public function onFilterRender(\Enlight_Event_EventArgs $args)
     {
         $containerId = $this->container->get('config')->getByNamespace('WbmTagManager', 'wbmTagManagerContainer');
+        $prettyPrint = $this->container->get('config')->getByNamespace('WbmTagManager', 'wbmTagManagerJsonPrettyPrint');
         $source = $args->getReturn();
 
         if(strpos($source, '<html') === false && !$this->container->get('front')->Request()->isXmlHttpRequest()) {
@@ -83,7 +84,7 @@ class FilterRender implements SubscriberInterface
                 if($dataLayer = $this->container->get('wbm_tag_manager.variables')->getVariables()) {
                     $bodyTag = $bodyTag .
                         "<script>dataLayer.push(" .
-                        json_encode($dataLayer) .
+                        json_encode($dataLayer,($prettyPrint) ? JSON_PRETTY_PRINT : null) .
                         ");</script>";
 
                     $this->container->get('wbm_tag_manager.variables')->setVariables(null);
@@ -104,7 +105,7 @@ class FilterRender implements SubscriberInterface
                 }
             } else if($dataLayer = $this->container->get('wbm_tag_manager.variables')->getVariables()) {
                 $source = "<script>dataLayer.push(" .
-                    json_encode($dataLayer) .
+                    json_encode($dataLayer,($prettyPrint) ? JSON_PRETTY_PRINT : null) .
                     ");</script>" . $source;
 
                 $this->container->get('wbm_tag_manager.variables')->setVariables(null);
