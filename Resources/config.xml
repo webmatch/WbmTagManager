@@ -11,7 +11,7 @@
             <name>wbmTagManagerJsonPrettyPrint</name>
             <label lang="de">Ausgabe formatieren</label>
             <label lang="en">Format Output</label>
-            <value>1</value>
+            <value>0</value>
         </element>
     </elements>
 </config>
