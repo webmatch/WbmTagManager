@@ -7,5 +7,11 @@
             <label lang="en">Container ID</label>
             <value/>
         </element>
+        <element scope="shop" type="boolean">
+            <name>wbmTagManagerJsonPrettyPrint</name>
+            <label lang="de">Ausgabe formatieren</label>
+            <label lang="en">Format Output</label>
+            <value>1</value>
+        </element>
     </elements>
 </config>
