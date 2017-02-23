@@ -63,7 +63,15 @@ class Repository extends ModelRepository {
                         );
                     }
                 } else {
-                    $property =  '{/literal}' . $value . '{literal}';
+                    switch (TRUE) {
+                        case is_array(json_decode($value)):
+                        case is_int(json_decode($value)):
+                        case is_float(json_decode($value)):
+                            $property = json_decode($value);
+                            break;
+                        default:
+                            $property = '{/literal}' . $value . '{literal}';
+                    }
                 }
             }
         } else {
