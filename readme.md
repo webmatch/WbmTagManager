@@ -29,7 +29,7 @@ Clone this repository into a folder **WbmTagManager** within the **custom/plugin
 
 ## Install with composer
 * Change to your root Installation of shopware
-* Run command `composer require webmatch/wbm-tag-manager` and install and active plugin with Plugin Manager 
+* Run command `composer require webmatch/wbm-tag-manager` and install and activate plugin with Plugin Manager 
 
 Usage
 =====
