@@ -17,7 +17,7 @@ INSERT IGNORE INTO `wbm_data_layer_modules` (`id`, `module`, `variables`) VALUES
 
 INSERT IGNORE INTO `wbm_data_layer_properties` (`id`, `module`, `parentID`, `name`, `value`) VALUES
   (1, 'frontend_listing_index', 0, 'ecommerce', ''),
-  (2, 'frontend_listing_index', 1, 'currencyCode', 'EUR'),
+  (2, 'frontend_listing_index', 1, 'currencyCode', '{0|currency:USE_SHORTNAME:LEFT|substr:0:3}'),
   (4, 'frontend_listing_index', 1, 'impressions', '$sArticles as $sArticle'),
   (6, 'frontend_listing_index', 4, 'name', '{$sArticle.articleName|escape}'),
   (7, 'frontend_listing_index', 4, 'id', '{$sArticle.ordernumber|escape}'),
@@ -35,7 +35,7 @@ INSERT IGNORE INTO `wbm_data_layer_properties` (`id`, `module`, `parentID`, `nam
   (19, 'frontend_detail_index', 13, 'brand', '{$sArticle.supplierName|escape}'),
   (20, 'frontend_detail_index', 13, 'category', '{$sCategoryInfo.name|escape}'),
   (21, 'frontend_detail_index', 13, 'variant', '{$sArticle.additionaltext|escape}'),
-  (23, 'frontend_detail_index', 12, 'currencyCode', 'EUR'),
+  (23, 'frontend_detail_index', 12, 'currencyCode', '{0|currency:USE_SHORTNAME:LEFT|substr:0:3}'),
   (24, 'frontend_checkout_ajaxaddarticlecart', 0, 'event', 'addToCart'),
   (25, 'frontend_checkout_ajaxaddarticlecart', 0, 'ecommerce', ''),
   (26, 'frontend_checkout_ajaxaddarticlecart', 25, 'currencyCode', 'EUR'),
@@ -84,7 +84,7 @@ INSERT IGNORE INTO `wbm_data_layer_properties` (`id`, `module`, `parentID`, `nam
   (72, 'frontend_checkout_finish', 68, 'brand', '{$sArticle.additional_details.supplierName|escape}'),
   (73, 'frontend_checkout_finish', 68, 'quantity', '{$sArticle.quantity}'),
   (74, 'frontend_search_defaultsearch', 0, 'ecommerce', ''),
-  (75, 'frontend_search_defaultsearch', 74, 'currencyCode', 'EUR'),
+  (75, 'frontend_search_defaultsearch', 74, 'currencyCode', '{0|currency:USE_SHORTNAME:LEFT|substr:0:3}'),
   (76, 'frontend_search_defaultsearch', 74, 'impressions', '$sSearchResults.sArticles as $sArticle'),
   (77, 'frontend_search_defaultsearch', 76, 'name', '{$sArticle.articleName|escape}'),
   (79, 'frontend_search_defaultsearch', 76, 'id', '{$sArticle.ordernumber|escape}'),
