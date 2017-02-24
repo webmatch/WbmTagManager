@@ -102,9 +102,7 @@ class FilterRender implements SubscriberInterface
 
                 if(!empty($matches)) {
                     /* assemble the HTML output back with the iframe code in it */
-                    $injectedHTML = $matches[0] . $matches[1] . $bodyTag . $matches[2];
-
-                    return $injectedHTML;
+                    $source = $matches[0] . $matches[1] . $bodyTag . $matches[2];
                 }
             } else if($dataLayer = $this->container->get('wbm_tag_manager.variables')->getVariables()) {
                 array_walk_recursive($dataLayer, array($this, 'castArrayValues'));
@@ -115,8 +113,6 @@ class FilterRender implements SubscriberInterface
                     $source;
 
                 $this->container->get('wbm_tag_manager.variables')->setVariables(null);
-
-                return $source;
             }
         }
 
