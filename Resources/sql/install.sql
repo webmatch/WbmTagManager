@@ -107,7 +107,7 @@ INSERT IGNORE INTO `wbm_data_layer_properties` (`id`, `module`, `parentID`, `nam
   (96, 'frontend_search_defaultsearch', 104, 'ecomm_pagetype', 'searchresults'),
   (97, 'frontend_search_defaultsearch', 104, 'ecomm_prodid', '[{foreach $sSearchResults.sArticles as $sArticle}"{$sArticle.ordernumber|escape}"{if !$sArticle@last},{/if}{/foreach}]'),
   (98, 'frontend_index_index', 105, 'ecomm_pagetype', 'home'),
-  (99, 'frontend_listing_index', 0, 'ecomm_category', '{$sCategoryContent.name|escape}'),
+  (99, 'frontend_listing_index', 100, 'ecomm_category', '{$sCategoryContent.name|escape}'),
   (100, 'frontend_listing_index', 0, 'google_tag_params', ''),
   (101, 'frontend_detail_index', 0, 'google_tag_params', ''),
   (102, 'frontend_checkout_cart', 0, 'google_tag_params', ''),
