@@ -117,7 +117,7 @@ class PostDispatch implements SubscriberInterface
 
         $dataLayer = $this->compileString($dataLayer);
 
-        return json_decode($dataLayer);
+        return json_decode($dataLayer, true);
     }
 
     /**

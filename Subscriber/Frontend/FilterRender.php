@@ -82,6 +82,8 @@ class FilterRender implements SubscriberInterface
                 );
 
                 if($dataLayer = $this->container->get('wbm_tag_manager.variables')->getVariables()) {
+                    array_walk_recursive($dataLayer, array($this, 'castArrayValues'));
+
                     $bodyTag = $bodyTag .
                         "<script>dataLayer.push(" .
                         json_encode($dataLayer,($prettyPrint) ? JSON_PRETTY_PRINT : null) .
@@ -104,6 +106,8 @@ class FilterRender implements SubscriberInterface
                     return $injectedHTML;
                 }
             } else if($dataLayer = $this->container->get('wbm_tag_manager.variables')->getVariables()) {
+                array_walk_recursive($dataLayer, array($this, 'castArrayValues'));
+
                 $source = "<script>dataLayer.push(" .
                     json_encode($dataLayer,($prettyPrint) ? JSON_PRETTY_PRINT : null) .
                     ");</script>" . $source;
@@ -112,6 +116,20 @@ class FilterRender implements SubscriberInterface
 
                 return $source;
             }
+        }
+    }
+
+    /**
+     * @param $value
+     * @return mixed
+     */
+    private function castArrayValues(&$value)
+    {
+        switch (TRUE) {
+            case is_array(json_decode($value)):
+            case is_int(json_decode($value)):
+            case is_float(json_decode($value)):
+                $value = json_decode($value);
         }
     }
 }
