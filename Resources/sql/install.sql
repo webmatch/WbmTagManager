@@ -94,4 +94,17 @@ INSERT IGNORE INTO `wbm_data_layer_properties` (`id`, `module`, `parentID`, `nam
   (83, 'frontend_search_defaultsearch', 0, 'siteSearchTerm', '{$smarty.request.sSearch|escape}'),
   (84, 'frontend_search_defaultsearch', 0, 'siteSearchResults', '{$sSearchResults.sArticlesCount}'),
   (85, 'frontend_listing_index', 4, 'position', '{($pageIndex|default:1 - 1) * {config name=articlesperpage} + {$smarty.foreach.loop.iteration}}'),
-  (86, 'frontend_search_defaultsearch', 76, 'position', '{$smarty.foreach.loop.iteration}');
+  (86, 'frontend_search_defaultsearch', 76, 'position', '{$smarty.foreach.loop.iteration}'),
+  (87, 'frontend_listing_index', 0, 'ecomm_pagetype', 'category'),
+  (88, 'frontend_listing_index', 0, 'ecomm_prodid', '["{/literal}{foreach $sArticles as $sArticle}{if !$sArticle@first}{34|chr}{/if}{$sArticle.ordernumber|escape}{if !$sArticle@last}{34|chr},{/if}{/foreach}{literal}"]'),
+  (89, 'frontend_detail_index', 0, 'ecomm_pagetype', 'product'),
+  (90, 'frontend_detail_index', 0, 'ecomm_prodid', '{$sArticle.ordernumber|escape}'),
+  (91, 'frontend_checkout_cart', 0, 'ecomm_pagetype', 'cart'),
+  (92, 'frontend_checkout_cart', 0, 'ecomm_prodid', '["{/literal}{foreach $sBasket.content as $sArticle}{if !$sArticle@first}{34|chr}{/if}{$sArticle.ordernumber|escape}{if !$sArticle@last}{34|chr},{/if}{/foreach}{literal}"]'),
+  (93, 'frontend_checkout_cart', 0, 'ecomm_totalvalue', '{$sAmount}'),
+  (94, 'frontend_checkout_finish', 0, 'ecomm_pagetype', 'purchase'),
+  (95, 'frontend_checkout_finish', 0, 'ecomm_totalvalue', '{$sAmount}'),
+  (96, 'frontend_search_defaultsearch', 0, 'ecomm_pagetype', 'searchresults'),
+  (97, 'frontend_search_defaultsearch', 0, 'ecomm_prodid', '["{/literal}{foreach $sSearchResults.sArticles as $sArticle}{if !$sArticle@first}{34|chr}{/if}{$sArticle.ordernumber|escape}{if !$sArticle@last}{34|chr},{/if}{/foreach}{literal}"]'),
+  (98, 'frontend_index_index', 0, 'ecomm_pagetype', 'home'),
+  (99, 'frontend_listing_index', 0, 'ecomm_category', '{$sCategoryContent.name|escape}');
