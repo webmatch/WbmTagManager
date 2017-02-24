@@ -38,7 +38,7 @@ INSERT IGNORE INTO `wbm_data_layer_properties` (`id`, `module`, `parentID`, `nam
   (23, 'frontend_detail_index', 12, 'currencyCode', '{0|currency:USE_SHORTNAME:LEFT|substr:0:3}'),
   (24, 'frontend_checkout_ajaxaddarticlecart', 0, 'event', 'addToCart'),
   (25, 'frontend_checkout_ajaxaddarticlecart', 0, 'ecommerce', ''),
-  (26, 'frontend_checkout_ajaxaddarticlecart', 25, 'currencyCode', 'EUR'),
+  (26, 'frontend_checkout_ajaxaddarticlecart', 25, 'currencyCode', '{0|currency:USE_SHORTNAME:LEFT|substr:0:3}'),
   (27, 'frontend_checkout_ajaxaddarticlecart', 25, 'add', ''),
   (28, 'frontend_checkout_ajaxaddarticlecart', 27, 'products', ''),
   (30, 'frontend_checkout_ajaxaddarticlecart', 28, 'id', '{$smarty.request.sAdd|escape}'),
