@@ -121,7 +121,6 @@ class FilterRender implements SubscriberInterface
 
     /**
      * @param $value
-     * @return mixed
      */
     private function castArrayValues(&$value)
     {
