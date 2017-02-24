@@ -56,13 +56,14 @@ class FilterRender implements SubscriberInterface
      */
     public function onFilterRender(\Enlight_Event_EventArgs $args)
     {
-        $containerId = $this->container->get('config')->getByNamespace('WbmTagManager', 'wbmTagManagerContainer');
-        $prettyPrint = $this->container->get('config')->getByNamespace('WbmTagManager', 'wbmTagManagerJsonPrettyPrint');
         $source = $args->getReturn();
 
         if(strpos($source, '<html') === false && !$this->container->get('front')->Request()->isXmlHttpRequest()) {
             return $source;
         }
+
+        $containerId = $this->container->get('config')->getByNamespace('WbmTagManager', 'wbmTagManagerContainer');
+        $prettyPrint = $this->container->get('config')->getByNamespace('WbmTagManager', 'wbmTagManagerJsonPrettyPrint');
 
         if(
             !empty($containerId) &&
@@ -92,7 +93,7 @@ class FilterRender implements SubscriberInterface
                     $this->container->get('wbm_tag_manager.variables')->setVariables(null);
                 }
 
-                /* split the string contained in $html in three parts:
+                /* split the string contained in $source in three parts:
                  * everything before the <body> tag
                  * the body tag with any attributes in it
                  * everything following the body tag
@@ -110,13 +111,16 @@ class FilterRender implements SubscriberInterface
 
                 $source = "<script>dataLayer.push(" .
                     json_encode($dataLayer,($prettyPrint) ? JSON_PRETTY_PRINT : null) .
-                    ");</script>" . $source;
+                    ");</script>" .
+                    $source;
 
                 $this->container->get('wbm_tag_manager.variables')->setVariables(null);
 
                 return $source;
             }
         }
+
+        return $source;
     }
 
     /**
