@@ -35,7 +35,9 @@ Usage
 =====
 The module will be accessible in backend through a new menu point under the Settings menu tab.
 
-The plugin comes pre-configured for the default Enhanced Ecommerce Tracking of Google Analytics.
+The plugin comes pre-configured for:
+* Enhanced Ecommerce Tracking of Google Analytics
+* Dynamic Remarketing of Google AdWords
 
 Use syntax like "$sArticles as $sArticle" as value for properties that are supposed to contain iterative elements.
 
