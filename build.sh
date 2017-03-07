@@ -9,7 +9,7 @@ if [ -z ${commit} ]; then
 fi
 
 # Remove old release
-rm -rf WbmViewportResizer WbmTagManager-*.zip
+rm -rf WbmTagManager WbmTagManager-*.zip
 
 # Build new release
 mkdir -p WbmTagManager
