@@ -1,7 +1,7 @@
 WbmTagManager - GTM integration and dataLayer configuration
 =====
-![Scrutinizer](https://scrutinizer-ci.com/g/webmatch/WbmTagManager/badges/quality-score.png?b=master)
-![Travis CI](https://travis-ci.org/webmatch/WbmTagManager.svg?branch=master)
+[![Scrutinizer](https://scrutinizer-ci.com/g/webmatch/WbmTagManager/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/webmatch/WbmTagManager/?branch=master)
+[![Travis CI](https://travis-ci.org/webmatch/WbmTagManager.svg?branch=master)](https://travis-ci.org/webmatch/WbmTagManager)
 
 **This plugin is currently in beta phase and not yet fully tested**
 
