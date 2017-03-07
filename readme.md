@@ -1,11 +1,13 @@
 WbmTagManager - GTM integration and dataLayer configuration
 =====
+![Travis CI](https://travis-ci.org/webmatch/WbmTagManager.svg?branch=master)
+
 **This plugin is currently in beta phase and not yet fully tested**
 
 This plugin integrates a new module within the [Shopware](https://www.shopware.de) backend that allows for the integration 
 of the Google Tag Manager Snippet and the configuration of the dataLayer content.
 
-![WbmQueryManager](https://www.webmatch.de/wp-content/uploads/2017/02/tag_manager_screen.png)
+![WbmTagManager](https://www.webmatch.de/wp-content/uploads/2017/02/tag_manager_screen.png)
 
 The plugin offers the following features:
 
