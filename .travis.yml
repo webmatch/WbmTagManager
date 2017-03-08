@@ -1,47 +1,56 @@
 language: php
+
 php:
-- 7.0
-- 7.1
+  - 7.0
+  - 7.1
+
 sudo: false
+
 services:
-- mysql
+  - mysql
+
 env:
   matrix:
-  - SHOPWARE_VERSION="5.2"
-  - SHOPWARE_VERSION="5.3"
+    - SHOPWARE_VERSION="5.2"
+    - SHOPWARE_VERSION="5.3"
   global:
-  - PLUGIN_NAME=WbmTagManager
-  - SHOPWARE_DIRECTORY=${HOME}/shopware
-  - PLUGIN_DIRECTORY=${SHOPWARE_DIRECTORY}/custom/plugins
+    - PLUGIN_NAME=WbmTagManager
+    - SHOPWARE_DIRECTORY=${HOME}/shopware
+    - PLUGIN_DIRECTORY=${SHOPWARE_DIRECTORY}/custom/plugins
+
 cache:
-  directories:
-  - ${HOME}/.composer/cache/files
+   directories:
+     - ${HOME}/.composer/cache/files
+
 install:
-- composer install
+  - composer install
+
 before_script:
-- if [[ "$(php --version | grep -cim1 xdebug)" -ge 1 ]]; then phpenv config-rm xdebug.ini;
-  fi
-- git clone https://github.com/shopware/shopware.git ${SHOPWARE_DIRECTORY} --branch
-  ${SHOPWARE_VERSION}
-- ant -f ${SHOPWARE_DIRECTORY}/build/build.xml -Dapp.host=localhost -Ddb.user=travis
-  -Ddb.host=127.0.0.1 -Ddb.name=shopware build-unit
-- mv ${TRAVIS_BUILD_DIR} ${PLUGIN_DIRECTORY}/${PLUGIN_NAME}
-- php ${HOME}/shopware/bin/console sw:plugin:refresh
-- php ${HOME}/shopware/bin/console sw:plugin:install ${PLUGIN_NAME}
-- php ${HOME}/shopware/bin/console sw:plugin:activate ${PLUGIN_NAME}
-- cd ${PLUGIN_DIRECTORY}/${PLUGIN_NAME}
+  - if [[ "$(php --version | grep -cim1 xdebug)" -ge 1 ]]; then phpenv config-rm xdebug.ini; fi
+  - git clone https://github.com/shopware/shopware.git ${SHOPWARE_DIRECTORY} --branch ${SHOPWARE_VERSION}
+  - ant -f ${SHOPWARE_DIRECTORY}/build/build.xml -Dapp.host=localhost -Ddb.user=travis -Ddb.host=127.0.0.1 -Ddb.name=shopware build-unit
+  - mv ${TRAVIS_BUILD_DIR} ${PLUGIN_DIRECTORY}/${PLUGIN_NAME}
+  - php ${HOME}/shopware/bin/console sw:plugin:refresh
+  - php ${HOME}/shopware/bin/console sw:plugin:install ${PLUGIN_NAME}
+  - php ${HOME}/shopware/bin/console sw:plugin:activate ${PLUGIN_NAME}
+  - cd ${PLUGIN_DIRECTORY}/${PLUGIN_NAME}
+
 script:
-- composer test
+  - composer test
+
 after_success:
-- ./build.sh
+  - ./build.sh
+
 matrix:
   allow_failures:
   - env: SHOPWARE_VERSION="5.3"
   - php: nightly
+
 deploy:
   provider: releases
   api_key:
     secure: F5H9b/vTrvzh5R6yaKkwID9mWK+EuGOBI3KSmzi+mHorbRs/63xHI3YmwkRIAtli0QjDTCQNTUlKiDk1RNK/nKs8cNqcQ7dsI5EgCw3WzhupzWl+8W/mJynh+beFZC4L1UJiapl3CYqqwqcedmz6zgbS9+JqNNjE+8OrKmLgrT3g1xCYK70bnizjJHl3fQfp2GJIrn0vy9cG2NKAFFemhdwOzOwTO8uTTOfGRAn/E5pF97VruF1PjpK30il/dx/UDOALuyxxygvJDJP7tDNTd+j9pjskngz1CGKQo6PBKKUYQ1llqnnB3YbUaGqUamaghFw4hyQfgjcY9zbtMz73szZMO40rViBGl2oQp+Ghm7qQNZGmpMa/LxlPaMNZOmPOvSM6Uc6JAIvzT2OOy15n/C98woDVArl/0yqLXlB7Hfro1yrs43lkaf4YvaZOEnwLIotkqoFa6hvmSrLoLAMtKtwCf3bPxe9/02J/RSYp+l4k4OZ6B3YEIUgucR0ErMSGSb6scC8hJaV1OLc3mNTM8DLzcvcC542Diwy6dg0Tk2okpH1qPggeFdU6vNuC4c48CxlPtKTnfUWmM3/xBcXp4sjFcjeOp5KPEdSK3krvfBLGeeqLo3oeqHvvh/x/we2LdqnMSMAlXAQYSLFFxc4OavYIf7bGIonHeeymwzkCb2g=
+  file_glob: true
   file: WbmTagManager*.zip
   on:
-    repo: webmatch/WbmTagManager
+    tags: true
