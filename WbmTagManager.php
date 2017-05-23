@@ -60,6 +60,11 @@ class WbmTagManager extends \Shopware\Components\Plugin
      */
     public function update(UpdateContext $context)
     {
-        parent::update($context);
+        if(version_compare($context->getCurrentVersion(), '2.0.0', '<')) {
+            $sql = file_get_contents($this->getPath() . '/Resources/sql/install.sql');
+
+            $this->container->get('shopware.db')->query($sql);
+        }
+        $context->scheduleClearCache(InstallContext::CACHE_LIST_ALL);
     }
 }
