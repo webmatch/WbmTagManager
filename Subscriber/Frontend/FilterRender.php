@@ -76,10 +76,11 @@ class FilterRender implements SubscriberInterface
                 $headTag = sprintf($headTag, $containerId);
                 $bodyTag = sprintf($bodyTag, $containerId);
 
-                $source = str_replace(
-                    '<head>',
+                $source = preg_replace(
+                    '/<head>/',
                     '<head>' . $headTag,
-                    $source
+                    $source,
+                    1
                 );
 
                 if($dataLayer = $this->container->get('wbm_tag_manager.variables')->getVariables()) {
@@ -98,7 +99,7 @@ class FilterRender implements SubscriberInterface
                  * the body tag with any attributes in it
                  * everything following the body tag
                  */
-                $matches = preg_split('/(<body.*?>)/i', $source, -1, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
+                $matches = preg_split('/(<body.*?>)/i', $source, 2, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
 
                 if(!empty($matches)) {
                     /* assemble the HTML output back with the iframe code in it */
