@@ -3,10 +3,15 @@
     <label lang="de">Tag Manager</label>
     <label lang="en">Tag Manager</label>
 
-    <version>2.0.0</version>
+    <version>2.0.1</version>
     <link>http://www.webmatch.de</link>
     <author>Webmatch GmbH</author>
     <compatibility minVersion="5.2.0" />
+
+    <changelog version="2.0.1">
+        <changes lang="de">Nutze erlaubte Modifier ab 5.2.25 in Standardkonfiguration</changes>
+        <changes lang="en">Use allowed modifier only since 5.2.25 in default config</changes>
+    </changelog>
 
     <changelog version="2.0.0">
         <changes lang="de">Veröffentlichung Open-Source</changes>

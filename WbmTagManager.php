@@ -65,6 +65,13 @@ class WbmTagManager extends \Shopware\Components\Plugin
 
             $this->container->get('shopware.db')->query($sql);
         }
+
+        if(version_compare(\Shopware::VERSION, '5.2.25', '>=')){
+            $this->container->get('shopware.db')->query(
+                'UPDATE `wbm_data_layer_properties` SET `value` = "{0|currency:USE_SHORTNAME:LEFT|truncate:3:\'\'}" WHERE `value` = "{0|currency:USE_SHORTNAME:LEFT|substr:0:3}"'
+            );
+        }
+
         $context->scheduleClearCache(InstallContext::CACHE_LIST_ALL);
     }
 }
