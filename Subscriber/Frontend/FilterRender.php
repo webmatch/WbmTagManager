@@ -76,23 +76,23 @@ class FilterRender implements SubscriberInterface
                 $headTag = sprintf($headTag, $containerId);
                 $bodyTag = sprintf($bodyTag, $containerId);
 
+                if($dataLayer = $this->container->get('wbm_tag_manager.variables')->getVariables()) {
+                    array_walk_recursive($dataLayer, array($this, 'castArrayValues'));
+
+                    $headTag = "<script>window.dataLayer = window.dataLayer || []; window.dataLayer.push(" .
+                        json_encode($dataLayer, ($prettyPrint) ? JSON_PRETTY_PRINT : null) .
+                        ");</script>" .
+                        $headTag;
+
+                    $this->container->get('wbm_tag_manager.variables')->setVariables(null);
+                }
+
                 $source = preg_replace(
                     '/<head>/',
                     '<head>' . $headTag,
                     $source,
                     1
                 );
-
-                if($dataLayer = $this->container->get('wbm_tag_manager.variables')->getVariables()) {
-                    array_walk_recursive($dataLayer, array($this, 'castArrayValues'));
-
-                    $bodyTag = $bodyTag .
-                        "<script>dataLayer.push(" .
-                        json_encode($dataLayer,($prettyPrint) ? JSON_PRETTY_PRINT : null) .
-                        ");</script>";
-
-                    $this->container->get('wbm_tag_manager.variables')->setVariables(null);
-                }
 
                 /* split the string contained in $source in three parts:
                  * everything before the <body> tag
@@ -108,7 +108,7 @@ class FilterRender implements SubscriberInterface
             } else if($dataLayer = $this->container->get('wbm_tag_manager.variables')->getVariables()) {
                 array_walk_recursive($dataLayer, array($this, 'castArrayValues'));
 
-                $source = "<script>dataLayer.push(" .
+                $source = "<script>window.dataLayer.push(" .
                     json_encode($dataLayer,($prettyPrint) ? JSON_PRETTY_PRINT : null) .
                     ");</script>" .
                     $source;
