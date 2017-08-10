@@ -60,16 +60,22 @@ class WbmTagManager extends \Shopware\Components\Plugin
      */
     public function update(UpdateContext $context)
     {
-        if(version_compare($context->getCurrentVersion(), '2.0.0', '<')) {
+        if (version_compare($context->getCurrentVersion(), '2.0.0', '<')) {
             $sql = file_get_contents($this->getPath() . '/Resources/sql/install.sql');
 
             $this->container->get('shopware.db')->query($sql);
         }
 
-        if(version_compare(\Shopware::VERSION, '5.2.25', '>=')){
-            $this->container->get('shopware.db')->query(
-                'UPDATE `wbm_data_layer_properties` SET `value` = "{0|currency:USE_SHORTNAME:LEFT|truncate:3:\'\'}" WHERE `value` = "{0|currency:USE_SHORTNAME:LEFT|substr:0:3}"'
-            );
+        if (version_compare($context->getCurrentVersion(), '2.0.3', '<')) {
+            $this->container->get('shopware.db')->query('
+                INSERT IGNORE INTO `wbm_data_layer_properties` (`id`, `module`, `parentID`, `name`, `value`) VALUES
+                (106, \'frontend_detail_index\', 13, \'products\', \'[$sArticle] as $article\');
+            ');
+            $this->container->get('shopware.db')->query('
+                UPDATE `wbm_data_layer_properties`
+                SET `parentID` = 106, `value` = REPLACE(`value`, \'$sArticle\', \'$article\')
+                WHERE `id` IN (16, 17, 18, 19, 21);
+            ');
         }
 
         $context->scheduleClearCache(InstallContext::CACHE_LIST_ALL);
