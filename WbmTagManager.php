@@ -67,15 +67,9 @@ class WbmTagManager extends \Shopware\Components\Plugin
         }
 
         if (version_compare($context->getCurrentVersion(), '2.0.3', '<')) {
-            $this->container->get('shopware.db')->query('
-                INSERT IGNORE INTO `wbm_data_layer_properties` (`id`, `module`, `parentID`, `name`, `value`) VALUES
-                (106, \'frontend_detail_index\', 13, \'products\', \'[$sArticle] as $article\');
-            ');
-            $this->container->get('shopware.db')->query('
-                UPDATE `wbm_data_layer_properties`
-                SET `parentID` = 106, `value` = REPLACE(`value`, \'$sArticle\', \'$article\')
-                WHERE `id` IN (16, 17, 18, 19, 21);
-            ');
+            $sql = file_get_contents($this->getPath() . '/Resources/sql/update.2.0.3.sql');
+
+            $this->container->get('shopware.db')->query($sql);
         }
 
         $context->scheduleClearCache(InstallContext::CACHE_LIST_ALL);
