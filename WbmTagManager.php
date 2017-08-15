@@ -72,6 +72,12 @@ class WbmTagManager extends \Shopware\Components\Plugin
             $this->container->get('shopware.db')->query($sql);
         }
 
+        if (version_compare($context->getCurrentVersion(), '2.0.4', '<')) {
+            $sql = file_get_contents($this->getPath() . '/Resources/sql/update.2.0.4.sql');
+
+            $this->container->get('shopware.db')->query($sql);
+        }
+
         $context->scheduleClearCache(InstallContext::CACHE_LIST_ALL);
     }
 }
