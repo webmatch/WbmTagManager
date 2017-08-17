@@ -7,4 +7,4 @@ INSERT IGNORE INTO `wbm_data_layer_properties` (`id`, `module`, `parentID`, `nam
 
 UPDATE `wbm_data_layer_properties`
 SET `parentID` = 107
-WHERE `id` IN (16, 17, 18, 19, 21);
+WHERE `id` IN (16, 17, 18, 19, 20, 21);
