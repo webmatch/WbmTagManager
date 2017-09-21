@@ -112,7 +112,7 @@ class FilterRender implements SubscriberInterface
     /**
      * @param $value
      */
-    static protected function castArrayValues(&$value)
+    protected static function castArrayValues(&$value)
     {
         switch (TRUE) {
             case is_array(json_decode($value)):
@@ -128,7 +128,7 @@ class FilterRender implements SubscriberInterface
      * @param bool $prettyPrint
      * @return string
      */
-    static public function prependDataLayer($source, $dataLayer, $prettyPrint = false)
+    public static function prependDataLayer($source, $dataLayer, $prettyPrint = false)
     {
         array_walk_recursive($dataLayer, 'self::castArrayValues');
 
