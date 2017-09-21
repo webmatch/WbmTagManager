@@ -79,13 +79,11 @@ class PostDispatch implements SubscriberInterface
             'widgets_listing_ajaxlisting',
             'widgets_listing_listingcount',
             'frontend_checkout_ajaxcart',
-            'frontend_checkout_ajaxaddarticle',
         ];
         $replace = [
             'frontend_listing_index',
             'frontend_listing_index',
             'frontend_checkout_cart',
-            'frontend_checkout_ajaxaddarticlecart',
         ];
         $module = str_replace($search, $replace, $module);
 
