@@ -58,32 +58,70 @@ class PostDispatch implements SubscriberInterface
     }
 
     /**
-     * @param \Enlight_Event_EventArgs $args
+     * @param \Enlight_Controller_ActionEventArgs $args
      */
-    public function onPostDispatch(\Enlight_Event_EventArgs $args)
+    public function onPostDispatch(\Enlight_Controller_ActionEventArgs $args)
     {
-        $module = strtolower($args->getSubject()->Request()->getModuleName()) .
-            '_' . strtolower($args->getSubject()->Request()->getControllerName()) .
-            '_' . strtolower($args->getSubject()->Request()->getActionName());
+        $controller = $args->getSubject();
+        $request = $controller->Request();
 
-        if($module == 'frontend_checkout_ajaxcart'){
-            $module = 'frontend_checkout_' . strtolower($args->getSubject()->Request()->getParam('action'));
+        $module = $oModule = join('_', [
+                strtolower($request->getModuleName()),
+                strtolower($request->getControllerName()),
+                strtolower($request->getActionName()),
+            ]);
+
+        if ($module == 'frontend_checkout_ajaxcart') {
+            $module = 'frontend_checkout_' . strtolower($request->getParam('action'));
         }
 
-        $search = ['widgets_listing_ajaxlisting', 'frontend_checkout_ajaxcart'];
-        $replace = ['frontend_listing_index', 'frontend_checkout_cart'];
+        $search = [
+            'widgets_listing_ajaxlisting',
+            'widgets_listing_listingcount',
+            'frontend_checkout_ajaxcart',
+            'frontend_checkout_ajaxaddarticle',
+        ];
+        $replace = [
+            'frontend_listing_index',
+            'frontend_listing_index',
+            'frontend_checkout_cart',
+            'frontend_checkout_ajaxaddarticlecart',
+        ];
         $module = str_replace($search, $replace, $module);
 
         /** @var Repository $propertyRepo */
         $propertyRepo = $this->container->get('models')->getRepository('WbmTagManager\Models\Property');
         $dataLayer = $propertyRepo->getChildrenList(0, $module, true);
 
-        if(!empty($dataLayer)) {
-            $this->viewVariables = $args->getSubject()->View()->getAssign();
+        if (!empty($dataLayer)) {
+            $this->viewVariables = $controller->View()->getAssign();
 
             $dataLayer = $this->fillValues($dataLayer);
 
             $this->container->get('wbm_tag_manager.variables')->setVariables($dataLayer);
+        }
+
+        // Since SW 5.3 the generic listingCountAction is used for paginated listings.
+        // Get the response json body, decode it, prepend the dataLayer to the listing key
+        // and set json encoded markup as response body.
+        if ($oModule == 'widgets_listing_listingcount') {
+            /** @var \Enlight_Controller_Response_ResponseHttp $response */
+            $response = $controller->Response();
+            $data = json_decode($response->getBody(), true);
+
+            if (isset($data['listing'])) {
+                if ($dataLayer = $this->container->get('wbm_tag_manager.variables')->getVariables()) {
+                    $data['listing'] = FilterRender::prependDataLayer(
+                        $data['listing'],
+                        $dataLayer,
+                        $this->container->get('config')->getByNamespace('WbmTagManager', 'wbmTagManagerJsonPrettyPrint')
+                    );
+
+                    $this->container->get('wbm_tag_manager.variables')->setVariables(null);
+
+                    $response->setBody(json_encode($data));
+                }
+            }
         }
     }
 

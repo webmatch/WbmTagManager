@@ -3,24 +3,29 @@
     <label lang="de">Tag Manager</label>
     <label lang="en">Tag Manager</label>
 
-    <version>2.0.4</version>
+    <version>2.1.0</version>
     <link>http://www.webmatch.de</link>
     <author>Webmatch GmbH</author>
     <compatibility minVersion="5.2.0" />
 
+    <changelog version="2.1.0">
+        <changes lang="de">Refaktoriert für Shopware 5.3</changes>
+        <changes lang="en">Refactored for Shopware 5.3</changes>
+    </changelog>
+
     <changelog version="2.0.4">
-        <changes lang="de">Fixed dataLayer structure for purchase tracking</changes>
-        <changes lang="en">dataLayer Struktur für Bestellabschluss angepasst</changes>
+        <changes lang="de">dataLayer Struktur für Bestellabschluss angepasst</changes>
+        <changes lang="en">Fixed dataLayer structure for purchase tracking</changes>
     </changelog>
 
     <changelog version="2.0.3">
-        <changes lang="de">Fixed dataLayer structure for detail product impressions</changes>
-        <changes lang="en">dataLayer Struktur für Impressionen auf der Detailseite angepasst</changes>
+        <changes lang="de">dataLayer Struktur für Impressionen auf der Detailseite angepasst</changes>
+        <changes lang="en">Fixed dataLayer structure for detail product impressions</changes>
     </changelog>
 
     <changelog version="2.0.2">
-        <changes lang="de">dataLayer Initialisierung vor GTM Script in Header</changes>
-        <changes lang="en">Placed dataLayer declaration before GTM script in header</changes>
+        <changes lang="de">Placed dataLayer declaration before GTM script in header</changes>
+        <changes lang="en">dataLayer Initialisierung vor GTM Script in Header</changes>
     </changelog>
 
     <changelog version="2.0.1">
