@@ -62,6 +62,10 @@ class PostDispatch implements SubscriberInterface
      */
     public function onPostDispatch(\Enlight_Controller_ActionEventArgs $args)
     {
+        if (empty($this->container->get('config')->getByNamespace('WbmTagManager', 'wbmTagManagerContainer'))) {
+            return;
+        }
+
         $controller = $args->getSubject();
         $request = $controller->Request();
 

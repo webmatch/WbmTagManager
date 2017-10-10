@@ -3,10 +3,15 @@
     <label lang="de">Tag Manager</label>
     <label lang="en">Tag Manager</label>
 
-    <version>2.1.0</version>
+    <version>2.1.1</version>
     <link>http://www.webmatch.de</link>
     <author>Webmatch GmbH</author>
     <compatibility minVersion="5.2.0" />
+
+    <changelog version="2.1.1">
+        <changes lang="de">Prüfe auf eingetragene Container ID vor dataLayer Abfrage</changes>
+        <changes lang="en">Check for set Container ID before dataLayer query</changes>
+    </changelog>
 
     <changelog version="2.1.0">
         <changes lang="de">Refaktoriert für Shopware 5.3</changes>
