@@ -18,14 +18,26 @@ class TagManagerTests extends Enlight_Components_Test_Controller_TestCase
 
         $this->pluginConfig = Shopware()->Container()->get('shopware.plugin.cached_config_reader')->getByPluginName('WbmTagManager');
         $this->variables = Shopware()->Container()->get('wbm_tag_manager.variables');
-        $this->dispatch('/');
     }
 
     public function testDataLayerVariables()
     {
-        $this->variables->setVariables(true);
+        static::saveConfig('wbmTagManagerContainer', 'GTM-XXXXXX');
+
+        $this->dispatch('/');
+
         $dataLayerVariables = $this->variables->getVariables();
 
-        $this->assertTrue($dataLayerVariables);
+        $this->assertTrue($dataLayerVariables["google_tag_params"]["ecomm_pagetype"] === "home");
+    }
+
+    private static function saveConfig($name, $value)
+    {
+        $formattedValue = sprintf('s:%d:"%s";', strlen($value), $value);
+        Shopware()->Db()->query(
+            'UPDATE s_core_config_elements SET value = ? WHERE name = ?',
+            [$formattedValue, $name]
+        );
+        Shopware()->Container()->get('cache')->clean();
     }
 }

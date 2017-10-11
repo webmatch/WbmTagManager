@@ -119,8 +119,6 @@ class PostDispatch implements SubscriberInterface
                         $this->container->get('config')->getByNamespace('WbmTagManager', 'wbmTagManagerJsonPrettyPrint')
                     );
 
-                    $this->container->get('wbm_tag_manager.variables')->setVariables(null);
-
                     $response->setBody(json_encode($data));
                 }
             }

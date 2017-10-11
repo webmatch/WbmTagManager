@@ -102,8 +102,6 @@ class FilterRender implements SubscriberInterface
             } else if ($dataLayer = $this->container->get('wbm_tag_manager.variables')->getVariables()) {
                 $source = self::prependDataLayer($source, $dataLayer, $prettyPrint);
             }
-
-            $this->container->get('wbm_tag_manager.variables')->setVariables(null);
         }
 
         return $source;
