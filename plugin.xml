@@ -3,10 +3,15 @@
     <label lang="de">Tag Manager</label>
     <label lang="en">Tag Manager</label>
 
-    <version>2.1.1</version>
+    <version>2.1.2</version>
     <link>http://www.webmatch.de</link>
     <author>Webmatch GmbH</author>
     <compatibility minVersion="5.2.0" />
+
+    <changelog version="2.1.2">
+        <changes lang="de">Anpassung e-Commerce Tracking AddTo/removeFrom Warenkorb Events</changes>
+        <changes lang="en">Adjusted AddTo/removeFrom basket events for e-commerce tracking</changes>
+    </changelog>
 
     <changelog version="2.1.1">
         <changes lang="de">Prüfe auf eingetragene Container ID vor dataLayer Abfrage</changes>

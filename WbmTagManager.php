@@ -60,21 +60,20 @@ class WbmTagManager extends \Shopware\Components\Plugin
      */
     public function update(UpdateContext $context)
     {
-        if (version_compare($context->getCurrentVersion(), '2.0.0', '<')) {
-            $sql = file_get_contents($this->getPath() . '/Resources/sql/install.sql');
+        $currentVersion = $context->getCurrentVersion();
+        $sql = '';
 
-            $this->container->get('shopware.db')->query($sql);
+        if (version_compare($currentVersion, '2.0.0', '<')) {
+            $sql .= file_get_contents($this->getPath() . '/Resources/sql/install.sql');
         }
-
-        if (version_compare($context->getCurrentVersion(), '2.0.3', '<')) {
-            $sql = file_get_contents($this->getPath() . '/Resources/sql/update.2.0.3.sql');
-
-            $this->container->get('shopware.db')->query($sql);
+        if (version_compare($currentVersion, '2.0.3', '<')) {
+            $sql .= file_get_contents($this->getPath() . '/Resources/sql/update.2.0.3.sql');
         }
-
-        if (version_compare($context->getCurrentVersion(), '2.0.4', '<')) {
-            $sql = file_get_contents($this->getPath() . '/Resources/sql/update.2.0.4.sql');
-
+        if (version_compare($currentVersion, '2.0.4', '<')) {
+            $sql .= file_get_contents($this->getPath() . '/Resources/sql/update.2.0.4.sql');
+        }
+        if (version_compare($currentVersion, '2.1.2', '<')) {
+            $sql .= file_get_contents($this->getPath() . '/Resources/sql/update.2.1.2.sql');
             $this->container->get('shopware.db')->query($sql);
         }
 
