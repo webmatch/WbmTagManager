@@ -69,7 +69,7 @@ class FilterRender implements SubscriberInterface
             !empty($containerId) &&
             strtolower($this->container->get('front')->Request()->getModuleName()) != 'backend'
         ) {
-            if (!$this->container->get('front')->Request()->isXmlHttpRequest()) {
+            if (!$this->container->get('front')->Request()->isXmlHttpRequest() || strpos($source, '<html') !== false) {
                 $headTag = file_get_contents($this->container->getParameter('wbm_tag_manager.plugin_dir') . '/Resources/tags/head.html');
                 $bodyTag = file_get_contents($this->container->getParameter('wbm_tag_manager.plugin_dir') . '/Resources/tags/body.html');
 
