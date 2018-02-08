@@ -66,6 +66,7 @@ class FilterRender implements SubscriberInterface
         $prettyPrint = $this->container->get('config')->getByNamespace('WbmTagManager', 'wbmTagManagerJsonPrettyPrint');
 
         if (
+            $this->container->get('config')->getByNamespace('WbmTagManager', 'wbmTagManagerActive') &&
             !empty($containerId) &&
             strtolower($this->container->get('front')->Request()->getModuleName()) != 'backend'
         ) {
