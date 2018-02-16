@@ -118,6 +118,9 @@ class FilterRender implements SubscriberInterface
             case is_int(json_decode($value)):
             case is_float(json_decode($value)):
                 $value = json_decode($value);
+                break;
+            default:
+                $value = htmlspecialchars_decode($value, ENT_QUOTES);
         }
     }
 
