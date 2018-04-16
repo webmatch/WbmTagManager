@@ -44,7 +44,7 @@ after_success:
 
 matrix:
   allow_failures:
-  - env: SHOPWARE_VERSION="5.3"
+  - env: SHOPWARE_VERSION="5.2"
   - php: nightly
 
 deploy:
