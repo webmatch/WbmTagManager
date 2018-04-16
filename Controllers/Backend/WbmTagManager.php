@@ -13,14 +13,13 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  */
-
 use WbmTagManager\Models\Property;
 
 /**
  * Class Shopware_Controllers_Backend_WbmTagManager
  */
-class Shopware_Controllers_Backend_WbmTagManager extends Shopware_Controllers_Backend_ExtJs {
-
+class Shopware_Controllers_Backend_WbmTagManager extends Shopware_Controllers_Backend_ExtJs
+{
     public function postDispatch()
     {
         if (
@@ -28,17 +27,17 @@ class Shopware_Controllers_Backend_WbmTagManager extends Shopware_Controllers_Ba
         ) {
             $qb = $this->container->get('models')->createQueryBuilder();
             $qb->select(
-                array(
-                    'module'
-                )
+                [
+                    'module',
+                ]
             )
                 ->from('WbmTagManager\Models\Module', 'module');
 
             $modules = $qb->getQuery()->getArrayResult();
 
-            foreach($modules as &$module){
+            foreach ($modules as &$module) {
                 $module['name'] = $this->container->get('snippets')
-                    ->getNamespace("backend/plugins/wbm/tagmanager")
+                    ->getNamespace('backend/plugins/wbm/tagmanager')
                     ->get($module['module']);
             }
 
@@ -46,27 +45,27 @@ class Shopware_Controllers_Backend_WbmTagManager extends Shopware_Controllers_Ba
         }
     }
 
-    public function indexAction() 
+    public function indexAction()
     {
-        $this->View()->loadTemplate("backend/wbm_tag_manager/app.js");
+        $this->View()->loadTemplate('backend/wbm_tag_manager/app.js');
     }
-    
+
     public function listAction()
     {
-        $id = (int)$this->Request()->getParam('id', null);
+        $id = (int) $this->Request()->getParam('id', null);
         $module = $this->Request()->getParam('moduleName', null);
 
         $data = $this->container->get('models')->getRepository('WbmTagManager\Models\Property')->getChildrenList($id, $module);
 
         $this->View()->assign(
-            array('success' => true, 'data' => $data)
+            ['success' => true, 'data' => $data]
         );
     }
-    
-    public function createAction() 
+
+    public function createAction()
     {
         $params = $this->Request()->getPost();
-        
+
         $property = new Property();
         $property->fromArray($params);
 
@@ -74,17 +73,17 @@ class Shopware_Controllers_Backend_WbmTagManager extends Shopware_Controllers_Ba
         $this->container->get('models')->flush();
 
         $this->View()->assign(
-            array(
+            [
                 'success' => true,
-                'id' => $property->getId()
-            )
+                'id' => $property->getId(),
+            ]
         );
     }
 
-    public function updateAction() 
+    public function updateAction()
     {
         $params = $this->Request()->getPost();
-        $id = (int)$this->Request()->get('id');
+        $id = (int) $this->Request()->get('id');
 
         /** @var Property $property */
         $property = $this->container->get('models')->getRepository('WbmTagManager\Models\Property')->find($id);
@@ -92,26 +91,24 @@ class Shopware_Controllers_Backend_WbmTagManager extends Shopware_Controllers_Ba
 
         $this->container->get('models')->persist($property);
         $this->container->get('models')->flush();
-        
+
         $this->View()->assign(
-            array('success' => true)
+            ['success' => true]
         );
     }
-    
-    public function deleteAction() 
+
+    public function deleteAction()
     {
-        $id = (int)$this->Request()->get('id');
+        $id = (int) $this->Request()->get('id');
 
         /** @var Property $property */
         $property = $this->container->get('models')->getRepository('WbmTagManager\Models\Property')->find($id);
 
         $this->container->get('models')->remove($property);
         $this->container->get('models')->flush();
-        
+
         $this->View()->assign(
-            array('success' => true)
+            ['success' => true]
         );
     }
-    
 }
-

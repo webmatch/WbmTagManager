@@ -15,8 +15,10 @@
  */
 
 namespace WbmTagManager\Models;
+
 use Doctrine\ORM\Mapping as ORM;
 use Shopware\Components\Model\ModelEntity;
+
 /**
  * @ORM\Entity
  * @ORM\Entity(repositoryClass="Repository")
@@ -25,7 +27,7 @@ use Shopware\Components\Model\ModelEntity;
 class Module extends ModelEntity
 {
     /**
-     * @var integer
+     * @var int
      * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")

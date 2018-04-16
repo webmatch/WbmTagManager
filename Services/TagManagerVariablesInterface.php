@@ -18,15 +18,13 @@ namespace WbmTagManager\Services;
 
 /**
  * Interface TagManagerVariablesInterface
- * @package WbmTagManager\Services
  */
-interface TagManagerVariablesInterface {
-
+interface TagManagerVariablesInterface
+{
     public function getVariables();
 
     /**
      * @param mixed $variables
      */
     public function setVariables($variables);
-
 }

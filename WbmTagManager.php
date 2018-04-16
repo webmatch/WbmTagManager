@@ -16,14 +16,13 @@
 
 namespace WbmTagManager;
 
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Shopware\Components\Plugin\Context\ActivateContext;
 use Shopware\Components\Plugin\Context\InstallContext;
 use Shopware\Components\Plugin\Context\UpdateContext;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 /**
  * Class WbmTagManager
- * @package WbmTagManager
  */
 class WbmTagManager extends \Shopware\Components\Plugin
 {

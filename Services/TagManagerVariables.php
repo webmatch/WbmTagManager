@@ -20,10 +20,9 @@ use Shopware\Components\DependencyInjection\Container;
 
 /**
  * Class TagManagerVariables
- * @package WbmTagManager\Services
  */
-class TagManagerVariables implements TagManagerVariablesInterface {
-
+class TagManagerVariables implements TagManagerVariablesInterface
+{
     /**
      * @var Container
      */
@@ -36,6 +35,7 @@ class TagManagerVariables implements TagManagerVariablesInterface {
 
     /**
      * TagManagerVariables constructor.
+     *
      * @param Container $container
      */
     public function __construct(Container $container)
@@ -58,5 +58,4 @@ class TagManagerVariables implements TagManagerVariablesInterface {
     {
         $this->variables = $variables;
     }
-
 }

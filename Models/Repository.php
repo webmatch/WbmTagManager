@@ -20,10 +20,9 @@ use Shopware\Components\Model\ModelRepository;
 
 /**
  * Class Repository
- * @package WbmTagManager\Models
  */
-class Repository extends ModelRepository {
-
+class Repository extends ModelRepository
+{
     public function getChildrenList($id = 0, $module = null, $dataLayer = false)
     {
         $qb = $this->getEntityManager()->createQueryBuilder();
@@ -34,14 +33,13 @@ class Repository extends ModelRepository {
             ->andWhere('property.moduleName = :moduleName')
             ->setParameter(':moduleName', $module);
 
-
-        if($dataLayer){
+        if ($dataLayer) {
             $qb->select(
-                array(
+                [
                     'property.name',
-                    "property.value",
-                    'property.id'
-                )
+                    'property.value',
+                    'property.id',
+                ]
             );
             $properties = $qb->getQuery()->getArrayResult();
 
@@ -53,14 +51,14 @@ class Repository extends ModelRepository {
                 unset($property['id']);
 
                 if (!empty($subProperties)) {
-                    if(empty($value)) {
+                    if (empty($value)) {
                         $property = $subProperties;
                     } else {
-                        $property = array(
-                            array('startArrayOf' => $value),
+                        $property = [
+                            ['startArrayOf' => $value],
                             $subProperties,
-                            array('endArrayOf' => true)
-                        );
+                            ['endArrayOf' => true],
+                        ];
                     }
                 } else {
                     $property = '{/literal}' . $value . '{literal}';
@@ -68,9 +66,9 @@ class Repository extends ModelRepository {
             }
         } else {
             $qb->select(
-                array(
-                    'property'
-                )
+                [
+                    'property',
+                ]
             );
             $properties = $qb->getQuery()->getArrayResult();
 
@@ -86,5 +84,4 @@ class Repository extends ModelRepository {
 
         return $properties;
     }
-
 }

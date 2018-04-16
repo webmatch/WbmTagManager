@@ -22,11 +22,9 @@ use WbmTagManager\Models\Repository;
 
 /**
  * Class PostDispatch
- * @package WbmTagManager\Subscriber\Frontend
  */
 class PostDispatch implements SubscriberInterface
 {
-
     /**
      * @var Container
      */
@@ -38,6 +36,16 @@ class PostDispatch implements SubscriberInterface
     private $viewVariables;
 
     /**
+     * PostDispatch constructor.
+     *
+     * @param Container $container
+     */
+    public function __construct(Container $container)
+    {
+        $this->container = $container;
+    }
+
+    /**
      * @return array
      */
     public static function getSubscribedEvents()
@@ -46,15 +54,6 @@ class PostDispatch implements SubscriberInterface
             'Enlight_Controller_Action_PostDispatch_Frontend' => 'onPostDispatch',
             'Enlight_Controller_Action_PostDispatch_Widgets' => 'onPostDispatch',
         ];
-    }
-
-    /**
-     * PostDispatch constructor.
-     * @param Container $container
-     */
-    public function __construct(Container $container)
-    {
-        $this->container = $container;
     }
 
     /**
@@ -134,6 +133,7 @@ class PostDispatch implements SubscriberInterface
 
     /**
      * @param $dataLayer
+     *
      * @return mixed
      */
     private function fillValues($dataLayer)
@@ -146,9 +146,9 @@ class PostDispatch implements SubscriberInterface
         $dataLayer = str_replace($search, $replace, $dataLayer);
 
         preg_match('/({"startArrayOf":".*?"},)/i', $dataLayer, $matches);
-        foreach($matches as $match){
+        foreach ($matches as $match) {
             $foreachObj = json_decode(rtrim($match, ','));
-            if($foreachObj->startArrayOf){
+            if ($foreachObj->startArrayOf) {
                 $arguments = explode(' as ', $foreachObj->startArrayOf);
                 $dataLayer = str_replace(
                     $match,
@@ -167,6 +167,7 @@ class PostDispatch implements SubscriberInterface
 
     /**
      * @param $string
+     *
      * @return string
      */
     private function compileString($string)

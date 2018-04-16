@@ -28,7 +28,7 @@ class TagManagerTests extends Enlight_Components_Test_Controller_TestCase
 
         $dataLayerVariables = $this->variables->getVariables();
 
-        $this->assertTrue($dataLayerVariables["google_tag_params"]["ecomm_pagetype"] === "home");
+        $this->assertTrue($dataLayerVariables['google_tag_params']['ecomm_pagetype'] === 'home');
     }
 
     private static function saveConfig($name, $value)

@@ -21,28 +21,17 @@ use Shopware\Components\DependencyInjection\Container;
 
 /**
  * Class FilterRender
- * @package WbmTagManager\Subscriber\Frontend
  */
 class FilterRender implements SubscriberInterface
 {
-
     /**
      * @var Container
      */
     private $container;
 
     /**
-     * @return array
-     */
-    public static function getSubscribedEvents()
-    {
-        return [
-            'Enlight_Plugins_ViewRenderer_FilterRender' => 'onFilterRender'
-        ];
-    }
-
-    /**
      * PostDispatch constructor.
+     *
      * @param Container $container
      */
     public function __construct(Container $container)
@@ -51,7 +40,18 @@ class FilterRender implements SubscriberInterface
     }
 
     /**
+     * @return array
+     */
+    public static function getSubscribedEvents()
+    {
+        return [
+            'Enlight_Plugins_ViewRenderer_FilterRender' => 'onFilterRender',
+        ];
+    }
+
+    /**
      * @param \Enlight_Event_EventArgs $args
+     *
      * @return mixed
      */
     public function onFilterRender(\Enlight_Event_EventArgs $args)
@@ -78,7 +78,7 @@ class FilterRender implements SubscriberInterface
                 $bodyTag = sprintf($bodyTag, $containerId);
 
                 if ($dataLayer = $this->container->get('wbm_tag_manager.variables')->getVariables()) {
-                    $headTag = "<script>window.dataLayer = window.dataLayer || [];</script>" .
+                    $headTag = '<script>window.dataLayer = window.dataLayer || [];</script>' .
                         self::prependDataLayer($headTag, $dataLayer, $prettyPrint);
                 }
 
@@ -100,7 +100,7 @@ class FilterRender implements SubscriberInterface
                     /* assemble the HTML output back with the iframe code in it */
                     $source = $matches[0] . $matches[1] . $bodyTag . $matches[2];
                 }
-            } else if ($dataLayer = $this->container->get('wbm_tag_manager.variables')->getVariables()) {
+            } elseif ($dataLayer = $this->container->get('wbm_tag_manager.variables')->getVariables()) {
                 $source = self::prependDataLayer($source, $dataLayer, $prettyPrint);
             }
         }
@@ -109,31 +109,32 @@ class FilterRender implements SubscriberInterface
     }
 
     /**
-     * @param $value
-     */
-    protected static function castArrayValues(&$value)
-    {
-        switch (TRUE) {
-            case is_array(json_decode($value)):
-            case is_int(json_decode($value)):
-            case is_float(json_decode($value)):
-                $value = json_decode($value);
-        }
-    }
-
-    /**
      * @param $source
      * @param $dataLayer
      * @param bool $prettyPrint
+     *
      * @return string
      */
     public static function prependDataLayer($source, $dataLayer, $prettyPrint = false)
     {
         array_walk_recursive($dataLayer, 'self::castArrayValues');
 
-        return "<script>window.dataLayer.push(" .
-            json_encode($dataLayer,($prettyPrint) ? JSON_PRETTY_PRINT : null) .
-            ");</script>" .
+        return '<script>window.dataLayer.push(' .
+            json_encode($dataLayer, ($prettyPrint) ? JSON_PRETTY_PRINT : null) .
+            ');</script>' .
             $source;
+    }
+
+    /**
+     * @param $value
+     */
+    protected static function castArrayValues(&$value)
+    {
+        switch (true) {
+            case is_array(json_decode($value)):
+            case is_int(json_decode($value)):
+            case is_float(json_decode($value)):
+                $value = json_decode($value);
+        }
     }
 }

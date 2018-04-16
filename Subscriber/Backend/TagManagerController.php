@@ -21,7 +21,6 @@ use Shopware\Components\DependencyInjection\Container;
 
 /**
  * Class TagManagerController
- * @package WbmTagManager\Subscriber\Backend
  */
 class TagManagerController implements SubscriberInterface
 {
@@ -31,21 +30,21 @@ class TagManagerController implements SubscriberInterface
     private $container;
 
     /**
-     * @return array
-     */
-    public static function getSubscribedEvents()
-    {
-        return [
-            'Enlight_Controller_Dispatcher_ControllerPath_Backend_WbmTagManager' => 'onWbmTagManagerController'
-        ];
-    }
-
-    /**
      * @param Container $container
      */
     public function __construct(Container $container)
     {
         $this->container = $container;
+    }
+
+    /**
+     * @return array
+     */
+    public static function getSubscribedEvents()
+    {
+        return [
+            'Enlight_Controller_Dispatcher_ControllerPath_Backend_WbmTagManager' => 'onWbmTagManagerController',
+        ];
     }
 
     /**
