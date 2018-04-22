@@ -89,17 +89,12 @@ class FilterRender implements SubscriberInterface
                     1
                 );
 
-                /* split the string contained in $source in three parts:
-                 * everything before the <body> tag
-                 * the body tag with any attributes in it
-                 * everything following the body tag
-                 */
-                $matches = preg_split('/(?<!\\\n)(<body.*?\n*?.*>)/i', $source, 2, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
-
-                if (!empty($matches)) {
-                    /* assemble the HTML output back with the iframe code in it */
-                    $source = $matches[0] . $matches[1] . $bodyTag . $matches[2];
-                }
+                $source = preg_replace(
+                    '/<\/noscript>/',
+                    $bodyTag . '</noscript>',
+                    $source,
+                    1
+                );
             } elseif ($dataLayer = $this->container->get('wbm_tag_manager.variables')->getVariables()) {
                 $source = self::prependDataLayer($source, $dataLayer, $prettyPrint);
             }
