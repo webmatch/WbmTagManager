@@ -3,10 +3,15 @@
     <label lang="de">Tag Manager</label>
     <label lang="en">Tag Manager</label>
 
-    <version>2.1.7</version>
+    <version>2.1.8</version>
     <link>http://www.webmatch.de</link>
     <author>Webmatch GmbH</author>
     <compatibility minVersion="5.2.0" />
+
+    <changelog version="2.1.8">
+        <changes lang="de">Bugfix für mehrfache Array Iterationen</changes>
+        <changes lang="en">Bugfix for multiple array iterations</changes>
+    </changelog>
 
     <changelog version="2.1.7">
         <changes lang="de">Setzt noscript Inhalte in existierendes Element zur Vermeidung von RegEx Konflikten</changes>
