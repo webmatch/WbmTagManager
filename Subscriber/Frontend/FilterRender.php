@@ -90,8 +90,8 @@ class FilterRender implements SubscriberInterface
                 );
 
                 $source = preg_replace(
-                    '/<\/noscript>/',
-                    $bodyTag . '</noscript>',
+                    '/<body([\S\s][^>]*)>/',
+                    '<body$1><noscript>' . $bodyTag . '</noscript>',
                     $source,
                     1
                 );
