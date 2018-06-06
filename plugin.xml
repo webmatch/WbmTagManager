@@ -3,10 +3,15 @@
     <label lang="de">Tag Manager</label>
     <label lang="en">Tag Manager</label>
 
-    <version>2.1.8</version>
+    <version>2.1.9</version>
     <link>http://www.webmatch.de</link>
     <author>Webmatch GmbH</author>
     <compatibility minVersion="5.2.0" />
+
+    <changelog version="2.1.9">
+        <changes lang="de">Bugfix für die korrekte Ausgabe nach dem body tag (thanks @snHolst)</changes>
+        <changes lang="en">Bugfix for the correct output after the body tag (thanks @snHolst)</changes>
+    </changelog>
 
     <changelog version="2.1.8">
         <changes lang="de">Bugfix für mehrfache Array Iterationen</changes>
