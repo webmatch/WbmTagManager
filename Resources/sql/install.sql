@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS `wbm_data_layer_modules` ( `id` INT(11) NOT NULL AUTO_INCREMENT , `module` VARCHAR(255) NOT NULL , `variables` LONGTEXT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
 
-CREATE TABLE IF NOT EXISTS `wbm_data_layer_properties` ( `id` INT(11) NOT NULL AUTO_INCREMENT , `module` VARCHAR(255) NOT NULL , `parentID` INT(11) NOT NULL DEFAULT '0' , `name` VARCHAR(255) NOT NULL , `value` VARCHAR(255) NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
+CREATE TABLE IF NOT EXISTS `wbm_data_layer_properties` ( `id` INT(11) NOT NULL AUTO_INCREMENT , `module` VARCHAR(255) NOT NULL , `parentID` INT(11) NOT NULL DEFAULT '0' , `name` VARCHAR(255) NOT NULL , `value` TEXT NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
 
 INSERT IGNORE INTO `wbm_data_layer_modules` (`id`, `module`, `variables`) VALUES
   (1, 'frontend_listing_index', NULL),
