@@ -47,11 +47,6 @@ interface TagManagerVariablesInterface
     public function render($module);
 
     /**
-     * @param array $dataLayer
-     */
-    public function fillValues($dataLayer);
-
-    /**
      * @param $source
      * @param bool $prettyPrint
      *
