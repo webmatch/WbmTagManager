@@ -22,11 +22,6 @@ namespace WbmTagManager\Services;
 interface TagManagerVariablesInterface
 {
     /**
-     * @return array
-     */
-    public function getViewVariables();
-
-    /**
      * @param array $viewVariables
      */
     public function setViewVariables($viewVariables);
@@ -35,11 +30,6 @@ interface TagManagerVariablesInterface
      * @return mixed
      */
     public function getVariables();
-
-    /**
-     * @param mixed $variables
-     */
-    public function setVariables($variables);
 
     /**
      * @param string $module
