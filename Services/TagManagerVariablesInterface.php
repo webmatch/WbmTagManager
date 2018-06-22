@@ -27,4 +27,9 @@ interface TagManagerVariablesInterface
      * @param mixed $variables
      */
     public function setVariables($variables);
+
+    /**
+     * @param string $module
+     */
+    public function render($module);
 }

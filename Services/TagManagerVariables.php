@@ -16,7 +16,8 @@
 
 namespace WbmTagManager\Services;
 
-use Shopware\Components\DependencyInjection\Container;
+use Shopware\Components\Model\ModelManager;
+use WbmTagManager\Models\Repository;
 
 /**
  * Class TagManagerVariables
@@ -24,23 +25,44 @@ use Shopware\Components\DependencyInjection\Container;
 class TagManagerVariables implements TagManagerVariablesInterface
 {
     /**
-     * @var Container
+     * @var \Enlight_Template_Manager
      */
-    private $container;
+    private $template;
+    /**
+     * @var ModelManager
+     */
+    private $em;
+
+    /**
+     * @var array
+     */
+    private $viewVariables = [];
 
     /**
      * @var mixed
      */
-    private $variables;
+    private $variables = null;
 
     /**
      * TagManagerVariables constructor.
      *
-     * @param Container $container
+     * @param ModelManager              $em
+     * @param \Enlight_Template_Manager $template
      */
-    public function __construct(Container $container)
+    public function __construct(
+        ModelManager $em,
+        \Enlight_Template_Manager $template
+    ) {
+        $this->template = $template;
+        $this->em = $em;
+    }
+
+    /**
+     * @param array $viewVariables
+     */
+    public function setViewVariables($viewVariables)
     {
-        $this->container = $container;
+        $this->viewVariables = $viewVariables;
     }
 
     /**
@@ -57,5 +79,89 @@ class TagManagerVariables implements TagManagerVariablesInterface
     public function setVariables($variables)
     {
         $this->variables = $variables;
+    }
+
+    /**
+     * @param string $module
+     */
+    public function render($module)
+    {
+        /** @var Repository $propertyRepo */
+        $propertyRepo = $this->em->getRepository('WbmTagManager\Models\Property');
+        $dataLayer = $propertyRepo->getChildrenList(0, $module, true);
+
+        if (!empty($dataLayer) && !empty($this->viewVariables)) {
+            $dataLayer = $this->fillValues($dataLayer);
+
+            array_walk_recursive($dataLayer, 'self::castArrayValues');
+
+            $this->setVariables($dataLayer);
+        }
+    }
+
+    /**
+     * @param $value
+     */
+    protected static function castArrayValues(&$value)
+    {
+        switch (true) {
+            case is_array(json_decode($value)):
+            case is_int(json_decode($value)):
+            case is_float(json_decode($value)):
+                $value = json_decode($value);
+        }
+    }
+
+    /**
+     * @param $dataLayer
+     *
+     * @return mixed
+     */
+    private function fillValues($dataLayer)
+    {
+        $dataLayer = json_encode($dataLayer);
+
+        $search = ['{\/', ',{"endArrayOf":true}'];
+        $replace = ['{/', '{/literal}{if !$smarty.foreach.loop.last},{/if}{/foreach}{literal}'];
+
+        $dataLayer = str_replace($search, $replace, $dataLayer);
+
+        while (preg_match('/({"startArrayOf":".*?"},)/i', $dataLayer, $matches)) {
+            foreach ($matches as $match) {
+                $foreachObj = json_decode(rtrim($match, ','));
+                if ($foreachObj->startArrayOf) {
+                    $arguments = explode(' as ', $foreachObj->startArrayOf);
+                    $dataLayer = str_replace(
+                        $match,
+                        '{/literal}{foreach from=' . $arguments[0] . ' item=' . ltrim($arguments[1], '$') . ' name=loop}{literal}',
+                        $dataLayer
+                    );
+                }
+            }
+        }
+
+        $dataLayer = '{literal}' . $dataLayer . '{/literal}';
+
+        $dataLayer = $this->compileString($dataLayer);
+
+        return json_decode($dataLayer, true);
+    }
+
+    /**
+     * @param $string
+     *
+     * @return string
+     */
+    private function compileString($string)
+    {
+        $view = new \Enlight_View_Default(
+            $this->template
+        );
+
+        $compiler = new \Shopware_Components_StringCompiler($view->Engine());
+
+        $compiler->setContext($this->viewVariables);
+
+        return $compiler->compileString($string);
     }
 }

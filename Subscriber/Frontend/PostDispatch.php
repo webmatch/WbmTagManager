@@ -17,8 +17,7 @@
 namespace WbmTagManager\Subscriber\Frontend;
 
 use Enlight\Event\SubscriberInterface;
-use Shopware\Components\DependencyInjection\Container;
-use WbmTagManager\Models\Repository;
+use WbmTagManager\Services\TagManagerVariables;
 
 /**
  * Class PostDispatch
@@ -26,23 +25,21 @@ use WbmTagManager\Models\Repository;
 class PostDispatch implements SubscriberInterface
 {
     /**
-     * @var Container
+     * @var TagManagerVariables
      */
-    private $container;
+    private $variables;
 
     /**
-     * @var mixed
+     * @var \Shopware_Components_Config
      */
-    private $viewVariables;
+    private $config;
 
-    /**
-     * PostDispatch constructor.
-     *
-     * @param Container $container
-     */
-    public function __construct(Container $container)
-    {
-        $this->container = $container;
+    public function __construct(
+        TagManagerVariables $variables,
+        \Shopware_Components_Config $config
+    ) {
+        $this->variables = $variables;
+        $this->config = $config;
     }
 
     /**
@@ -62,8 +59,8 @@ class PostDispatch implements SubscriberInterface
     public function onPostDispatch(\Enlight_Controller_ActionEventArgs $args)
     {
         if (
-            !$this->container->get('config')->getByNamespace('WbmTagManager', 'wbmTagManagerActive') ||
-            empty($this->container->get('config')->getByNamespace('WbmTagManager', 'wbmTagManagerContainer'))
+            !$this->config->getByNamespace('WbmTagManager', 'wbmTagManagerActive') ||
+            empty($this->config->getByNamespace('WbmTagManager', 'wbmTagManagerContainer'))
         ) {
             return;
         }
@@ -97,17 +94,8 @@ class PostDispatch implements SubscriberInterface
         ];
         $module = str_replace($search, $replace, $module);
 
-        /** @var Repository $propertyRepo */
-        $propertyRepo = $this->container->get('models')->getRepository('WbmTagManager\Models\Property');
-        $dataLayer = $propertyRepo->getChildrenList(0, $module, true);
-
-        if (!empty($dataLayer)) {
-            $this->viewVariables = $controller->View()->getAssign();
-
-            $dataLayer = $this->fillValues($dataLayer);
-
-            $this->container->get('wbm_tag_manager.variables')->setVariables($dataLayer);
-        }
+        $this->variables->setViewVariables($controller->View()->getAssign());
+        $this->variables->render($module);
 
         // Since SW 5.3 the generic listingCountAction is used for paginated listings.
         // Get the response json body, decode it, prepend the dataLayer to the listing key
@@ -118,69 +106,16 @@ class PostDispatch implements SubscriberInterface
             $data = json_decode($response->getBody(), true);
 
             if (isset($data['listing'])) {
-                if ($dataLayer = $this->container->get('wbm_tag_manager.variables')->getVariables()) {
+                if ($dataLayer = $this->variables->getVariables()) {
                     $data['listing'] = FilterRender::prependDataLayer(
                         $data['listing'],
                         $dataLayer,
-                        $this->container->get('config')->getByNamespace('WbmTagManager', 'wbmTagManagerJsonPrettyPrint')
+                        $this->config->getByNamespace('WbmTagManager', 'wbmTagManagerJsonPrettyPrint')
                     );
 
                     $response->setBody(json_encode($data));
                 }
             }
         }
-    }
-
-    /**
-     * @param $dataLayer
-     *
-     * @return mixed
-     */
-    private function fillValues($dataLayer)
-    {
-        $dataLayer = json_encode($dataLayer);
-
-        $search = ['{\/', ',{"endArrayOf":true}'];
-        $replace = ['{/', '{/literal}{if !$smarty.foreach.loop.last},{/if}{/foreach}{literal}'];
-
-        $dataLayer = str_replace($search, $replace, $dataLayer);
-
-        while (preg_match('/({"startArrayOf":".*?"},)/i', $dataLayer, $matches)) {
-            foreach ($matches as $match) {
-                $foreachObj = json_decode(rtrim($match, ','));
-                if ($foreachObj->startArrayOf) {
-                    $arguments = explode(' as ', $foreachObj->startArrayOf);
-                    $dataLayer = str_replace(
-                        $match,
-                        '{/literal}{foreach from=' . $arguments[0] . ' item=' . ltrim($arguments[1], '$') . ' name=loop}{literal}',
-                        $dataLayer
-                    );
-                }
-            }
-        }
-
-        $dataLayer = '{literal}' . $dataLayer . '{/literal}';
-
-        $dataLayer = $this->compileString($dataLayer);
-
-        return json_decode($dataLayer, true);
-    }
-
-    /**
-     * @param $string
-     *
-     * @return string
-     */
-    private function compileString($string)
-    {
-        $view = new \Enlight_View_Default(
-            $this->container->get('Template')
-        );
-
-        $compiler = new \Shopware_Components_StringCompiler($view->Engine());
-
-        $compiler->setContext($this->viewVariables);
-
-        return $compiler->compileString($string);
     }
 }

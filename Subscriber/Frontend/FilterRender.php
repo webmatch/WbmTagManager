@@ -17,7 +17,7 @@
 namespace WbmTagManager\Subscriber\Frontend;
 
 use Enlight\Event\SubscriberInterface;
-use Shopware\Components\DependencyInjection\Container;
+use WbmTagManager\Services\TagManagerVariables;
 
 /**
  * Class FilterRender
@@ -25,18 +25,35 @@ use Shopware\Components\DependencyInjection\Container;
 class FilterRender implements SubscriberInterface
 {
     /**
-     * @var Container
+     * @var TagManagerVariables
      */
-    private $container;
+    private $variables;
 
     /**
-     * PostDispatch constructor.
-     *
-     * @param Container $container
+     * @var \Shopware_Components_Config
      */
-    public function __construct(Container $container)
-    {
-        $this->container = $container;
+    private $config;
+
+    /**
+     * @var \Enlight_Controller_Front
+     */
+    private $front;
+
+    /**
+     * @var string
+     */
+    private $pluginDir;
+
+    public function __construct(
+        TagManagerVariables $variables,
+        \Shopware_Components_Config $config,
+        \Enlight_Controller_Front $front,
+        $pluginDir
+    ) {
+        $this->variables = $variables;
+        $this->config = $config;
+        $this->front = $front;
+        $this->pluginDir = $pluginDir;
     }
 
     /**
@@ -58,26 +75,26 @@ class FilterRender implements SubscriberInterface
     {
         $source = $args->getReturn();
 
-        if (strpos($source, '<html') === false && !$this->container->get('front')->Request()->isXmlHttpRequest()) {
+        if (strpos($source, '<html') === false && !$this->front->Request()->isXmlHttpRequest()) {
             return $source;
         }
 
-        $containerId = $this->container->get('config')->getByNamespace('WbmTagManager', 'wbmTagManagerContainer');
-        $prettyPrint = $this->container->get('config')->getByNamespace('WbmTagManager', 'wbmTagManagerJsonPrettyPrint');
+        $containerId = $this->config->getByNamespace('WbmTagManager', 'wbmTagManagerContainer');
+        $prettyPrint = $this->config->getByNamespace('WbmTagManager', 'wbmTagManagerJsonPrettyPrint');
 
         if (
-            $this->container->get('config')->getByNamespace('WbmTagManager', 'wbmTagManagerActive') &&
+            $this->config->getByNamespace('WbmTagManager', 'wbmTagManagerActive') &&
             !empty($containerId) &&
-            strtolower($this->container->get('front')->Request()->getModuleName()) != 'backend'
+            strtolower($this->front->Request()->getModuleName()) != 'backend'
         ) {
-            if (!$this->container->get('front')->Request()->isXmlHttpRequest() || strpos($source, '<html') !== false) {
-                $headTag = file_get_contents($this->container->getParameter('wbm_tag_manager.plugin_dir') . '/Resources/tags/head.html');
-                $bodyTag = file_get_contents($this->container->getParameter('wbm_tag_manager.plugin_dir') . '/Resources/tags/body.html');
+            if (!$this->front->Request()->isXmlHttpRequest() || strpos($source, '<html') !== false) {
+                $headTag = file_get_contents($this->pluginDir . '/Resources/tags/head.html');
+                $bodyTag = file_get_contents($this->pluginDir . '/Resources/tags/body.html');
 
                 $headTag = sprintf($headTag, $containerId);
                 $bodyTag = sprintf($bodyTag, $containerId);
 
-                if ($dataLayer = $this->container->get('wbm_tag_manager.variables')->getVariables()) {
+                if ($dataLayer = $this->variables->getVariables()) {
                     $headTag = '<script>window.dataLayer = window.dataLayer || [];</script>' .
                         self::prependDataLayer($headTag, $dataLayer, $prettyPrint);
                 }
@@ -95,7 +112,7 @@ class FilterRender implements SubscriberInterface
                     $source,
                     1
                 );
-            } elseif ($dataLayer = $this->container->get('wbm_tag_manager.variables')->getVariables()) {
+            } elseif ($dataLayer = $this->variables->getVariables()) {
                 $source = self::prependDataLayer($source, $dataLayer, $prettyPrint);
             }
         }
@@ -112,24 +129,9 @@ class FilterRender implements SubscriberInterface
      */
     public static function prependDataLayer($source, $dataLayer, $prettyPrint = false)
     {
-        array_walk_recursive($dataLayer, 'self::castArrayValues');
-
         return '<script>window.dataLayer.push(' .
             json_encode($dataLayer, ($prettyPrint) ? JSON_PRETTY_PRINT : null) .
             ');</script>' .
             $source;
-    }
-
-    /**
-     * @param $value
-     */
-    protected static function castArrayValues(&$value)
-    {
-        switch (true) {
-            case is_array(json_decode($value)):
-            case is_int(json_decode($value)):
-            case is_float(json_decode($value)):
-                $value = json_decode($value);
-        }
     }
 }
