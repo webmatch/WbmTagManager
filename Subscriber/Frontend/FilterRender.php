@@ -112,24 +112,9 @@ class FilterRender implements SubscriberInterface
      */
     public static function prependDataLayer($source, $dataLayer, $prettyPrint = false)
     {
-        array_walk_recursive($dataLayer, 'self::castArrayValues');
-
         return '<script>window.dataLayer.push(' .
             json_encode($dataLayer, ($prettyPrint) ? JSON_PRETTY_PRINT : null) .
             ');</script>' .
             $source;
-    }
-
-    /**
-     * @param $value
-     */
-    protected static function castArrayValues(&$value)
-    {
-        switch (true) {
-            case is_array(json_decode($value)):
-            case is_int(json_decode($value)):
-            case is_float(json_decode($value)):
-                $value = json_decode($value);
-        }
     }
 }

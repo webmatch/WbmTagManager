@@ -31,11 +31,6 @@ class PostDispatch implements SubscriberInterface
     private $container;
 
     /**
-     * @var mixed
-     */
-    private $viewVariables;
-
-    /**
      * PostDispatch constructor.
      *
      * @param Container $container
@@ -102,9 +97,8 @@ class PostDispatch implements SubscriberInterface
         $dataLayer = $propertyRepo->getChildrenList(0, $module, true);
 
         if (!empty($dataLayer)) {
-            $this->viewVariables = $controller->View()->getAssign();
-
-            $dataLayer = $this->fillValues($dataLayer);
+            $variables = $controller->View()->getAssign();
+            $dataLayer = $this->container->get('wbm_tag_manager.services.datalayer_renderer')->render($module, $variables);
 
             $this->container->get('wbm_tag_manager.variables')->setVariables($dataLayer);
         }
@@ -129,58 +123,5 @@ class PostDispatch implements SubscriberInterface
                 }
             }
         }
-    }
-
-    /**
-     * @param $dataLayer
-     *
-     * @return mixed
-     */
-    private function fillValues($dataLayer)
-    {
-        $dataLayer = json_encode($dataLayer);
-
-        $search = ['{\/', ',{"endArrayOf":true}'];
-        $replace = ['{/', '{/literal}{if !$smarty.foreach.loop.last},{/if}{/foreach}{literal}'];
-
-        $dataLayer = str_replace($search, $replace, $dataLayer);
-
-        while (preg_match('/({"startArrayOf":".*?"},)/i', $dataLayer, $matches)) {
-            foreach ($matches as $match) {
-                $foreachObj = json_decode(rtrim($match, ','));
-                if ($foreachObj->startArrayOf) {
-                    $arguments = explode(' as ', $foreachObj->startArrayOf);
-                    $dataLayer = str_replace(
-                        $match,
-                        '{/literal}{foreach from=' . $arguments[0] . ' item=' . ltrim($arguments[1], '$') . ' name=loop}{literal}',
-                        $dataLayer
-                    );
-                }
-            }
-        }
-
-        $dataLayer = '{literal}' . $dataLayer . '{/literal}';
-
-        $dataLayer = $this->compileString($dataLayer);
-
-        return json_decode($dataLayer, true);
-    }
-
-    /**
-     * @param $string
-     *
-     * @return string
-     */
-    private function compileString($string)
-    {
-        $view = new \Enlight_View_Default(
-            $this->container->get('Template')
-        );
-
-        $compiler = new \Shopware_Components_StringCompiler($view->Engine());
-
-        $compiler->setContext($this->viewVariables);
-
-        return $compiler->compileString($string);
     }
 }
