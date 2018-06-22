@@ -23,5 +23,11 @@
         <service id="wbm_tag_manager.variables" class="WbmTagManager\Services\TagManagerVariables">
             <argument type="service" id="service_container" />
         </service>
+
+        <service id="wbm_tag_manager.services.datalayer_renderer" class="WbmTagManager\Services\DatalayerRenderer">
+            <argument id="models" type="service"/>
+            <argument id="template" type="service"/>
+        </service>
+
     </services>
 </container>
