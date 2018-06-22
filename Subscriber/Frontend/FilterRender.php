@@ -94,9 +94,9 @@ class FilterRender implements SubscriberInterface
                 $headTag = sprintf($headTag, $containerId);
                 $bodyTag = sprintf($bodyTag, $containerId);
 
-                if ($dataLayer = $this->variables->getVariables()) {
+                if ($this->variables->getVariables()) {
                     $headTag = '<script>window.dataLayer = window.dataLayer || [];</script>' .
-                        self::prependDataLayer($headTag, $dataLayer, $prettyPrint);
+                        $this->variables->prependDataLayer($headTag, $prettyPrint);
                 }
 
                 $source = preg_replace(
@@ -112,26 +112,11 @@ class FilterRender implements SubscriberInterface
                     $source,
                     1
                 );
-            } elseif ($dataLayer = $this->variables->getVariables()) {
-                $source = self::prependDataLayer($source, $dataLayer, $prettyPrint);
+            } elseif ($this->variables->getVariables()) {
+                $source = $this->variables->prependDataLayer($source, $prettyPrint);
             }
         }
 
         return $source;
-    }
-
-    /**
-     * @param $source
-     * @param $dataLayer
-     * @param bool $prettyPrint
-     *
-     * @return string
-     */
-    public static function prependDataLayer($source, $dataLayer, $prettyPrint = false)
-    {
-        return '<script>window.dataLayer.push(' .
-            json_encode($dataLayer, ($prettyPrint) ? JSON_PRETTY_PRINT : null) .
-            ');</script>' .
-            $source;
     }
 }

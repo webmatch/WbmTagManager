@@ -106,10 +106,9 @@ class PostDispatch implements SubscriberInterface
             $data = json_decode($response->getBody(), true);
 
             if (isset($data['listing'])) {
-                if ($dataLayer = $this->variables->getVariables()) {
-                    $data['listing'] = FilterRender::prependDataLayer(
+                if ($this->variables->getVariables()) {
+                    $data['listing'] = $this->variables->prependDataLayer(
                         $data['listing'],
-                        $dataLayer,
                         $this->config->getByNamespace('WbmTagManager', 'wbmTagManagerJsonPrettyPrint')
                     );
 

@@ -21,6 +21,19 @@ namespace WbmTagManager\Services;
  */
 interface TagManagerVariablesInterface
 {
+    /**
+     * @return array
+     */
+    public function getViewVariables();
+
+    /**
+     * @param array $viewVariables
+     */
+    public function setViewVariables($viewVariables);
+
+    /**
+     * @return mixed
+     */
     public function getVariables();
 
     /**
@@ -32,4 +45,17 @@ interface TagManagerVariablesInterface
      * @param string $module
      */
     public function render($module);
+
+    /**
+     * @param array $dataLayer
+     */
+    public function fillValues($dataLayer);
+
+    /**
+     * @param $source
+     * @param bool $prettyPrint
+     *
+     * @return string
+     */
+    public function prependDataLayer($source, $prettyPrint = false);
 }

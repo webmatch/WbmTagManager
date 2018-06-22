@@ -58,6 +58,14 @@ class TagManagerVariables implements TagManagerVariablesInterface
     }
 
     /**
+     * @return array
+     */
+    public function getViewVariables()
+    {
+        return $this->viewVariables;
+    }
+
+    /**
      * @param array $viewVariables
      */
     public function setViewVariables($viewVariables)
@@ -90,34 +98,21 @@ class TagManagerVariables implements TagManagerVariablesInterface
         $propertyRepo = $this->em->getRepository('WbmTagManager\Models\Property');
         $dataLayer = $propertyRepo->getChildrenList(0, $module, true);
 
-        if (!empty($dataLayer) && !empty($this->viewVariables)) {
+        if (!empty($dataLayer) && !empty($this->getViewVariables())) {
             $dataLayer = $this->fillValues($dataLayer);
 
-            array_walk_recursive($dataLayer, 'self::castArrayValues');
+            array_walk_recursive($dataLayer, [$this, 'castArrayValues']);
 
             $this->setVariables($dataLayer);
         }
     }
 
     /**
-     * @param $value
-     */
-    protected static function castArrayValues(&$value)
-    {
-        switch (true) {
-            case is_array(json_decode($value)):
-            case is_int(json_decode($value)):
-            case is_float(json_decode($value)):
-                $value = json_decode($value);
-        }
-    }
-
-    /**
-     * @param $dataLayer
+     * @param array $dataLayer
      *
      * @return mixed
      */
-    private function fillValues($dataLayer)
+    public function fillValues($dataLayer)
     {
         $dataLayer = json_encode($dataLayer);
 
@@ -145,6 +140,36 @@ class TagManagerVariables implements TagManagerVariablesInterface
         $dataLayer = $this->compileString($dataLayer);
 
         return json_decode($dataLayer, true);
+    }
+
+    /**
+     * @param $source
+     * @param bool $prettyPrint
+     *
+     * @return string
+     */
+    public function prependDataLayer($source, $prettyPrint = false)
+    {
+        return '<script>window.dataLayer.push(' .
+            json_encode(
+                $this->getVariables(),
+                ($prettyPrint) ? JSON_PRETTY_PRINT : null
+            ) .
+            ');</script>' .
+            $source;
+    }
+
+    /**
+     * @param $value
+     */
+    private function castArrayValues(&$value)
+    {
+        switch (true) {
+            case is_array(json_decode($value)):
+            case is_int(json_decode($value)):
+            case is_float(json_decode($value)):
+                $value = json_decode($value);
+        }
     }
 
     /**
