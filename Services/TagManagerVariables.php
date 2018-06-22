@@ -185,7 +185,7 @@ class TagManagerVariables implements TagManagerVariablesInterface
 
         $compiler = new \Shopware_Components_StringCompiler($view->Engine());
 
-        $compiler->setContext($this->viewVariables);
+        $compiler->setContext($this->getViewVariables());
 
         return $compiler->compileString($string);
     }
