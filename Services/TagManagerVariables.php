@@ -16,8 +16,7 @@
 
 namespace WbmTagManager\Services;
 
-use Shopware\Components\Model\ModelManager;
-use WbmTagManager\Models\Repository;
+use Shopware\Components\Model\ModelRepository;
 
 /**
  * Class TagManagerVariables
@@ -25,13 +24,14 @@ use WbmTagManager\Models\Repository;
 class TagManagerVariables implements TagManagerVariablesInterface
 {
     /**
+     * @var \WbmTagManager\Models\Repository
+     */
+    private $propertyRepository;
+
+    /**
      * @var \Enlight_Template_Manager
      */
     private $template;
-    /**
-     * @var ModelManager
-     */
-    private $em;
 
     /**
      * @var array
@@ -46,15 +46,15 @@ class TagManagerVariables implements TagManagerVariablesInterface
     /**
      * TagManagerVariables constructor.
      *
-     * @param ModelManager              $em
+     * @param ModelRepository           $propertyRepository
      * @param \Enlight_Template_Manager $template
      */
     public function __construct(
-        ModelManager $em,
+        ModelRepository $propertyRepository,
         \Enlight_Template_Manager $template
     ) {
+        $this->propertyRepository = $propertyRepository;
         $this->template = $template;
-        $this->em = $em;
     }
 
     /**
@@ -94,9 +94,7 @@ class TagManagerVariables implements TagManagerVariablesInterface
      */
     public function render($module)
     {
-        /** @var Repository $propertyRepo */
-        $propertyRepo = $this->em->getRepository('WbmTagManager\Models\Property');
-        $dataLayer = $propertyRepo->getChildrenList(0, $module, true);
+        $dataLayer = $this->propertyRepository->getChildrenList(0, $module, true);
 
         if (!empty($dataLayer) && !empty($this->getViewVariables())) {
             $dataLayer = $this->fillValues($dataLayer);

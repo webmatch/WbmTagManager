@@ -5,8 +5,13 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
+        <service id="wbm_tag_manager.repository.property" class="Shopware\Components\Model\ModelRepository">
+            <factory service="models" method="getRepository"/>
+            <argument type="string">WbmTagManager\Models\Property</argument>
+        </service>
+
         <service id="wbm_tag_manager.variables" class="WbmTagManager\Services\TagManagerVariables">
-            <argument id="models" type="service"/>
+            <argument id="wbm_tag_manager.repository.property" type="service"/>
             <argument id="template" type="service"/>
         </service>
 
