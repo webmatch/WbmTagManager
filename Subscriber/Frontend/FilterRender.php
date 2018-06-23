@@ -95,8 +95,13 @@ class FilterRender implements SubscriberInterface
                 $bodyTag = sprintf($bodyTag, $containerId);
 
                 if ($this->variables->getVariables()) {
-                    $headTag = '<script>window.dataLayer = window.dataLayer || [];</script>' .
-                        $this->variables->prependDataLayer($headTag, $prettyPrint);
+                    $headTag = sprintf(
+                        '%s%s%s%s',
+                        '<script>',
+                        'window.dataLayer = window.dataLayer || [];',
+                        '</script>',
+                        $this->variables->prependDataLayer($headTag, $prettyPrint)
+                    );
                 }
 
                 $source = preg_replace(
