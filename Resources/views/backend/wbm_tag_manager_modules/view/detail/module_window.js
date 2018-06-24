@@ -7,7 +7,7 @@ Ext.define('Shopware.apps.WbmTagManagerModules.view.detail.ModuleWindow', {
     border: false,
     autoShow: true,
     layout: 'fit',
-    height: 200,
+    height: 250,
     width: 400,
     modal: true,
     initComponent: function() {

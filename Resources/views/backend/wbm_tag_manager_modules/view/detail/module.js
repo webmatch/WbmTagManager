@@ -51,6 +51,12 @@ Ext.define('Shopware.apps.WbmTagManagerModules.view.detail.Module', {
                 anchor: '100%',
                 name: 'module',
                 allowBlank: false
+            },
+            {
+                xtype: 'container',
+                renderTpl: new Ext.XTemplate(
+                    '{s name="moduleHelpText"}{/s}'
+                )
             }
         ];
     },
