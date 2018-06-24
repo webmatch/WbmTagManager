@@ -12,7 +12,13 @@
 
         <service id="wbm_tag_manager.variables" class="WbmTagManager\Services\TagManagerVariables">
             <argument id="wbm_tag_manager.repository.property" type="service"/>
-            <argument id="template" type="service"/>
+            <argument id="template" type="service" />
+        </service>
+
+        <service id="wbm_tag_manager.subscriber.backend.template_extension" class="WbmTagManager\Subscriber\Backend\TemplateExtension">
+            <argument id="template" type="service" />
+            <argument>%wbm_tag_manager.plugin_dir%</argument>
+            <tag name="shopware.event_subscriber" />
         </service>
 
         <service id="wbm_tag_manager.subscriber.frontend.post_dispatch" class="WbmTagManager\Subscriber\Frontend\PostDispatch">

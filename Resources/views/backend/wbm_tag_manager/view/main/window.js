@@ -18,6 +18,7 @@
 Ext.define('Shopware.apps.WbmTagManager.view.main.Window', {
     extend: 'Enlight.app.Window',
     title: '{s name="pluginTitle"}Tag Manager{/s}',
+    id: 'WbmTagManagerMainWindow',
     alias: 'widget.tag-manager-window',
     border: false,
     autoShow: true,
@@ -25,21 +26,23 @@ Ext.define('Shopware.apps.WbmTagManager.view.main.Window', {
     width: 768,
     layout: 'fit',
     initComponent: function() {
-        var me = this;
+        var me = this,
+            tabs = [];
+
+        me.modulesStore.each(function(record) {
+            tabs.push(
+                {
+                    xtype: 'tag-manager-panel',
+                    title: record.get('name'),
+                    module: record.get('module'),
+                    width: 200
+                }
+            );
+        });
+
         me.items = [
             Ext.create('Ext.tab.Panel', {
-                items: [
-                    //{foreach $modules as $module}
-                    //
-                    {
-                        xtype: 'tag-manager-panel',
-                        title: '{$module.name}',
-                        module: '{$module.module}',
-                        width: 200
-                    },
-                    //{/foreach}
-                    //
-                ]
+                items: tabs
             })
         ];
         me.callParent(arguments);

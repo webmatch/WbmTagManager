@@ -13,6 +13,7 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  */
+
 use WbmTagManager\Models\Property;
 
 /**
@@ -20,31 +21,6 @@ use WbmTagManager\Models\Property;
  */
 class Shopware_Controllers_Backend_WbmTagManager extends Shopware_Controllers_Backend_ExtJs
 {
-    public function postDispatch()
-    {
-        if (
-            $this->Request()->getActionName() === 'load'
-        ) {
-            $qb = $this->container->get('models')->createQueryBuilder();
-            $qb->select(
-                [
-                    'module',
-                ]
-            )
-                ->from('WbmTagManager\Models\Module', 'module');
-
-            $modules = $qb->getQuery()->getArrayResult();
-
-            foreach ($modules as &$module) {
-                $module['name'] = $this->container->get('snippets')
-                    ->getNamespace('backend/plugins/wbm/tagmanager')
-                    ->get($module['module']);
-            }
-
-            $this->View()->modules = $modules;
-        }
-    }
-
     public function indexAction()
     {
         $this->View()->loadTemplate('backend/wbm_tag_manager/app.js');
@@ -62,6 +38,9 @@ class Shopware_Controllers_Backend_WbmTagManager extends Shopware_Controllers_Ba
         );
     }
 
+    /**
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
     public function createAction()
     {
         $params = $this->Request()->getPost();
@@ -80,6 +59,9 @@ class Shopware_Controllers_Backend_WbmTagManager extends Shopware_Controllers_Ba
         );
     }
 
+    /**
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
     public function updateAction()
     {
         $params = $this->Request()->getPost();
@@ -97,6 +79,9 @@ class Shopware_Controllers_Backend_WbmTagManager extends Shopware_Controllers_Ba
         );
     }
 
+    /**
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
     public function deleteAction()
     {
         $id = (int) $this->Request()->get('id');

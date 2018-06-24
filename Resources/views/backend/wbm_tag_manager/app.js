@@ -19,9 +19,9 @@ Ext.define('Shopware.apps.WbmTagManager', {
     bulkLoad: true,
     loadPath: '{url action=load}',
     controllers: ['Main'],
-    models: [ 'Property' ],
+    models: [ 'Property', 'Modules' ],
     views: [ 'main.Window', 'main.Panel' ],
-    stores: [ 'Property' ],
+    stores: [ 'Property', 'Modules' ],
  
     /** Main Function
      * @private

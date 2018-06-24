@@ -30,9 +30,23 @@ Ext.define('Shopware.apps.WbmTagManager.controller.Main', {
      * @return void
      */
     init: function() {
-        var me = this;
+        var me = this,
+            openWindow = Ext.getCmp('WbmTagManagerMainWindow'),
+            modulesStore = me.getStore('Modules');
 
-        me.mainWindow = me.getView('main.Window').create();
+        if (openWindow) {
+            openWindow.show().toFront();
+        } else {
+            modulesStore.load({
+                scope: this,
+                callback: function (records, operation, success) {
+
+                    me.mainWindow = me.getView('main.Window').create({
+                        modulesStore: modulesStore
+                    });
+                }
+            });
+        }
 
         me.callParent(arguments);
     }

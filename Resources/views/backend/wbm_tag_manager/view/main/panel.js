@@ -143,6 +143,15 @@ Ext.define('Shopware.apps.WbmTagManager.view.main.Panel', {
                 }
             }
         ];
+        me.dockedItems = [
+            {
+                xtype: 'toolbar',
+                dock: 'bottom',
+                cls: 'shopware-toolbar',
+                ui: 'shopware-ui',
+                items: me.getButtons()
+            }
+        ];
         me.callParent(arguments);
     },
     listeners: {
@@ -150,5 +159,28 @@ Ext.define('Shopware.apps.WbmTagManager.view.main.Panel', {
         activate: function(tab) {
             tab.store.load();
         }
+    },
+    getButtons : function() {
+        var me = this;
+
+        return [
+            {
+                text: '{s name="editModules"}Edit Modules{/s}',
+                scope: me,
+                iconCls: 'sprite-pencil',
+                handler: function() {
+                    var openWindow = Ext.getCmp('WbmTagManagerModulesWindow');
+
+                    if (openWindow) {
+                        openWindow.show().toFront();
+                    } else {
+                        Shopware.app.Application.addSubApplication({
+                            name: 'Shopware.apps.WbmTagManagerModules',
+                            action: 'index'
+                        });
+                    }
+                }
+            }
+        ];
     }
 });
