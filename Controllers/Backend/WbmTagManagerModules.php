@@ -13,7 +13,6 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  */
-
 use WbmTagManager\Models\Module;
 
 /**
@@ -84,7 +83,7 @@ class Shopware_Controllers_Backend_WbmTagManagerModules extends Shopware_Control
     {
         $id = (int) $this->Request()->get('id');
 
-        $property = $this->container->get('models')->getRepository(Module::class )->find($id);
+        $property = $this->container->get('models')->getRepository(Module::class)->find($id);
 
         $this->container->get('models')->remove($property);
         $this->container->get('models')->flush();
