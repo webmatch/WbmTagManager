@@ -195,7 +195,7 @@ class TagManagerVariables implements TagManagerVariablesInterface
             return $compiler->compileString($string);
         } catch (\Exception $exception) {
             return json_encode([
-               'error' => sprintf('Error while compiling the dataLayer: %s', $exception->getMessage())
+               'error' => sprintf('Error while compiling the dataLayer: %s', $exception->getMessage()),
             ]);
         }
     }
