@@ -191,6 +191,12 @@ class TagManagerVariables implements TagManagerVariablesInterface
 
         $compiler->setContext($this->getViewVariables());
 
-        return $compiler->compileString($string);
+        try {
+            return $compiler->compileString($string);
+        } catch (\Exception $exception) {
+            return json_encode([
+               'error' => sprintf('Error while compiling the dataLayer: %s', $exception->getMessage())
+            ]);
+        }
     }
 }
