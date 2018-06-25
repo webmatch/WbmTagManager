@@ -60,7 +60,8 @@ dataLayer of that specific view.
 Additional Smarty functions
 =====
 
-###{dbquery}
+{dbquery}
+-----
 
 Since version 3.0.0 a new Smarty function `{dbquery}` is available for the compiling of dataLayers. The function allows you to fetch a single value
 from any database table. You can pass one or multiple criterias to be used in `WHERE` and `ORDER BY` statements.
@@ -76,7 +77,8 @@ Please note the use of single quotes only and the array arguments.
 Also be aware that this feature is reliant on proper syntax, meaning you have to pass an operator with the column name and the 
 columns as well as the values have to exist. Syntax errors will be caught and will result in an empty string to be returned instead.
 
-###{*|to_string}
+{*|to_string}
+-----
 
 The modifier `to_string` will force casting of a value to string. The default behaviour is to try and determine the type of
 a value by json decoding. If a numeric value should still be recognized as a string, use the modifier after the variable or value.
