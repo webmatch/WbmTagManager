@@ -34,7 +34,7 @@ class TagManagerVariables implements TagManagerVariablesInterface
     private $template;
 
     /**
-     * @var TagManagerSmarty
+     * @var TagManagerSmartyInterface
      */
     private $smartyPlugins;
 
@@ -53,12 +53,12 @@ class TagManagerVariables implements TagManagerVariablesInterface
      *
      * @param ModelRepository           $propertyRepository
      * @param \Enlight_Template_Manager $template
-     * @param TagManagerSmarty          $smartyPlugins
+     * @param TagManagerSmartyInterface $smartyPlugins
      */
     public function __construct(
         ModelRepository $propertyRepository,
         \Enlight_Template_Manager $template,
-        TagManagerSmarty $smartyPlugins
+        TagManagerSmartyInterface $smartyPlugins
     ) {
         $this->propertyRepository = $propertyRepository;
         $this->template = $template;

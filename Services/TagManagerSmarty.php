@@ -18,7 +18,7 @@ namespace WbmTagManager\Services;
 
 use Doctrine\DBAL\Connection;
 
-class TagManagerSmarty
+class TagManagerSmarty implements TagManagerSmartyInterface
 {
     /**
      * @var Connection
