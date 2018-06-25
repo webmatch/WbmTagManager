@@ -29,4 +29,11 @@ interface TagManagerSmartyInterface
      * @throws \Exception
      */
     public function getDbSelect($arguments);
+
+    /**
+     * @param mixed $value
+     *
+     * @return string
+     */
+    public function toString($value);
 }

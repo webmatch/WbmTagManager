@@ -176,6 +176,12 @@ class TagManagerVariables implements TagManagerVariablesInterface
      */
     private function castArrayValues(&$value)
     {
+        if (preg_match('/^\"(.*)\"$/', $value)) {
+            $value = json_decode($value);
+
+            return;
+        }
+        
         switch (true) {
             case is_array(json_decode($value)):
             case is_int(json_decode($value)):
@@ -222,6 +228,14 @@ class TagManagerVariables implements TagManagerVariablesInterface
                 \Smarty::PLUGIN_FUNCTION,
                 'dbquery',
                 [$this->smartyPlugins, 'getDbSelect']
+            );
+        }
+
+        if (!isset($view->smarty->registered_plugins['modifier']['to_string'])) {
+            $view->registerPlugin(
+                \Smarty::PLUGIN_MODIFIER,
+                'to_string',
+                [$this->smartyPlugins, 'toString']
             );
         }
     }

@@ -78,4 +78,14 @@ class TagManagerSmarty implements TagManagerSmartyInterface
             return "";
         }
     }
+
+    /**
+     * @param mixed $value
+     *
+     * @return string
+     */
+    public function toString($value)
+    {
+        return sprintf('\"%s\"', $value);
+    }
 }
