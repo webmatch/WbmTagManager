@@ -55,11 +55,14 @@ class TagManagerSmarty
             ->from($arguments['from']);
 
         if (is_array($arguments['where'])) {
-            $i = 0;
             foreach ($arguments['where'] as $column => $value) {
-                $qb->andWhere(sprintf('%s :value%s', $column, $i));
-                $qb->setParameter(sprintf('value%s', $i), $value);
-                $i++;
+                $qb->andWhere(
+                    sprintf(
+                        '%s %s',
+                        $column,
+                        $qb->createNamedParameter($value)
+                    )
+                );
             }
         }
 
