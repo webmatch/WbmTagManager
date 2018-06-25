@@ -34,6 +34,11 @@ class TagManagerVariables implements TagManagerVariablesInterface
     private $template;
 
     /**
+     * @var TagManagerSmarty
+     */
+    private $smartyPlugins;
+
+    /**
      * @var array
      */
     private $viewVariables = [];
@@ -48,13 +53,16 @@ class TagManagerVariables implements TagManagerVariablesInterface
      *
      * @param ModelRepository           $propertyRepository
      * @param \Enlight_Template_Manager $template
+     * @param TagManagerSmarty          $smartyPlugins
      */
     public function __construct(
         ModelRepository $propertyRepository,
-        \Enlight_Template_Manager $template
+        \Enlight_Template_Manager $template,
+        TagManagerSmarty $smartyPlugins
     ) {
         $this->propertyRepository = $propertyRepository;
         $this->template = $template;
+        $this->smartyPlugins = $smartyPlugins;
     }
 
     /**
@@ -187,6 +195,8 @@ class TagManagerVariables implements TagManagerVariablesInterface
             $this->template
         );
 
+        $this->registerSmartyPlugins($view->Engine());
+
         $compiler = new \Shopware_Components_StringCompiler($view->Engine());
 
         $compiler->setContext($this->getViewVariables());
@@ -197,6 +207,22 @@ class TagManagerVariables implements TagManagerVariablesInterface
             return json_encode([
                'error' => sprintf('Error while compiling the dataLayer: %s', $exception->getMessage()),
             ]);
+        }
+    }
+
+    /**
+     * @param \Enlight_Template_Manager $view
+     *
+     * @throws \SmartyException
+     */
+    private function registerSmartyPlugins($view)
+    {
+        if (!isset($view->smarty->registered_plugins['function']['dbquery'])) {
+            $view->registerPlugin(
+                \Smarty::PLUGIN_FUNCTION,
+                'dbquery',
+                [$this->smartyPlugins, 'getDbSelect']
+            );
         }
     }
 }

@@ -10,9 +10,14 @@
             <argument type="string">WbmTagManager\Models\Property</argument>
         </service>
 
+        <service id="wbm_tag_manager.smarty_plugins" class="WbmTagManager\Services\TagManagerSmarty">
+            <argument id="dbal_connection" type="service"/>
+        </service>
+
         <service id="wbm_tag_manager.variables" class="WbmTagManager\Services\TagManagerVariables">
             <argument id="wbm_tag_manager.repository.property" type="service"/>
             <argument id="template" type="service" />
+            <argument id="wbm_tag_manager.smarty_plugins" type="service" />
         </service>
 
         <service id="wbm_tag_manager.subscriber.backend.template_extension" class="WbmTagManager\Subscriber\Backend\TemplateExtension">
