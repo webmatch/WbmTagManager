@@ -18,6 +18,7 @@ namespace WbmTagManager;
 
 use Shopware\Components\Plugin\Context\ActivateContext;
 use Shopware\Components\Plugin\Context\InstallContext;
+use Shopware\Components\Plugin\Context\UninstallContext;
 use Shopware\Components\Plugin\Context\UpdateContext;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
@@ -38,12 +39,30 @@ class WbmTagManager extends \Shopware\Components\Plugin
 
     /**
      * @param InstallContext $context
+     *
+     * @throws \Exception
      */
     public function install(InstallContext $context)
     {
         $sql = file_get_contents($this->getPath() . '/Resources/sql/install.sql');
 
         $this->container->get('shopware.db')->query($sql);
+    }
+
+    /**
+     * @param UninstallContext $context
+     *
+     * @throws \Exception
+     */
+    public function uninstall(UninstallContext $context)
+    {
+        if (!$context->keepUserData()) {
+            $sql = file_get_contents($this->getPath() . '/Resources/sql/uninstall.sql');
+
+            $this->container->get('shopware.db')->query($sql);
+        }
+
+        $context->scheduleClearCache(InstallContext::CACHE_LIST_ALL);
     }
 
     /**
@@ -56,6 +75,8 @@ class WbmTagManager extends \Shopware\Components\Plugin
 
     /**
      * @param UpdateContext $context
+     *
+     * @throws \Exception
      */
     public function update(UpdateContext $context)
     {

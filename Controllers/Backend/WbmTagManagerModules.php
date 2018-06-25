@@ -83,9 +83,17 @@ class Shopware_Controllers_Backend_WbmTagManagerModules extends Shopware_Control
     {
         $id = (int) $this->Request()->get('id');
 
-        $property = $this->container->get('models')->getRepository(Module::class)->find($id);
+        /** @var Module $module */
+        $module = $this->container->get('models')->getRepository(Module::class)->find($id);
 
-        $this->container->get('models')->remove($property);
+        $this->container->get('dbal_connection')->delete(
+            'wbm_data_layer_properties',
+            [
+                'module' => $module->getModule(),
+            ]
+        );
+
+        $this->container->get('models')->remove($module);
         $this->container->get('models')->flush();
 
         $this->View()->assign(
