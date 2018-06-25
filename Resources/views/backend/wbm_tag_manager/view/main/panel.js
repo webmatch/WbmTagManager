@@ -143,7 +143,26 @@ Ext.define('Shopware.apps.WbmTagManager.view.main.Panel', {
                 }
             }
         ];
+        me.infoPanel = Ext.create('Ext.panel.Panel', {
+            dock: 'bottom',
+            hidden: true,
+            height: 50,
+            border: 0,
+            html: '',
+            listeners: {
+                afterrender: function(panel) {
+                    //Ext.Ajax.request({
+                    //    url: '',
+                    //    success: function(response) {
+                    //        panel.update(response.responseText);
+                    //        panel.show();
+                    //    }
+                    //});
+                }
+            }
+        });
         me.dockedItems = [
+            me.infoPanel,
             {
                 xtype: 'toolbar',
                 dock: 'bottom',
