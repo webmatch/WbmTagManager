@@ -3,10 +3,15 @@
     <label lang="de">Tag Manager</label>
     <label lang="en">Tag Manager</label>
 
-    <version>2.1.9</version>
+    <version>3.0.0</version>
     <link>http://www.webmatch.de</link>
     <author>Webmatch GmbH</author>
     <compatibility minVersion="5.2.0" />
+
+    <changelog version="3.0.0">
+        <changes lang="de">Erweiterte Backend-App zur Bearbeitung von Modulen, Handling von Syntax-Fehlern, Smarty-Funktion zur Datenbankabfrage</changes>
+        <changes lang="en">Extended backend app for editing modules, syntax error handling, smarty function to query the database</changes>
+    </changelog>
 
     <changelog version="2.1.9">
         <changes lang="de">Die Werte für Felder im DataLayer können nun größer als 255 Zeichen sein</changes>

@@ -44,21 +44,31 @@ Use syntax like "$sArticles as $sArticle" as value for properties that are suppo
 
 Adding modules
 =====
-There is currently no UI for adding modules/pages for the dataLayer configuration.
-It's scheduled for an upcoming release.
+Modules are essentially configurations of a dataLayer for a specific view, meaning sites of more or less the same type.
 
-You can however add your own modules by inserting into the corresponding table directly.
+Since version 3.0.0 there's a new UI for adding new modules, as well as updating and deleting existing modules.
 
-A query to do so would look like this:
+When adding new modules you're prompted to enter a name (what the new tab will read) and a key for the module.
 
-``` INSERT INTO `wbm_data_layer_modules` ( `module`, `variables`) VALUES ('frontend_forms_index', NULL); ```
+The key must contain the values for module, controller and action, connected by underscores. 
+See the [Shopware documentation](https://developers.shopware.com/developers-guide/controller/#controller-and-urls) 
+for a more detailed explanation. The key must also be all lowercase.
 
-Afterwards clear the cache and reload the backend. Open the Tag Manager Backend App and a new tab
-will appear without a label. The label can be updated by editing the text snippet within namespace
-*/backend/plugins/wbm/tagmanager/* named *frontend_forms_index*
+After adding a module you will find a new tab in the main window, where you can declare the properties for the
+dataLayer of that specific view.
 
-Following this example you could configure a dataLayer that is exclusive to all pages dispatched by
-Action *index* of Frontend Controller *forms*
+Additional Smarty functions
+=====
+Since version 3.0.0 a new Smarty function `{dbquery}` is available for the compiling of dataLayers. The function allows you to fetch a single value
+from any database table. You can pass one or multiple criterias to be used in `WHERE` and `ORDER BY` statements.
 
-Note: The column *variables* is currently unused and, at some point in the future,
-is supposed to contain a preset of available view variables for the corresponding module.
+The following example will work in the dataLayer of the "Add to basket" module and will fetch the price of the newly added product.
+
+```
+{dbquery select='price' from='s_order_basket' where=['ordernumber =' => $smarty.request.sAdd, 'sessionID =' => $smarty.session.Shopware.sessionId] order=['id' => 'DESC']}
+```
+
+Please note the use of single quotes only and the array arguments.
+
+Also be aware that this feature is reliant on proper syntax, meaning you have to pass an operator with the column name and the 
+columns as well as the values have to exist. Syntax errors will be caught and will result in an empty string to be returned instead.
