@@ -47,6 +47,12 @@ class Module extends ModelEntity
     private $variables;
 
     /**
+     * @var boolean
+     * @ORM\Column(name="predispatch", type="boolean", nullable=false)
+     */
+    private $predispatch = 0;
+
+    /**
      * @return int
      */
     public function getId()
@@ -92,5 +98,21 @@ class Module extends ModelEntity
     public function setVariables($variables)
     {
         $this->variables = $variables;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isPredispatch()
+    {
+        return $this->predispatch;
+    }
+
+    /**
+     * @param bool $predispatch
+     */
+    public function setPredispatch($predispatch)
+    {
+        $this->predispatch = $predispatch;
     }
 }

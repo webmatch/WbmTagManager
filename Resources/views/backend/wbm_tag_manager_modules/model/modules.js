@@ -15,6 +15,11 @@ Ext.define('Shopware.apps.WbmTagManagerModules.model.Modules', {
         {
             name: 'name',
             type: 'string'
+        },
+        {
+            name: 'predispatch',
+            type: 'boolean',
+            defaultValue: 0
         }
     ],
     idProperty: 'id',

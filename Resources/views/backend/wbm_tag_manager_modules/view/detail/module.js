@@ -57,6 +57,13 @@ Ext.define('Shopware.apps.WbmTagManagerModules.view.detail.Module', {
                 renderTpl: new Ext.XTemplate(
                     '{s name="moduleHelpText"}{/s}'
                 )
+            },
+            {
+                fieldLabel: '{s name="predispatch"}Pre-Dispatch{/s}',
+                xtype: 'checkbox',
+                name: 'predispatch',
+                inputValue: 1,
+                uncheckedValue: 0
             }
         ];
     },
