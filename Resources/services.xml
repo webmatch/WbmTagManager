@@ -12,6 +12,7 @@
 
         <service id="wbm_tag_manager.smarty_plugins" class="WbmTagManager\Services\TagManagerSmarty">
             <argument id="dbal_connection" type="service"/>
+            <argument id="front" type="service"/>
         </service>
 
         <service id="wbm_tag_manager.variables" class="WbmTagManager\Services\TagManagerVariables">

@@ -26,16 +26,25 @@ class TagManagerSmarty implements TagManagerSmartyInterface
     private $connection;
 
     /**
+     * @var \Enlight_Controller_Front
+     */
+    private $front;
+
+    /**
      * @var array
      */
     private $_cache = [];
 
     /**
-     * @param Connection $connection
+     * @param Connection                $connection
+     * @param \Enlight_Controller_Front $front
      */
-    public function __construct(Connection $connection)
-    {
+    public function __construct(
+        Connection $connection,
+        \Enlight_Controller_Front $front
+    ) {
         $this->connection = $connection;
+        $this->front = $front;
     }
 
     /**
@@ -91,6 +100,22 @@ class TagManagerSmarty implements TagManagerSmartyInterface
         } catch (\Exception $exception) {
             return "";
         }
+    }
+
+    /**
+     * @param $arguments
+     *
+     * @return string
+     */
+    public function requestGet($arguments)
+    {
+        if (
+        empty($arguments['param'])
+        ) {
+            return "";
+        }
+
+        return $this->front->Request()->get($arguments['param']);
     }
 
     /**

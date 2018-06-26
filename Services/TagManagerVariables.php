@@ -223,7 +223,9 @@ class TagManagerVariables implements TagManagerVariablesInterface
      */
     private function registerSmartyPlugins($view)
     {
-        if (!isset($view->smarty->registered_plugins['function']['dbquery'])) {
+        $plugins = $view->smarty->registered_plugins;
+
+        if (!isset($plugins['function']['dbquery'])) {
             $view->registerPlugin(
                 \Smarty::PLUGIN_FUNCTION,
                 'dbquery',
@@ -231,7 +233,15 @@ class TagManagerVariables implements TagManagerVariablesInterface
             );
         }
 
-        if (!isset($view->smarty->registered_plugins['modifier']['to_string'])) {
+        if (!isset($plugins['function']['request_get'])) {
+            $view->registerPlugin(
+                \Smarty::PLUGIN_FUNCTION,
+                'request_get',
+                [$this->smartyPlugins, 'requestGet']
+            );
+        }
+
+        if (!isset($plugins['modifier']['to_string'])) {
             $view->registerPlugin(
                 \Smarty::PLUGIN_MODIFIER,
                 'to_string',
