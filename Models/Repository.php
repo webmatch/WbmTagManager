@@ -130,13 +130,22 @@ class Repository extends ModelRepository
 
             foreach ($items as $item) {
                 /** @var Module|Property $entity */
-                $entity = $this->find($item['id']) ? : new $model;
+                $existingEntity = $this->getEntityManager()->getRepository($model)->find($item['id']);
+
+                if (!$existingEntity) {
+                    $entity = new $model;
+                } else {
+                    $entity = $existingEntity;
+                }
+
                 $entity->fromArray($item);
 
                 $this->getEntityManager()->persist($entity);
 
-                $metadata = $this->getEntityManager()->getClassMetadata($model);
-                $metadata->setIdGeneratorType(ClassMetadata::GENERATOR_TYPE_NONE);
+                if (!$existingEntity) {
+                    $metadata = $this->getEntityManager()->getClassMetadata($model);
+                    $metadata->setIdGeneratorType(ClassMetadata::GENERATOR_TYPE_NONE);
+                }
 
                 $this->getEntityManager()->flush();
             }
