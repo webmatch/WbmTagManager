@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS `wbm_data_layer_modules` ( `id` INT(11) NOT NULL AUTO_INCREMENT , `module` VARCHAR(255) NOT NULL , `variables` LONGTEXT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
+CREATE TABLE IF NOT EXISTS `wbm_data_layer_modules` ( `id` INT(11) NOT NULL AUTO_INCREMENT , `module` VARCHAR(255) NOT NULL , `variables` LONGTEXT NULL , PRIMARY KEY (`id`) , UNIQUE INDEX `module_UNIQUE` (`module` ASC)) ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS `wbm_data_layer_properties` ( `id` INT(11) NOT NULL AUTO_INCREMENT , `module` VARCHAR(255) NOT NULL , `parentID` INT(11) NOT NULL DEFAULT '0' , `name` VARCHAR(255) NOT NULL , `value` TEXT NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
 

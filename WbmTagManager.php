@@ -97,6 +97,9 @@ class WbmTagManager extends \Shopware\Components\Plugin
         }
         if (version_compare($currentVersion, '2.1.9', '<')) {
             $sql .= file_get_contents($this->getPath() . '/Resources/sql/update.2.1.9.sql');
+        }
+        if (version_compare($currentVersion, '3.0.0', '<')) {
+            $sql .= file_get_contents($this->getPath() . '/Resources/sql/update.3.0.0.sql');
             $this->container->get('shopware.db')->query($sql);
         }
 
