@@ -49,6 +49,20 @@ Ext.define('Shopware.apps.WbmTagManager.controller.Main', {
         }
 
         me.callParent(arguments);
+
+        me.control({
+            'tag-manager-panel button[action=openImport]': {
+                'click': function (btn) {
+                    this.onOpenImport(btn);
+                }
+            }
+        });
+    },
+
+    onOpenImport: function () {
+        var me = this;
+
+        me.getView('import.Window').create().show();
     }
 });
  

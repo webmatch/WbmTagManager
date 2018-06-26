@@ -202,6 +202,12 @@ Ext.define('Shopware.apps.WbmTagManager.view.main.Panel', {
             },
             '->',
             {
+                text: '{s name="import"}Import{/s}',
+                scope: me,
+                iconCls: 'sprite-card-import',
+                action: 'openImport'
+            },
+            {
                 text: '{s name="export"}Export{/s}',
                 scope: me,
                 iconCls: 'sprite-card-export',

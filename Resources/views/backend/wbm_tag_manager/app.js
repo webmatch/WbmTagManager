@@ -20,7 +20,7 @@ Ext.define('Shopware.apps.WbmTagManager', {
     loadPath: '{url action=load}',
     controllers: ['Main'],
     models: [ 'Property', 'Modules' ],
-    views: [ 'main.Window', 'main.Panel' ],
+    views: [ 'main.Window', 'main.Panel', 'import.Window' ],
     stores: [ 'Property', 'Modules' ],
  
     /** Main Function
