@@ -199,6 +199,15 @@ Ext.define('Shopware.apps.WbmTagManager.view.main.Panel', {
                         });
                     }
                 }
+            },
+            '->',
+            {
+                text: '{s name="export"}Export{/s}',
+                scope: me,
+                iconCls: 'sprite-card-export',
+                handler: function() {
+                    window.open('{url controller="WbmTagManager" action="export"}', '_blank');
+                }
             }
         ];
     }

@@ -13,13 +13,22 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  */
+use Shopware\Components\CSRFWhitelistAware;
 use WbmTagManager\Models\Property;
 
 /**
  * Class Shopware_Controllers_Backend_WbmTagManager
  */
-class Shopware_Controllers_Backend_WbmTagManager extends Shopware_Controllers_Backend_ExtJs
+class Shopware_Controllers_Backend_WbmTagManager extends Shopware_Controllers_Backend_ExtJs implements CSRFWhitelistAware
 {
+    /** {@inheritdoc} */
+    public function getWhitelistedCSRFActions()
+    {
+        return [
+            'export'
+        ];
+    }
+
     public function indexAction()
     {
         $this->View()->loadTemplate('backend/wbm_tag_manager/app.js');
@@ -30,7 +39,7 @@ class Shopware_Controllers_Backend_WbmTagManager extends Shopware_Controllers_Ba
         $id = (int) $this->Request()->getParam('id', null);
         $module = $this->Request()->getParam('moduleName', null);
 
-        $data = $this->container->get('models')->getRepository('WbmTagManager\Models\Property')->getChildrenList($id, $module);
+        $data = $this->container->get('models')->getRepository(Property::class)->getChildrenList($id, $module);
 
         $this->View()->assign(
             ['success' => true, 'data' => $data]
@@ -67,7 +76,7 @@ class Shopware_Controllers_Backend_WbmTagManager extends Shopware_Controllers_Ba
         $id = (int) $this->Request()->get('id');
 
         /** @var Property $property */
-        $property = $this->container->get('models')->getRepository('WbmTagManager\Models\Property')->find($id);
+        $property = $this->container->get('models')->getRepository(Property::class)->find($id);
         $property->fromArray($params);
 
         $this->container->get('models')->persist($property);
@@ -86,13 +95,27 @@ class Shopware_Controllers_Backend_WbmTagManager extends Shopware_Controllers_Ba
         $id = (int) $this->Request()->get('id');
 
         /** @var Property $property */
-        $property = $this->container->get('models')->getRepository('WbmTagManager\Models\Property')->find($id);
+        $property = $this->container->get('models')->getRepository(Property::class)->find($id);
 
         $this->container->get('models')->remove($property);
         $this->container->get('models')->flush();
 
         $this->View()->assign(
             ['success' => true]
+        );
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public function exportAction()
+    {
+        $data = $this->container->get('models')->getRepository(Property::class)->dataForExport();
+
+        $this->Response()->setHeader('Content-Disposition', 'attachment; filename="dataLayer.json"');
+
+        $this->View()->assign(
+            $data
         );
     }
 }

@@ -23,10 +23,13 @@ use Shopware\Components\Model\ModelRepository;
  */
 class Repository extends ModelRepository
 {
+    /**
+     * @return array
+     */
     public function getChildrenList($id = 0, $module = null, $dataLayer = false)
     {
         $qb = $this->getEntityManager()->createQueryBuilder();
-        $qb->from('WbmTagManager\Models\Property', 'property', $dataLayer ? 'property.name' : null);
+        $qb->from(Property::class, 'property', $dataLayer ? 'property.name' : null);
 
         $qb->where('property.parentId = :parentId')
             ->setParameter(':parentId', $id)
@@ -83,5 +86,28 @@ class Repository extends ModelRepository
         }
 
         return $properties;
+    }
+
+    /**
+     * @return array
+     */
+    public function dataForExport()
+    {
+        $data = [];
+        $models = [Module::class, Property::class];
+
+        foreach ($models as $model) {
+            $qb = $this->getEntityManager()->createQueryBuilder();
+            $qb->select(
+                    [
+                        'model',
+                    ]
+                )
+                ->from($model, 'model');
+
+            $data[$model] = $qb->getQuery()->getArrayResult();
+        }
+
+        return $data;
     }
 }
