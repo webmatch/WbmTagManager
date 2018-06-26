@@ -26,6 +26,11 @@ class TagManagerSmarty implements TagManagerSmartyInterface
     private $connection;
 
     /**
+     * @var array
+     */
+    private $_cache = [];
+
+    /**
      * @param Connection $connection
      */
     public function __construct(Connection $connection)
@@ -47,6 +52,12 @@ class TagManagerSmarty implements TagManagerSmartyInterface
             empty($arguments['from'])
         ) {
             return "";
+        }
+
+        $hash = md5($arguments);
+
+        if (isset($this->_cache[$hash])) {
+            return $this->_cache[$hash];
         }
 
         $qb = $this->connection->createQueryBuilder();
@@ -73,7 +84,10 @@ class TagManagerSmarty implements TagManagerSmartyInterface
         }
 
         try {
-            return $qb->execute()->fetch(\PDO::FETCH_COLUMN);
+            $value = $qb->execute()->fetch(\PDO::FETCH_COLUMN);
+            $this->_cache[$hash] = $value;
+
+            return $value;
         } catch (\Exception $exception) {
             return "";
         }
