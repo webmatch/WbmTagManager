@@ -30,6 +30,7 @@ Ext.define('Shopware.apps.WbmTagManager.view.import.Window', {
         me.uploadField  = Ext.create('Ext.form.field.File', {
             buttonOnly: false,
             xtype: 'filefield',
+            name: 'file',
             fieldLabel: '{s name="fileSelect"}Select JSON file{/s}',
             labelWidth: 150,
             anchor: '100%',
@@ -60,11 +61,12 @@ Ext.define('Shopware.apps.WbmTagManager.view.import.Window', {
                     text: '{s name="import"}Import{/s}',
                     cls: 'primary',
                     handler: function() {
-                        var form = this.up('form').getForm();
+                        var form = this.up('form'),
+                            formBase = form.getForm();
 
-                        if (form.isValid()) {
-                            form.submit({
-                                success: function(form) {
+                        if (formBase.isValid()) {
+                            formBase.submit({
+                                success: function() {
                                     form.up('window').close();
 
                                     var openWindow = Ext.getCmp('WbmTagManagerMainWindow');

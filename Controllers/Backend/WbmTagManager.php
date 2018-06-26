@@ -118,4 +118,32 @@ class Shopware_Controllers_Backend_WbmTagManager extends Shopware_Controllers_Ba
             $data
         );
     }
+
+    /**
+     * @throws \Exception
+     */
+    public function importAction()
+    {
+        if (!empty($_FILES['file'])) {
+            $truncateTables = $this->Request()->getPost('truncate') === "true";
+
+            $file = $_FILES['file'];
+
+            $data = file_get_contents($file["tmp_name"]);
+            $data = json_decode($data, true);
+
+            if (!empty($data) && $truncateTables) {
+                $this->container->get('dbal_connection')->query('TRUNCATE TABLE wbm_data_layer_modules');
+                $this->container->get('dbal_connection')->query('TRUNCATE TABLE wbm_data_layer_properties');
+            }
+
+            if (!empty($data)) {
+                $this->container->get('models')->getRepository(Property::class)->importData($data);
+            }
+        }
+
+        $this->View()->assign(
+            ['success' => true]
+        );
+    }
 }

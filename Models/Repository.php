@@ -16,6 +16,7 @@
 
 namespace WbmTagManager\Models;
 
+use Doctrine\ORM\Mapping\ClassMetadata;
 use Shopware\Components\Model\ModelRepository;
 
 /**
@@ -24,6 +25,10 @@ use Shopware\Components\Model\ModelRepository;
 class Repository extends ModelRepository
 {
     /**
+     * @param int $id
+     * @param null $module
+     * @param bool $dataLayer
+     *
      * @return array
      */
     public function getChildrenList($id = 0, $module = null, $dataLayer = false)
@@ -109,5 +114,32 @@ class Repository extends ModelRepository
         }
 
         return $data;
+    }
+
+    /**
+     * @param array $data
+     *
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function importData($data = [])
+    {
+        foreach ($data as $model => $items) {
+            if (!in_array($model, [Module::class, Property::class])) {
+                return;
+            }
+
+            foreach ($items as $item) {
+                /** @var Module|Property $entity */
+                $entity = $this->find($item['id']) ? : new $model;
+                $entity->fromArray($item);
+
+                $this->getEntityManager()->persist($entity);
+
+                $metadata = $this->getEntityManager()->getClassMetadata($model);
+                $metadata->setIdGeneratorType(ClassMetadata::GENERATOR_TYPE_NONE);
+
+                $this->getEntityManager()->flush();
+            }
+        }
     }
 }
