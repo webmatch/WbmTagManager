@@ -16,7 +16,6 @@
 
 namespace WbmTagManager\Subscriber\Frontend;
 
-use Doctrine\DBAL\Connection;
 use Enlight\Event\SubscriberInterface;
 use WbmTagManager\Services\TagManagerVariables;
 
@@ -36,23 +35,23 @@ class Dispatch implements SubscriberInterface
     private $config;
 
     /**
-     * @var Connection
+     * @var array
      */
-    private $connection;
+    private $modules;
 
     /**
      * @param TagManagerVariables         $variables
      * @param \Shopware_Components_Config $config
-     * @param Connection                  $connection
+     * @param array                       $modules
      */
     public function __construct(
         TagManagerVariables $variables,
         \Shopware_Components_Config $config,
-        Connection $connection
+        $modules
     ) {
         $this->variables = $variables;
         $this->config = $config;
-        $this->connection = $connection;
+        $this->modules = $modules;
     }
 
     /**
@@ -118,23 +117,9 @@ class Dispatch implements SubscriberInterface
             $module = 'frontend_checkout_' . strtolower($request->getParam('action'));
         }
 
-        $search = [
-            'widgets_listing_ajaxlisting',
-            'widgets_listing_listingcount',
-            'frontend_checkout_ajaxcart',
-            'frontend_checkout_ajax_add_article',
-            'frontend_checkout_ajax_delete_article',
-        ];
-        $replace = [
-            'frontend_listing_index',
-            'frontend_listing_index',
-            'frontend_checkout_cart',
-            'frontend_checkout_ajaxaddarticlecart',
-            'frontend_checkout_ajaxdeletearticlecart',
-        ];
-        $module = str_replace($search, $replace, $module);
+        $module = $this->rewriteModuleKey($module);
 
-        if ($isPreDispatch !== $this->isPreDispatchByModule($module)) {
+        if (!isset($this->modules[$module]) || (bool) $this->modules[$module] !== $isPreDispatch) {
             return;
         }
 
@@ -169,19 +154,26 @@ class Dispatch implements SubscriberInterface
     /**
      * @param string $module
      *
-     * @return bool
+     * @return string
      */
-    private function isPreDispatchByModule($module)
+    private function rewriteModuleKey($module)
     {
-        $qb = $this->connection->createQueryBuilder();
-        $qb->select(
-                ['predispatch']
-            )
-            ->from('wbm_data_layer_modules')
-            ->where('predispatch = 1')
-            ->andWhere('module = :module')
-            ->setParameter('module', $module);
+        $search = [
+            'widgets_listing_ajaxlisting',
+            'widgets_listing_listingcount',
+            'frontend_checkout_ajaxcart',
+            'frontend_checkout_ajax_add_article',
+            'frontend_checkout_ajax_delete_article',
+        ];
 
-        return (bool) $qb->execute()->fetch(\PDO::FETCH_COLUMN);
+        $replace = [
+            'frontend_listing_index',
+            'frontend_listing_index',
+            'frontend_checkout_cart',
+            'frontend_checkout_ajaxaddarticlecart',
+            'frontend_checkout_ajaxdeletearticlecart',
+        ];
+
+        return str_replace($search, $replace, $module);
     }
 }

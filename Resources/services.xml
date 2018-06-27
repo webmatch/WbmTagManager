@@ -10,6 +10,10 @@
             <argument type="string">WbmTagManager\Models\Property</argument>
         </service>
 
+        <service id="wbm_tag_manager.modules" class="Shopware\Components\Model\ModelRepository">
+            <factory service="wbm_tag_manager.repository.property" method="getModules"/>
+        </service>
+
         <service id="wbm_tag_manager.smarty_plugins" class="WbmTagManager\Services\TagManagerSmarty">
             <argument id="dbal_connection" type="service"/>
             <argument id="front" type="service"/>
@@ -30,7 +34,7 @@
         <service id="wbm_tag_manager.subscriber.frontend.dispatch" class="WbmTagManager\Subscriber\Frontend\Dispatch">
             <argument type="service" id="wbm_tag_manager.variables" />
             <argument type="service" id="config" />
-            <argument type="service" id="dbal_connection" />
+            <argument type="service" id="wbm_tag_manager.modules" />
             <tag name="shopware.event_subscriber" />
         </service>
 

@@ -151,4 +151,21 @@ class Repository extends ModelRepository
             }
         }
     }
+
+    /**
+     * @return array
+     */
+    public function getModules()
+    {
+        $qb = $this->getEntityManager()->getConnection()->createQueryBuilder();
+        $qb->select(
+                [
+                    'module',
+                    'predispatch',
+                ]
+            )
+            ->from('wbm_data_layer_modules');
+
+        return $qb->execute()->fetchAll(\PDO::FETCH_KEY_PAIR);
+    }
 }
