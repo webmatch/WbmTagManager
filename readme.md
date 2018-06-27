@@ -77,6 +77,16 @@ Please note the use of single quotes only and the array arguments.
 Also be aware that this feature is reliant on proper syntax, meaning you have to pass an operator with the column name and the 
 columns as well as the values have to exist. Syntax errors will be caught and will result in an empty string to be returned instead.
 
+{request_get}
+-----
+
+Request parameters won't be available utilizing `$smarty.request` if they have been set during dispatch or through sluggified URLs (e.g. `/detail/index/sArticle/123`).
+By using `request_get` and the `param` argument you can get any parameter available at the time of the dataLayer compiling.
+
+```
+{request_get param='sDelete'}
+```
+
 {*|to_string}
 -----
 
