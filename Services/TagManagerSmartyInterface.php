@@ -24,9 +24,9 @@ interface TagManagerSmartyInterface
     /**
      * @param $arguments
      *
-     * @return string
-     *
      * @throws \Exception
+     *
+     * @return string
      */
     public function getDbSelect($arguments);
 

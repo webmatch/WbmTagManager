@@ -47,7 +47,7 @@ class Module extends ModelEntity
     private $variables;
 
     /**
-     * @var boolean
+     * @var bool
      * @ORM\Column(name="predispatch", type="boolean", nullable=false)
      */
     private $predispatch = 0;

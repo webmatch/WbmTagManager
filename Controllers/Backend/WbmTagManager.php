@@ -25,7 +25,7 @@ class Shopware_Controllers_Backend_WbmTagManager extends Shopware_Controllers_Ba
     public function getWhitelistedCSRFActions()
     {
         return [
-            'export'
+            'export',
         ];
     }
 
@@ -125,11 +125,11 @@ class Shopware_Controllers_Backend_WbmTagManager extends Shopware_Controllers_Ba
     public function importAction()
     {
         if (!empty($_FILES['file'])) {
-            $truncateTables = $this->Request()->getPost('truncate') === "true";
+            $truncateTables = $this->Request()->getPost('truncate') === 'true';
 
             $file = $_FILES['file'];
 
-            $data = file_get_contents($file["tmp_name"]);
+            $data = file_get_contents($file['tmp_name']);
             $data = json_decode($data, true);
 
             if (!empty($data) && $truncateTables) {

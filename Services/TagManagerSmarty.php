@@ -50,9 +50,9 @@ class TagManagerSmarty implements TagManagerSmartyInterface
     /**
      * @param $arguments
      *
-     * @return string
-     *
      * @throws \Exception
+     *
+     * @return string
      */
     public function getDbSelect($arguments)
     {
@@ -60,7 +60,7 @@ class TagManagerSmarty implements TagManagerSmartyInterface
             empty($arguments['select']) ||
             empty($arguments['from'])
         ) {
-            return "";
+            return '';
         }
 
         $hash = md5($arguments);
@@ -98,7 +98,7 @@ class TagManagerSmarty implements TagManagerSmartyInterface
 
             return $value;
         } catch (\Exception $exception) {
-            return "";
+            return '';
         }
     }
 
@@ -112,7 +112,7 @@ class TagManagerSmarty implements TagManagerSmartyInterface
         if (
         empty($arguments['param'])
         ) {
-            return "";
+            return '';
         }
 
         return $this->front->Request()->get($arguments['param']);

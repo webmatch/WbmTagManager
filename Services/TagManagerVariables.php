@@ -118,9 +118,9 @@ class TagManagerVariables implements TagManagerVariablesInterface
     /**
      * @param array $dataLayer
      *
-     * @return mixed
-     *
      * @throws \Exception
+     *
+     * @return mixed
      */
     public function fillValues($dataLayer)
     {
@@ -185,7 +185,7 @@ class TagManagerVariables implements TagManagerVariablesInterface
 
             return;
         }
-        
+
         switch (true) {
             case is_array(json_decode($value)):
             case is_int(json_decode($value)):
@@ -197,9 +197,9 @@ class TagManagerVariables implements TagManagerVariablesInterface
     /**
      * @param string $string
      *
-     * @return string $string
-     *
      * @throws \Exception
+     *
+     * @return string $string
      */
     private function compileString($string)
     {

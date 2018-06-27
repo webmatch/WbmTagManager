@@ -25,7 +25,7 @@ use Shopware\Components\Model\ModelRepository;
 class Repository extends ModelRepository
 {
     /**
-     * @param int $id
+     * @param int  $id
      * @param null $module
      * @param bool $dataLayer
      *
@@ -133,7 +133,7 @@ class Repository extends ModelRepository
                 $existingEntity = $this->getEntityManager()->getRepository($model)->find($item['id']);
 
                 if (!$existingEntity) {
-                    $entity = new $model;
+                    $entity = new $model();
                 } else {
                     $entity = $existingEntity;
                 }
