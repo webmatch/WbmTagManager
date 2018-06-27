@@ -104,27 +104,49 @@ class FilterRender implements SubscriberInterface
                     );
                 }
 
-                foreach (['<meta charset="utf-8">', '<head>'] as $anchor) {
-                    if (preg_match('/' . $anchor . '/', $source)) {
-                        $source = preg_replace(
-                            '/' . $anchor . '/',
-                            $anchor . $headTag,
-                            $source,
-                            1
-                        );
+                $source = $this->injectMarkup($headTag, $source, ['<meta charset="utf-8">', '<head>']);
+                $source = $this->injectMarkup($bodyTag, $source, ['</noscript>'], true);
 
-                        break;
-                    }
+            } elseif ($this->variables->getVariables()) {
+                $source = $this->variables->prependDataLayer($source, $prettyPrint);
+            }
+        }
+
+        return $source;
+    }
+
+    /**
+     * @param string $injection
+     * @param string $source
+     * @param array  $anchors
+     * @param bool   $before
+     *
+     * @return string
+     */
+    private function injectMarkup(
+        $injection,
+        $source,
+        $anchors = [],
+        $before = false
+    ) {
+        foreach ($anchors as $anchor) {
+            $anchorRegex = '/' . str_replace('/', '\/', $anchor) . '/';
+
+            if (preg_match($anchorRegex, $source)) {
+                if ($before) {
+                    $injection .= $anchor;
+                } else {
+                    $injection = $anchor . $injection;
                 }
 
                 $source = preg_replace(
-                    '/<\/noscript>/',
-                    $bodyTag . '</noscript>',
+                    $anchorRegex,
+                    $injection,
                     $source,
                     1
                 );
-            } elseif ($this->variables->getVariables()) {
-                $source = $this->variables->prependDataLayer($source, $prettyPrint);
+
+                break;
             }
         }
 
