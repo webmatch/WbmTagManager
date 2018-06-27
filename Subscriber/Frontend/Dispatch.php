@@ -16,13 +16,14 @@
 
 namespace WbmTagManager\Subscriber\Frontend;
 
+use Doctrine\DBAL\Connection;
 use Enlight\Event\SubscriberInterface;
 use WbmTagManager\Services\TagManagerVariables;
 
 /**
- * Class PostDispatch
+ * Class Dispatch
  */
-class PostDispatch implements SubscriberInterface
+class Dispatch implements SubscriberInterface
 {
     /**
      * @var TagManagerVariables
@@ -34,12 +35,24 @@ class PostDispatch implements SubscriberInterface
      */
     private $config;
 
+    /**
+     * @var Connection
+     */
+    private $connection;
+
+    /**
+     * @param TagManagerVariables         $variables
+     * @param \Shopware_Components_Config $config
+     * @param Connection                  $connection
+     */
     public function __construct(
         TagManagerVariables $variables,
-        \Shopware_Components_Config $config
+        \Shopware_Components_Config $config,
+        Connection $connection
     ) {
         $this->variables = $variables;
         $this->config = $config;
+        $this->connection = $connection;
     }
 
     /**
@@ -50,14 +63,41 @@ class PostDispatch implements SubscriberInterface
         return [
             'Enlight_Controller_Action_PostDispatch_Frontend' => 'onPostDispatch',
             'Enlight_Controller_Action_PostDispatch_Widgets' => 'onPostDispatch',
+            'Enlight_Controller_Action_PreDispatch_Frontend' => 'onPreDispatch',
+            'Enlight_Controller_Action_PreDispatch_Widgets' => 'onPreDispatch',
         ];
     }
 
     /**
      * @param \Enlight_Controller_ActionEventArgs $args
+     *
+     * @throws \Exception
      */
     public function onPostDispatch(\Enlight_Controller_ActionEventArgs $args)
     {
+        $this->handleDispatch($args);
+    }
+
+    /**
+     * @param \Enlight_Controller_ActionEventArgs $args
+     *
+     * @throws \Exception
+     */
+    public function onPreDispatch(\Enlight_Controller_ActionEventArgs $args)
+    {
+        $this->handleDispatch($args, true);
+    }
+
+    /**
+     * @param \Enlight_Controller_ActionEventArgs $args
+     * @param bool                                $isPreDispatch
+     *
+     * @throws \Exception
+     */
+    public function handleDispatch(
+        \Enlight_Controller_ActionEventArgs $args,
+        $isPreDispatch = false
+    ) {
         if (
             !$this->config->getByNamespace('WbmTagManager', 'wbmTagManagerActive') ||
             empty($this->config->getByNamespace('WbmTagManager', 'wbmTagManagerContainer'))
@@ -94,8 +134,16 @@ class PostDispatch implements SubscriberInterface
         ];
         $module = str_replace($search, $replace, $module);
 
+        if ($isPreDispatch !== $this->isPreDispatchByModule($module)) {
+            return;
+        }
+
         $this->variables->setViewVariables($controller->View()->getAssign());
         $this->variables->render($module);
+
+        if ($isPreDispatch) {
+            return;
+        }
 
         // Since SW 5.3 the generic listingCountAction is used for paginated listings.
         // Get the response json body, decode it, prepend the dataLayer to the listing key
@@ -116,5 +164,24 @@ class PostDispatch implements SubscriberInterface
                 }
             }
         }
+    }
+
+    /**
+     * @param string $module
+     *
+     * @return bool
+     */
+    private function isPreDispatchByModule($module)
+    {
+        $qb = $this->connection->createQueryBuilder();
+        $qb->select(
+                ['predispatch']
+            )
+            ->from('wbm_data_layer_modules')
+            ->where('predispatch = 1')
+            ->andWhere('module = :module')
+            ->setParameter('module', $module);
+
+        return (bool) $qb->execute()->fetch(\PDO::FETCH_COLUMN);
     }
 }

@@ -27,9 +27,10 @@
             <tag name="shopware.event_subscriber" />
         </service>
 
-        <service id="wbm_tag_manager.subscriber.frontend.post_dispatch" class="WbmTagManager\Subscriber\Frontend\PostDispatch">
+        <service id="wbm_tag_manager.subscriber.frontend.dispatch" class="WbmTagManager\Subscriber\Frontend\Dispatch">
             <argument type="service" id="wbm_tag_manager.variables" />
             <argument type="service" id="config" />
+            <argument type="service" id="dbal_connection" />
             <tag name="shopware.event_subscriber" />
         </service>
 

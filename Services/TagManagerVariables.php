@@ -99,12 +99,14 @@ class TagManagerVariables implements TagManagerVariablesInterface
 
     /**
      * @param string $module
+     *
+     * @throws \Exception
      */
     public function render($module)
     {
         $dataLayer = $this->propertyRepository->getChildrenList(0, $module, true);
 
-        if (!empty($dataLayer) && !empty($this->getViewVariables())) {
+        if (!empty($dataLayer) && is_array($this->getViewVariables())) {
             $dataLayer = $this->fillValues($dataLayer);
 
             array_walk_recursive($dataLayer, [$this, 'castArrayValues']);
@@ -117,6 +119,8 @@ class TagManagerVariables implements TagManagerVariablesInterface
      * @param array $dataLayer
      *
      * @return mixed
+     *
+     * @throws \Exception
      */
     public function fillValues($dataLayer)
     {
@@ -191,9 +195,11 @@ class TagManagerVariables implements TagManagerVariablesInterface
     }
 
     /**
-     * @param $string
+     * @param string $string
      *
-     * @return string
+     * @return string $string
+     *
+     * @throws \Exception
      */
     private function compileString($string)
     {
