@@ -2,18 +2,18 @@ CREATE TABLE IF NOT EXISTS `wbm_data_layer_modules` ( `id` INT(11) NOT NULL AUTO
 
 CREATE TABLE IF NOT EXISTS `wbm_data_layer_properties` ( `id` INT(11) NOT NULL AUTO_INCREMENT , `module` VARCHAR(255) NOT NULL , `parentID` INT(11) NOT NULL DEFAULT '0' , `name` VARCHAR(255) NOT NULL , `value` TEXT NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
 
-INSERT IGNORE INTO `wbm_data_layer_modules` (`id`, `module`, `variables`) VALUES
-  (1, 'frontend_listing_index', NULL),
-  (2, 'frontend_detail_index', NULL),
-  (3, 'frontend_checkout_cart', NULL),
-  (4, 'frontend_checkout_confirm', NULL),
-  (5, 'frontend_checkout_finish', NULL),
-  (6, 'frontend_checkout_ajaxaddarticlecart', NULL),
-  (7, 'frontend_checkout_ajaxdeletearticlecart', NULL),
-  (8, 'frontend_search_defaultsearch', NULL),
-  (9, 'frontend_register_index', NULL),
-  (10, 'frontend_checkout_shippingpayment', NULL),
-  (11, 'frontend_index_index', NULL);
+INSERT IGNORE INTO `wbm_data_layer_modules` (`id`, `module`, `variables`, `predispatch`) VALUES
+  (1, 'frontend_listing_index', NULL, 0),
+  (2, 'frontend_detail_index', NULL, 0),
+  (3, 'frontend_checkout_cart', NULL, 0),
+  (4, 'frontend_checkout_confirm', NULL, 0),
+  (5, 'frontend_checkout_finish', NULL, 0),
+  (6, 'frontend_checkout_ajaxaddarticlecart', NULL, 0),
+  (7, 'frontend_checkout_ajaxdeletearticlecart', NULL, 1),
+  (8, 'frontend_search_defaultsearch', NULL, 0),
+  (9, 'frontend_register_index', NULL, 0),
+  (10, 'frontend_checkout_shippingpayment', NULL, 0),
+  (11, 'frontend_index_index', NULL, 0);
 
 INSERT IGNORE INTO `wbm_data_layer_properties` (`id`, `module`, `parentID`, `name`, `value`) VALUES
   (1, 'frontend_listing_index', 0, 'ecommerce', ''),
@@ -44,11 +44,14 @@ INSERT IGNORE INTO `wbm_data_layer_properties` (`id`, `module`, `parentID`, `nam
   (28, 'frontend_checkout_ajaxaddarticlecart', 27, 'products', '[0] as $position'),
   (30, 'frontend_checkout_ajaxaddarticlecart', 28, 'id', '{$smarty.request.sAdd|escape}'),
   (33, 'frontend_checkout_ajaxaddarticlecart', 28, 'quantity', '{$smarty.request.sQuantity}'),
+  (108, 'frontend_checkout_ajaxaddarticlecart', 28, 'price', '{dbquery select=\'price\' from=\'s_order_basket\' where=[\'ordernumber =\' => $smarty.request.sAdd, \'sessionID =\' => $smarty.session.Shopware.sessionId] order=[\'id\' => \'DESC\']}'),
   (34, 'frontend_checkout_ajaxdeletearticlecart', 0, 'event', 'removeFromCart'),
   (35, 'frontend_checkout_ajaxdeletearticlecart', 0, 'ecommerce', ''),
   (36, 'frontend_checkout_ajaxdeletearticlecart', 35, 'remove', ''),
   (37, 'frontend_checkout_ajaxdeletearticlecart', 36, 'products', '[0] as $position'),
-  (38, 'frontend_checkout_ajaxdeletearticlecart', 37, 'id', '{$smarty.request.sDelete}'),
+  (38, 'frontend_checkout_ajaxdeletearticlecart', 37, 'id', '{dbquery select=\'ordernumber\' from=\'s_order_basket\' where=[\'id =\' => {request_get param=\'sDelete\'}]}'),
+  (109, 'frontend_checkout_ajaxdeletearticlecart', 37, 'price', '{dbquery select=\'price\' from=\'s_order_basket\' where=[\'id =\' => {request_get param=\'sDelete\'}]}'),
+  (110, 'frontend_checkout_ajaxdeletearticlecart', 37, 'quantity', '1'),
   (39, 'frontend_checkout_cart', 0, 'event', 'checkout'),
   (40, 'frontend_checkout_cart', 0, 'ecommerce', ''),
   (41, 'frontend_checkout_cart', 40, 'checkout', ''),
