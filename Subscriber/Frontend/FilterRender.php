@@ -104,12 +104,18 @@ class FilterRender implements SubscriberInterface
                     );
                 }
 
-                $source = preg_replace(
-                    '/<head>/',
-                    '<head>' . $headTag,
-                    $source,
-                    1
-                );
+                foreach (['<meta charset="utf-8">', '<head>'] as $anchor) {
+                    if (preg_match('/' . $anchor . '/', $source)) {
+                        $source = preg_replace(
+                            '/' . $anchor . '/',
+                            $anchor . $headTag,
+                            $source,
+                            1
+                        );
+
+                        break;
+                    }
+                }
 
                 $source = preg_replace(
                     '/<\/noscript>/',
