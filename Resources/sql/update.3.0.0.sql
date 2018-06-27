@@ -14,3 +14,8 @@ WHERE `id` = 10 AND `name` = 'category';
 UPDATE `wbm_data_layer_properties`
 SET `value` = '{dbquery select=\'ordernumber\' from=\'s_order_basket\' where=[\'id =\' => {request_get param=\'sDelete\'}]}'
 WHERE `id` = 38 AND `name` = 'id';
+
+INSERT IGNORE INTO `wbm_data_layer_properties` (`id`, `module`, `parentID`, `name`, `value`) VALUES
+  (108, 'frontend_checkout_ajaxaddarticlecart', 28, 'price', '{dbquery select=\'price\' from=\'s_order_basket\' where=[\'ordernumber =\' => $smarty.request.sAdd, \'sessionID =\' => $smarty.session.Shopware.sessionId] order=[\'id\' => \'DESC\']}'),
+  (109, 'frontend_checkout_ajaxdeletearticlecart', 37, 'price', '{dbquery select=\'price\' from=\'s_order_basket\' where=[\'id =\' => {request_get param=\'sDelete\'}]}'),
+  (110, 'frontend_checkout_ajaxdeletearticlecart', 37, 'quantity', '1');
