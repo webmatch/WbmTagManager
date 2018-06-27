@@ -63,7 +63,7 @@ class TagManagerSmarty implements TagManagerSmartyInterface
             return '';
         }
 
-        $hash = md5($arguments);
+        $hash = md5(serialize($arguments));
 
         if (isset($this->_cache[$hash])) {
             return $this->_cache[$hash];
