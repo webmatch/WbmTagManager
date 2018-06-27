@@ -30,9 +30,9 @@ class FilterRender implements SubscriberInterface
     private $variables;
 
     /**
-     * @var \Shopware_Components_Config
+     * @var array
      */
-    private $config;
+    private $pluginConfig;
 
     /**
      * @var \Enlight_Controller_Front
@@ -44,14 +44,20 @@ class FilterRender implements SubscriberInterface
      */
     private $pluginDir;
 
+    /**
+     * @param TagManagerVariables       $variables
+     * @param array                     $pluginConfig
+     * @param \Enlight_Controller_Front $front
+     * @param string                    $pluginDir
+     */
     public function __construct(
         TagManagerVariables $variables,
-        \Shopware_Components_Config $config,
+        $pluginConfig,
         \Enlight_Controller_Front $front,
         $pluginDir
     ) {
         $this->variables = $variables;
-        $this->config = $config;
+        $this->pluginConfig = $pluginConfig;
         $this->front = $front;
         $this->pluginDir = $pluginDir;
     }
@@ -79,11 +85,11 @@ class FilterRender implements SubscriberInterface
             return $source;
         }
 
-        $containerId = $this->config->getByNamespace('WbmTagManager', 'wbmTagManagerContainer');
-        $prettyPrint = $this->config->getByNamespace('WbmTagManager', 'wbmTagManagerJsonPrettyPrint');
+        $containerId = $this->pluginConfig['wbmTagManagerContainer'];
+        $prettyPrint = $this->pluginConfig['wbmTagManagerJsonPrettyPrint'];
 
         if (
-            $this->config->getByNamespace('WbmTagManager', 'wbmTagManagerActive') &&
+            $this->pluginConfig['wbmTagManagerActive'] &&
             !empty($containerId) &&
             strtolower($this->front->Request()->getModuleName()) != 'backend'
         ) {
@@ -93,6 +99,8 @@ class FilterRender implements SubscriberInterface
 
                 $headTag = sprintf($headTag, $containerId);
                 $bodyTag = sprintf($bodyTag, $containerId);
+
+                $headTag = $this->wrapHeadTag($headTag);
 
                 if ($this->variables->getVariables()) {
                     $headTag = sprintf(
@@ -151,5 +159,38 @@ class FilterRender implements SubscriberInterface
         }
 
         return $source;
+    }
+
+    /**
+     * @param string $headTag
+     *
+     * @return string
+     */
+    private function wrapHeadTag($headTag)
+    {
+        $jsBefore = $this->pluginConfig['wbmTagManagerJsBefore'];
+        $jsAfter = $this->pluginConfig['wbmTagManagerJsAfter'];
+
+        if (!empty($jsBefore)) {
+            $headTag = sprintf(
+                '%s%s%s%s',
+                '<script>',
+                $jsBefore,
+                '</script>',
+                $headTag
+            );
+        }
+
+        if (!empty($jsAfter)) {
+            $headTag = sprintf(
+                '%s%s%s%s',
+                $headTag,
+                '<script>',
+                $jsAfter,
+                '</script>'
+            );
+        }
+
+        return $headTag;
     }
 }

@@ -19,5 +19,27 @@
             <label lang="en">Format Output</label>
             <value>0</value>
         </element>
+        <element scope="shop" type="textarea">
+            <name>wbmTagManagerJsBefore</name>
+            <label lang="de">Inline JavaScript vor GTM Snippet</label>
+            <label lang="en">Inline JavaScript before GTM snippet</label>
+            <value/>
+            <options>
+                <xtype>codemirror</xtype>
+                <mode>javascript</mode>
+                <height>300</height>
+            </options>
+        </element>
+        <element scope="shop" type="textarea">
+            <name>wbmTagManagerJsAfter</name>
+            <label lang="de">Inline JavaScript nach GTM Snippet</label>
+            <label lang="en">Inline JavaScript after GTM snippet</label>
+            <value/>
+            <options>
+                <xtype>codemirror</xtype>
+                <mode>javascript</mode>
+                <height>300</height>
+            </options>
+        </element>
     </elements>
 </config>

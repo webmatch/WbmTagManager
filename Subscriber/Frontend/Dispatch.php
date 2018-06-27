@@ -30,9 +30,9 @@ class Dispatch implements SubscriberInterface
     private $variables;
 
     /**
-     * @var \Shopware_Components_Config
+     * @var array
      */
-    private $config;
+    private $pluginConfig;
 
     /**
      * @var array
@@ -41,16 +41,16 @@ class Dispatch implements SubscriberInterface
 
     /**
      * @param TagManagerVariables         $variables
-     * @param \Shopware_Components_Config $config
+     * @param array                       $pluginConfig
      * @param array                       $modules
      */
     public function __construct(
         TagManagerVariables $variables,
-        \Shopware_Components_Config $config,
+        $pluginConfig,
         $modules
     ) {
         $this->variables = $variables;
-        $this->config = $config;
+        $this->pluginConfig = $pluginConfig;
         $this->modules = $modules;
     }
 
@@ -98,8 +98,8 @@ class Dispatch implements SubscriberInterface
         $isPreDispatch = false
     ) {
         if (
-            !$this->config->getByNamespace('WbmTagManager', 'wbmTagManagerActive') ||
-            empty($this->config->getByNamespace('WbmTagManager', 'wbmTagManagerContainer'))
+            !$this->pluginConfig['wbmTagManagerActive'] ||
+            empty($this->pluginConfig['wbmTagManagerContainer'])
         ) {
             return;
         }
@@ -142,7 +142,7 @@ class Dispatch implements SubscriberInterface
                 if ($this->variables->getVariables()) {
                     $data['listing'] = $this->variables->prependDataLayer(
                         $data['listing'],
-                        $this->config->getByNamespace('WbmTagManager', 'wbmTagManagerJsonPrettyPrint')
+                        $this->pluginConfig['wbmTagManagerJsonPrettyPrint']
                     );
 
                     $response->setBody(json_encode($data));
