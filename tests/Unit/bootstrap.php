@@ -35,7 +35,13 @@ class TestKernel extends \Shopware\Kernel
         $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
         $kernel = new self('testing', true);
         $kernel->boot();
+        $formattedValue = sprintf('s:%d:"%s";', strlen('GTM-XXXXXX'), 'GTM-XXXXXX');
+        Shopware()->Db()->query(
+            'UPDATE s_core_config_elements SET value = ? WHERE name = ?',
+            [$formattedValue, 'wbmTagManagerContainer']
+        );
         $container = $kernel->getContainer();
+        $container->get('cache')->clean();
         $container->get('plugins')->Core()->ErrorHandler()->registerErrorHandler(E_ALL | E_STRICT);
         /** @var $repository \Shopware\Models\Shop\Repository */
         $repository = $container->get('models')->getRepository(Shop::class);

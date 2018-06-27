@@ -22,22 +22,10 @@ class TagManagerTests extends Enlight_Components_Test_Controller_TestCase
 
     public function testDataLayerVariables()
     {
-        static::saveConfig('wbmTagManagerContainer', 'GTM-XXXXXX');
-
         $this->dispatch('/');
 
         $dataLayerVariables = $this->variables->getVariables();
 
         $this->assertTrue($dataLayerVariables['google_tag_params']['ecomm_pagetype'] === 'home');
-    }
-
-    private static function saveConfig($name, $value)
-    {
-        $formattedValue = sprintf('s:%d:"%s";', strlen($value), $value);
-        Shopware()->Db()->query(
-            'UPDATE s_core_config_elements SET value = ? WHERE name = ?',
-            [$formattedValue, $name]
-        );
-        Shopware()->Container()->get('cache')->clean();
     }
 }
