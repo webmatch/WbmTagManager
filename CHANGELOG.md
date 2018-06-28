@@ -4,9 +4,9 @@
 - Extended backend app for adding/editing new/existing modules
 - Import/Export from/to JSON functions in backend
 - New Smarty functions and modifiers available for compiling dataLayers
-  - [dbquery] query the database
-  - [request_get] get request parameters
-  - [to_string] force cast to string
+  - `{dbquery}` query the database
+  - `{*|request_get}` get request parameters
+  - `[*|to_string}` force cast to string
 - Added config fields for inline JS before/after GTM snippet
 
 ### Changes
@@ -14,9 +14,13 @@
 - Moved GTM snippet after `<meta charset>` element if possible on Google's updated directive
 - Optional compiling of dataLayers on `preDispatch` events via module setting
 - Added/updated default dataLayers with values utilizing `{dbquery}` to fetch additional data for tracking
+  - `category` on `impressions` when loaded through ajax infinite scrolling
+  - `price` on `addToCart`
+  - `id`, `price` and `quantity` on `removeFromCart`
 - Smarty syntax-errors will be caught and will output within the dataLayer instead
 - Refactored methods concerning dataLayer compiling into `wbm_tag_manager.variables` service
 - Refactored event subscribers with streamlined injection
+- Optionally drop database tables on uninstall
 
 ## [2.1.9]
 
