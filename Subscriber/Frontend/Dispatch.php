@@ -123,8 +123,10 @@ class Dispatch implements SubscriberInterface
             return;
         }
 
-        $this->variables->setViewVariables($controller->View()->getAssign());
-        $this->variables->render($module);
+        if (!$this->variables->getVariables()) {
+            $this->variables->setViewVariables($controller->View()->getAssign());
+            $this->variables->render($module);
+        }
 
         if ($isPreDispatch) {
             return;
@@ -164,6 +166,7 @@ class Dispatch implements SubscriberInterface
             'frontend_checkout_ajaxcart',
             'frontend_checkout_ajax_add_article',
             'frontend_checkout_ajax_delete_article',
+            'frontend_checkout_deletearticle',
         ];
 
         $replace = [
@@ -171,6 +174,7 @@ class Dispatch implements SubscriberInterface
             'frontend_listing_index',
             'frontend_checkout_cart',
             'frontend_checkout_ajaxaddarticlecart',
+            'frontend_checkout_ajaxdeletearticlecart',
             'frontend_checkout_ajaxdeletearticlecart',
         ];
 
