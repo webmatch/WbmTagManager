@@ -14,6 +14,7 @@
 - Moved GTM snippet after `<meta charset>` element if possible on Google's updated directive
 - Optional compiling of dataLayers on `preDispatch` events via module setting
 - Added/updated default dataLayers with values utilizing `{dbquery}` to fetch additional data for tracking
+  - force cast `id` product numbers as strings
   - `category` on `impressions` when loaded through ajax infinite scrolling
   - `price` on `addToCart`
   - `id`, `price` and `quantity` on `removeFromCart`
