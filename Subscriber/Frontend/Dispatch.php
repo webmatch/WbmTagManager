@@ -113,11 +113,7 @@ class Dispatch implements SubscriberInterface
                 strtolower($request->getActionName()),
             ]);
 
-        if ($module == 'frontend_checkout_ajaxcart') {
-            $module = 'frontend_checkout_' . strtolower($request->getParam('action'));
-        }
-
-        $module = $this->rewriteModuleKey($module);
+        $module = $this->rewriteModuleKey($module, $request->getParam('action'));
 
         if (!isset($this->modules[$module]) || (bool) $this->modules[$module] !== $isPreDispatch) {
             return;
@@ -126,10 +122,6 @@ class Dispatch implements SubscriberInterface
         if (!$this->variables->getVariables()) {
             $this->variables->setViewVariables($controller->View()->getAssign());
             $this->variables->render($module);
-        }
-
-        if ($isPreDispatch) {
-            return;
         }
 
         // Since SW 5.3 the generic listingCountAction is used for paginated listings.
@@ -155,11 +147,16 @@ class Dispatch implements SubscriberInterface
 
     /**
      * @param string $module
+     * @param string $action
      *
      * @return string
      */
-    private function rewriteModuleKey($module)
+    private function rewriteModuleKey($module, $action)
     {
+        if ($module == 'frontend_checkout_ajaxcart') {
+            $module = 'frontend_checkout_' . strtolower($action);
+        }
+
         $search = [
             'widgets_listing_ajaxlisting',
             'widgets_listing_listingcount',
