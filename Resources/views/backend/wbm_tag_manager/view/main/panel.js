@@ -151,13 +151,13 @@ Ext.define('Shopware.apps.WbmTagManager.view.main.Panel', {
             html: '',
             listeners: {
                 afterrender: function(panel) {
-                    //Ext.Ajax.request({
-                    //    url: '',
-                    //    success: function(response) {
-                    //        panel.update(response.responseText);
-                    //        panel.show();
-                    //    }
-                    //});
+                    Ext.Ajax.request({
+                       url: 'https://plugins.webmatch.de/wbm_tag_manager/info.php',
+                       success: function(response) {
+                           panel.update(response.responseText);
+                           panel.show();
+                       }
+                    });
                 }
             }
         });
