@@ -154,24 +154,24 @@ class Repository extends ModelRepository
 
     /**
      * @return array
-     *
-     * @throws \Exception
      */
     public function getModules()
     {
         $qb = $this->getEntityManager()->getConnection()->createQueryBuilder();
         $qb->select(
                 [
-                    'module',
-                    'predispatch',
+                    '*',
                 ]
             )
             ->from('wbm_data_layer_modules');
 
-        try {
-            return $qb->execute()->fetchAll(\PDO::FETCH_KEY_PAIR);
-        } catch (\Exception $exception) {
-            return [];
+        $data = $qb->execute()->fetchAll();
+        $modules = [];
+
+        foreach ($data as $row) {
+            $modules[$row['module']] = isset($row['predispatch']) ? (bool) $row['predispatch'] : false;
         }
+
+        return $modules;
     }
 }
