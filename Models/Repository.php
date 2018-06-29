@@ -154,6 +154,8 @@ class Repository extends ModelRepository
 
     /**
      * @return array
+     *
+     * @throws \Exception
      */
     public function getModules()
     {
@@ -166,6 +168,10 @@ class Repository extends ModelRepository
             )
             ->from('wbm_data_layer_modules');
 
-        return $qb->execute()->fetchAll(\PDO::FETCH_KEY_PAIR);
+        try {
+            return $qb->execute()->fetchAll(\PDO::FETCH_KEY_PAIR);
+        } catch (\Exception $exception) {
+            return [];
+        }
     }
 }

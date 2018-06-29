@@ -115,7 +115,10 @@ class Dispatch implements SubscriberInterface
 
         $module = $this->rewriteModuleKey($module, $request->getParam('action'));
 
-        if (!isset($this->modules[$module]) || (bool) $this->modules[$module] !== $isPreDispatch) {
+        if (
+            !empty($this->modules) &&
+            (!isset($this->modules[$module]) || (bool) $this->modules[$module] !== $isPreDispatch)
+        ) {
             return;
         }
 
