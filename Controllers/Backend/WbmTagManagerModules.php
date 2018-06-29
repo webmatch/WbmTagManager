@@ -49,7 +49,7 @@ class Shopware_Controllers_Backend_WbmTagManagerModules extends Shopware_Control
     }
 
     /**
-     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws \Exception
      */
     public function saveAction()
     {
@@ -59,6 +59,17 @@ class Shopware_Controllers_Backend_WbmTagManagerModules extends Shopware_Control
         $module = $id ?
             $this->container->get('models')->getRepository(Module::class)->find($id) :
             new Module();
+
+        if ($module->getId() && $module->getModule() !== $params['module']) {
+            $this->container->get('dbal_connection')->update(
+                'wbm_data_layer_properties',
+                [
+                    'module' => $params['module'],
+                ],
+                ['module' => $module->getModule()]
+            );
+        }
+
         $module->fromArray($params);
 
         $this->container->get('models')->persist($module);
@@ -77,7 +88,7 @@ class Shopware_Controllers_Backend_WbmTagManagerModules extends Shopware_Control
     }
 
     /**
-     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws \Exception
      */
     public function deleteAction()
     {
