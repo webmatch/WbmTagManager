@@ -31,21 +31,16 @@
             <tag name="shopware.event_subscriber" />
         </service>
 
-        <service id="wbm_tag_manager.config" class="Shopware\Components\Plugin\CachedConfigReader">
-            <factory service="shopware.plugin.cached_config_reader" method="getByPluginName"/>
-            <argument type="string">WbmTagManager</argument>
-        </service>
-
         <service id="wbm_tag_manager.subscriber.frontend.dispatch" class="WbmTagManager\Subscriber\Frontend\Dispatch">
             <argument type="service" id="wbm_tag_manager.variables" />
-            <argument type="service" id="wbm_tag_manager.config" />
+            <argument type="service" id="config" />
             <argument type="service" id="wbm_tag_manager.modules" />
             <tag name="shopware.event_subscriber" />
         </service>
 
         <service id="wbm_tag_manager.subscriber.frontend.filter_render" class="WbmTagManager\Subscriber\Frontend\FilterRender">
             <argument type="service" id="wbm_tag_manager.variables" />
-            <argument type="service" id="wbm_tag_manager.config" />
+            <argument type="service" id="config" />
             <argument type="service" id="front" />
             <argument>%wbm_tag_manager.plugin_dir%</argument>
             <tag name="shopware.event_subscriber" />

@@ -22,17 +22,12 @@ use WbmTagManager\Services\TagManagerVariables;
 /**
  * Class FilterRender
  */
-class FilterRender implements SubscriberInterface
+class FilterRender extends ConfigAbstract implements SubscriberInterface
 {
     /**
      * @var TagManagerVariables
      */
     private $variables;
-
-    /**
-     * @var array
-     */
-    private $pluginConfig;
 
     /**
      * @var \Enlight_Controller_Front
@@ -45,21 +40,22 @@ class FilterRender implements SubscriberInterface
     private $pluginDir;
 
     /**
-     * @param TagManagerVariables       $variables
-     * @param array                     $pluginConfig
-     * @param \Enlight_Controller_Front $front
-     * @param string                    $pluginDir
+     * @param TagManagerVariables         $variables
+     * @param \Shopware_Components_Config $config
+     * @param \Enlight_Controller_Front   $front
+     * @param string                      $pluginDir
      */
     public function __construct(
         TagManagerVariables $variables,
-        $pluginConfig,
+        \Shopware_Components_Config $config,
         \Enlight_Controller_Front $front,
         $pluginDir
     ) {
         $this->variables = $variables;
-        $this->pluginConfig = $pluginConfig;
         $this->front = $front;
         $this->pluginDir = $pluginDir;
+
+        parent::__construct($config);
     }
 
     /**
@@ -85,11 +81,11 @@ class FilterRender implements SubscriberInterface
             return $source;
         }
 
-        $containerId = $this->pluginConfig['wbmTagManagerContainer'];
-        $prettyPrint = $this->pluginConfig['wbmTagManagerJsonPrettyPrint'];
+        $containerId = $this->pluginConfig('wbmTagManagerContainer');
+        $prettyPrint = $this->pluginConfig('wbmTagManagerJsonPrettyPrint');
 
         if (
-            $this->pluginConfig['wbmTagManagerActive'] &&
+            $this->pluginConfig('wbmTagManagerActive') &&
             !empty($containerId) &&
             strtolower($this->front->Request()->getModuleName()) != 'backend'
         ) {
@@ -168,8 +164,8 @@ class FilterRender implements SubscriberInterface
      */
     private function wrapHeadTag($headTag)
     {
-        $jsBefore = $this->pluginConfig['wbmTagManagerJsBefore'];
-        $jsAfter = $this->pluginConfig['wbmTagManagerJsAfter'];
+        $jsBefore = $this->pluginConfig('wbmTagManagerJsBefore');
+        $jsAfter = $this->pluginConfig('wbmTagManagerJsAfter');
 
         if (!empty($jsBefore)) {
             $headTag = sprintf(

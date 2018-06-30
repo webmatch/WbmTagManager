@@ -22,7 +22,7 @@ use WbmTagManager\Services\TagManagerVariables;
 /**
  * Class Dispatch
  */
-class Dispatch implements SubscriberInterface
+class Dispatch extends ConfigAbstract implements SubscriberInterface
 {
     /**
      * @var TagManagerVariables
@@ -32,26 +32,22 @@ class Dispatch implements SubscriberInterface
     /**
      * @var array
      */
-    private $pluginConfig;
-
-    /**
-     * @var array
-     */
     private $modules;
 
     /**
      * @param TagManagerVariables         $variables
-     * @param array                       $pluginConfig
+     * @param \Shopware_Components_Config $config
      * @param array                       $modules
      */
     public function __construct(
         TagManagerVariables $variables,
-        $pluginConfig,
+        \Shopware_Components_Config $config,
         $modules
     ) {
         $this->variables = $variables;
-        $this->pluginConfig = $pluginConfig;
         $this->modules = $modules;
+
+        parent::__construct($config);
     }
 
     /**
@@ -98,8 +94,8 @@ class Dispatch implements SubscriberInterface
         $isPreDispatch = false
     ) {
         if (
-            !$this->pluginConfig['wbmTagManagerActive'] ||
-            empty($this->pluginConfig['wbmTagManagerContainer'])
+            !$this->pluginConfig('wbmTagManagerActive') ||
+            empty($this->pluginConfig('wbmTagManagerContainer'))
         ) {
             return;
         }
@@ -136,7 +132,7 @@ class Dispatch implements SubscriberInterface
                 if ($this->variables->getVariables()) {
                     $data['listing'] = $this->variables->prependDataLayer(
                         $data['listing'],
-                        $this->pluginConfig['wbmTagManagerJsonPrettyPrint']
+                        $this->pluginConfig('wbmTagManagerJsonPrettyPrint')
                     );
 
                     $response->setBody(json_encode($data));
