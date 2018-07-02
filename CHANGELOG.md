@@ -1,3 +1,7 @@
+## [3.0.1]
+
+- Fixed tracking of first page search results
+
 ## [3.0.0]
 ### New Features
 
@@ -6,7 +10,7 @@
 - New Smarty functions and modifiers available for compiling dataLayers
   - `{dbquery}` query the database
   - `{*|request_get}` get request parameters
-  - `[*|to_string}` force cast to string
+  - `{*|to_string}` force cast to string
 - Added config fields for inline JS before/after GTM snippet
 
 ### Changes

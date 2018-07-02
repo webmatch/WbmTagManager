@@ -109,7 +109,11 @@ class Dispatch extends ConfigAbstract implements SubscriberInterface
                 strtolower($request->getActionName()),
             ]);
 
-        $module = $this->rewriteModuleKey($module, $request->getParam('action'));
+        $module = $this->rewriteModuleKey(
+            $module,
+            $request->getParam('action'),
+            $request->isDispatched()
+        );
 
         if (!isset($this->modules[$module]) || $this->modules[$module] !== $isPreDispatch) {
             return;
@@ -144,13 +148,21 @@ class Dispatch extends ConfigAbstract implements SubscriberInterface
     /**
      * @param string $module
      * @param string $action
+     * @param bool   $isDispatched
      *
      * @return string
      */
-    private function rewriteModuleKey($module, $action)
-    {
+    private function rewriteModuleKey(
+        $module,
+        $action,
+        $isDispatched
+    ) {
         if ($module == 'frontend_checkout_ajaxcart') {
             $module = 'frontend_checkout_' . strtolower($action);
+        }
+
+        if ($module == 'frontend_search_defaultsearch' && !$isDispatched) {
+            $module = 'frontend_search_index';
         }
 
         $search = [
