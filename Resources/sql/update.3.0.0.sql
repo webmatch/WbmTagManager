@@ -16,6 +16,30 @@ SET `value` = '{$article.ordernumber|escape|to_string}'
 WHERE `id` = 17 AND `value` = '{$article.ordernumber|escape}';
 
 UPDATE `wbm_data_layer_properties`
+SET `value` = '{$smarty.request.sAdd|escape|to_string}'
+WHERE `id` = 30 AND `value` = '{$smarty.request.sAdd|escape}';
+
+UPDATE `wbm_data_layer_properties`
+SET `value` = '{$sArticle.ordernumber|escape|to_string}'
+WHERE `id` = 46 AND `value` = '{$sArticle.ordernumber|escape}';
+
+UPDATE `wbm_data_layer_properties`
+SET `value` = '{$sArticle.ordernumber|escape|to_string}'
+WHERE `id` = 58 AND `value` = '{$sArticle.ordernumber|escape}';
+
+UPDATE `wbm_data_layer_properties`
+SET `value` = '{$sOrderNumber|escape|to_string}'
+WHERE `id` = 64 AND `value` = '{$sOrderNumber|escape}';
+
+UPDATE `wbm_data_layer_properties`
+SET `value` = '{$sArticle.ordernumber|escape|to_string}'
+WHERE `id` = 70 AND `value` = '{$sArticle.ordernumber|escape}';
+
+UPDATE `wbm_data_layer_properties`
+SET `value` = '{$sArticle.ordernumber|escape|to_string}'
+WHERE `id` = 79 AND `value` = '{$sArticle.ordernumber|escape}';
+
+UPDATE `wbm_data_layer_properties`
 SET `value` = '{if $sCategoryContent.name}{$sCategoryContent.name|escape}{elseif $smarty.request.c}{{dbquery select=\'description\' from=\'s_categories\' where=[\'id =\' => $smarty.request.c]}|escape}{/if}'
 WHERE `id` = 10 AND `value` = '{$sCategoryContent.name|escape}';
 
