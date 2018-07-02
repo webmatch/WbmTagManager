@@ -3,10 +3,15 @@
     <label lang="de">Tag Manager</label>
     <label lang="en">Tag Manager</label>
 
-    <version>3.0.0</version>
+    <version>3.0.1</version>
     <link>http://www.webmatch.de</link>
     <author>Webmatch GmbH</author>
     <compatibility minVersion="5.2.0" />
+
+    <changelog version="3.0.1">
+        <changes lang="de">Stellt das Tracking der ersten Seite der Suchergebnisse wieder her</changes>
+        <changes lang="en">Fixed tracking of first page search results</changes>
+    </changelog>
 
     <changelog version="3.0.0">
         <changes lang="de">Erweiterte Backend-App zur Bearbeitung von Modulen, Handling von Syntax-Fehlern, Smarty-Funktion zur Datenbankabfrage</changes>
