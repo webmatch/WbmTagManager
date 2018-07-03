@@ -1,3 +1,7 @@
+## [3.0.2]
+
+- Minor changes to the backend interface
+
 ## [3.0.1]
 
 - Fixed tracking of first page search results

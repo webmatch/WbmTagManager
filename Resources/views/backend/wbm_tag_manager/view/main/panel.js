@@ -25,7 +25,7 @@ Ext.define('Shopware.apps.WbmTagManager.view.main.Panel', {
         var me = this;
         me.store = Ext.create('Shopware.apps.WbmTagManager.store.Property', {
             listeners: {
-                beforeload: function (store, operation, eOpts) {
+                beforeload: function (store, operation) {
                     operation.params.moduleName = me.module;
                 }
             }
@@ -62,12 +62,12 @@ Ext.define('Shopware.apps.WbmTagManager.view.main.Panel', {
                         items: [
                             {
                                 iconCls:'sprite-plus-circle-frame',
-                                handler:function (view, rowIndex, colIndex, item) {
+                                handler:function (view, rowIndex) {
                                     var rec = view.getStore().getAt(rowIndex),
                                         parentId = 0;
 
                                     if(rec.parentNode){
-                                        var parentId = rec.get('id');
+                                        parentId = rec.get('id');
                                     }
 
                                     Ext.MessageBox.prompt('Name', '{s name=propertyNamePrompt}Property name:{/s}', function(btn, propertyName){
@@ -98,7 +98,7 @@ Ext.define('Shopware.apps.WbmTagManager.view.main.Panel', {
                                         return 'x-hidden';
                                     }
                                 },
-                                handler:function (view, rowIndex, colIndex, item) {
+                                handler:function (view, rowIndex) {
                                     var rec = view.getStore().getAt(rowIndex);
 
                                     Ext.MessageBox.confirm('{s name=deletePropertyWindow}Delete Property?{/s}', '{s name=deleteProperty}Are you sure you want to delete the property?{/s}' , function (response) {
@@ -143,22 +143,13 @@ Ext.define('Shopware.apps.WbmTagManager.view.main.Panel', {
                 }
             }
         ];
-        me.infoPanel = Ext.create('Ext.panel.Panel', {
+        me.infoPanel = Ext.create('Ext.Component', {
             dock: 'bottom',
-            hidden: true,
             height: 50,
             border: 0,
-            html: '',
-            listeners: {
-                afterrender: function(panel) {
-                    Ext.Ajax.request({
-                       url: 'https://plugins.webmatch.de/wbm_tag_manager/info.php',
-                       success: function(response) {
-                           panel.update(response.responseText);
-                           panel.show();
-                       }
-                    });
-                }
+            autoEl : {
+                tag : 'iframe',
+                src : 'https://plugins.webmatch.de/wbm_tag_manager/info.php'
             }
         });
         me.dockedItems = [
