@@ -35,6 +35,7 @@
             <argument type="service" id="wbm_tag_manager.variables" />
             <argument type="service" id="config" />
             <argument type="service" id="wbm_tag_manager.modules" />
+            <argument type="service" id="session" />
             <tag name="shopware.event_subscriber" />
         </service>
 

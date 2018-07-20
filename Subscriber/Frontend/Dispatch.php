@@ -35,17 +35,25 @@ class Dispatch extends ConfigAbstract implements SubscriberInterface
     private $modules;
 
     /**
-     * @param TagManagerVariables         $variables
-     * @param \Shopware_Components_Config $config
-     * @param array                       $modules
+     * @var \Enlight_Components_Session_Namespace
+     */
+    private $session;
+
+    /**
+     * @param TagManagerVariables                   $variables
+     * @param \Shopware_Components_Config           $config
+     * @param array                                 $modules
+     * @param \Enlight_Components_Session_Namespace $session
      */
     public function __construct(
         TagManagerVariables $variables,
         \Shopware_Components_Config $config,
-        $modules
+        $modules,
+        \Enlight_Components_Session_Namespace $session
     ) {
         $this->variables = $variables;
         $this->modules = $modules;
+        $this->session = $session;
 
         parent::__construct($config);
     }
@@ -80,6 +88,7 @@ class Dispatch extends ConfigAbstract implements SubscriberInterface
      */
     public function onPreDispatch(\Enlight_Controller_ActionEventArgs $args)
     {
+        $this->getParametersForSession($args->getRequest());
         $this->handleDispatch($args, true);
     }
 
@@ -184,5 +193,33 @@ class Dispatch extends ConfigAbstract implements SubscriberInterface
         ];
 
         return str_replace($search, $replace, $module);
+    }
+
+    /**
+     * @param \Enlight_Controller_Request_Request $request
+     */
+    private function getParametersForSession(\Enlight_Controller_Request_Request $request)
+    {
+        $parameters = $this->pluginConfig('wbmSessionParameters');
+
+        if (empty($parameters)) {
+            return;
+        }
+
+        $parameters = explode(',', $parameters);
+        $session = $this->session->offsetGet('wbmTagManager') ?: [];
+
+        foreach ($parameters as $parameter) {
+            $parameter = trim($parameter);
+            $value = $request->getParam($parameter);
+
+            if (empty($value)) {
+                continue;
+            }
+
+            $session[$parameter] = $value;
+        }
+
+        $this->session->offsetSet('wbmTagManager', $session);
     }
 }

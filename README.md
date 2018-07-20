@@ -99,3 +99,12 @@ If you're chaining multiple modifiers, make sure to always use `to_string` in la
 =>
 "123"
 ```
+
+Tracking URL Parameters
+=====
+
+To track URL parameters (e.g. for campaigns) throughout the user journey, you can set up parameters that
+will be temporary saved in the session for use in the dataLayer configuration. 
+Within the plugin configuration you can define a comma separated list of GET parameters (e.g. `utm_campaign`, `gclid`, etc).
+Those parameters can then be used in the dataLayer configuration by reading the session:
+`{$smarty.session.Shopware.wbmTagManager.nameOfTheParameter}`

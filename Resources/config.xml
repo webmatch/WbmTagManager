@@ -41,5 +41,21 @@
                 <height>300</height>
             </options>
         </element>
+        <element scope="shop" type="textarea">
+            <name>wbmSessionParameters</name>
+            <label lang="de">URL Parameter zwischenspeichern</label>
+            <label lang="en">Temporary saved URL parameters</label>
+            <value/>
+            <description lang="de"><![CDATA[
+                Kommaseparierte Liste von GET Parametern die in der Session zwischengespeichert werden sollen.
+                Die Parameter können dann in der dataLayer Konfiguration aus der Session gelesen werden:
+                {$smarty.session.Shopware .wbmTagManager.nameDesParameters}
+            ]]></description>
+            <description lang="en"><![CDATA[
+                Comma separated list of GET parameters that will be saved in the session temporary.
+                The parameters can then be used in the dataLayer configuration by reading the session:
+                {$smarty.session.Shopware .wbmTagManager.nameOfTheParameter}
+            ]]></description>
+        </element>
     </elements>
 </config>

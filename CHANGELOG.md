@@ -1,3 +1,10 @@
+## [3.1.0]
+### New Feature
+
+- New plugin configuration setting for comma separated list of GET parameters that will be saved in the session temporary.
+  The parameters can then be used in the dataLayer configuration by reading the session:
+  `{$smarty.session.Shopware.wbmTagManager.nameOfTheParameter}`
+
 ## [3.0.2]
 
 - Minor changes to the backend interface
