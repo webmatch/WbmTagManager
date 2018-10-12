@@ -65,9 +65,9 @@ class Dispatch extends ConfigAbstract implements SubscriberInterface
     {
         return [
             'Enlight_Controller_Action_PostDispatch_Frontend' => 'onPostDispatch',
-            'Enlight_Controller_Action_PostDispatch_Widgets' => 'onPostDispatch',
+            'Enlight_Controller_Action_PostDispatch_Widgets' => 'onWidgetsPostDispatch',
             'Enlight_Controller_Action_PreDispatch_Frontend' => 'onPreDispatch',
-            'Enlight_Controller_Action_PreDispatch_Widgets' => 'onPreDispatch',
+            'Enlight_Controller_Action_PreDispatch_Widgets' => 'onWidgetsPreDispatch',
         ];
     }
 
@@ -83,6 +83,26 @@ class Dispatch extends ConfigAbstract implements SubscriberInterface
 
     /**
      * @param \Enlight_Controller_ActionEventArgs $args
+     * @param bool                                $isPreDispatch
+     *
+     * @throws \Exception
+     */
+    public function onWidgetsPostDispatch(
+        \Enlight_Controller_ActionEventArgs $args,
+        $isPreDispatch = false
+    ) {
+        $module = $this->handleDispatch($args, $isPreDispatch);
+
+        $this->variables->setModule('widgets');
+        if ($this->variables->getVariables() && $module != 'widgets_listing_listingcount') {
+            $args->getResponse()->appendBody(
+                $this->variables->prependDataLayer('', $this->pluginConfig('wbmTagManagerJsonPrettyPrint'))
+            );
+        }
+    }
+
+    /**
+     * @param \Enlight_Controller_ActionEventArgs $args
      *
      * @throws \Exception
      */
@@ -94,9 +114,22 @@ class Dispatch extends ConfigAbstract implements SubscriberInterface
 
     /**
      * @param \Enlight_Controller_ActionEventArgs $args
+     *
+     * @throws \Exception
+     */
+    public function onWidgetsPreDispatch(\Enlight_Controller_ActionEventArgs $args)
+    {
+        $this->getParametersForSession($args->getRequest());
+        $this->onWidgetsPostDispatch($args, true);
+    }
+
+    /**
+     * @param \Enlight_Controller_ActionEventArgs $args
      * @param bool                                $isPreDispatch
      *
      * @throws \Exception
+     *
+     * @return string|null
      */
     public function handleDispatch(
         \Enlight_Controller_ActionEventArgs $args,
@@ -106,7 +139,7 @@ class Dispatch extends ConfigAbstract implements SubscriberInterface
             !$this->pluginConfig('wbmTagManagerActive') ||
             empty($this->pluginConfig('wbmTagManagerContainer'))
         ) {
-            return;
+            return null;
         }
 
         $controller = $args->getSubject();
@@ -125,7 +158,7 @@ class Dispatch extends ConfigAbstract implements SubscriberInterface
         );
 
         if (!isset($this->modules[$module]) || $this->modules[$module] !== $isPreDispatch) {
-            return;
+            return null;
         }
 
         $this->variables->setModule($request->getModuleName());
@@ -153,6 +186,8 @@ class Dispatch extends ConfigAbstract implements SubscriberInterface
                 }
             }
         }
+
+        return $oModule;
     }
 
     /**
