@@ -39,6 +39,11 @@ class TagManagerVariables implements TagManagerVariablesInterface
     private $smartyPlugins;
 
     /**
+     * @var string
+     */
+    private $module = 'frontend';
+
+    /**
      * @var array
      */
     private $viewVariables = [];
@@ -70,7 +75,7 @@ class TagManagerVariables implements TagManagerVariablesInterface
      */
     public function getViewVariables()
     {
-        return $this->viewVariables;
+        return $this->viewVariables[$this->module];
     }
 
     /**
@@ -78,7 +83,7 @@ class TagManagerVariables implements TagManagerVariablesInterface
      */
     public function setViewVariables($viewVariables)
     {
-        $this->viewVariables = $viewVariables;
+        $this->viewVariables[$this->module] = $viewVariables;
     }
 
     /**
@@ -86,7 +91,11 @@ class TagManagerVariables implements TagManagerVariablesInterface
      */
     public function getVariables()
     {
-        return $this->variables;
+        if (!is_array($this->variables)) {
+            return null;
+        }
+
+        return @$this->variables[$this->module];
     }
 
     /**
@@ -94,7 +103,11 @@ class TagManagerVariables implements TagManagerVariablesInterface
      */
     public function setVariables($variables)
     {
-        $this->variables = $variables;
+        if (!is_array($this->variables)) {
+            $this->variables = [];
+        }
+
+        $this->variables[$this->module] = $variables;
     }
 
     /**
@@ -173,6 +186,14 @@ class TagManagerVariables implements TagManagerVariablesInterface
             '</script>',
             $source
         );
+    }
+
+    /**
+     * @param string $module
+     */
+    public function setModule($module)
+    {
+        $this->module = $module;
     }
 
     /**

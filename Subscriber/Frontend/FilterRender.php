@@ -77,9 +77,15 @@ class FilterRender extends ConfigAbstract implements SubscriberInterface
     {
         $source = $args->getReturn();
 
-        if (strpos($source, '<html') === false && !$this->front->Request()->isXmlHttpRequest()) {
+        if (
+            strpos($source, '<html') === false &&
+            !$this->front->Request()->isXmlHttpRequest() &&
+            $this->front->Request()->getModuleName() != 'widgets'
+        ) {
             return $source;
         }
+
+        $this->variables->setModule($this->front->Request()->getModuleName());
 
         $containerId = $this->pluginConfig('wbmTagManagerContainer');
         $prettyPrint = $this->pluginConfig('wbmTagManagerJsonPrettyPrint');
@@ -89,7 +95,7 @@ class FilterRender extends ConfigAbstract implements SubscriberInterface
             !empty($containerId) &&
             strtolower($this->front->Request()->getModuleName()) != 'backend'
         ) {
-            if (!$this->front->Request()->isXmlHttpRequest() || strpos($source, '<html') !== false) {
+            if (strpos($source, '<html') !== false) {
                 $headTag = file_get_contents($this->pluginDir . '/Resources/tags/head.html');
                 $bodyTag = file_get_contents($this->pluginDir . '/Resources/tags/body.html');
 

@@ -128,6 +128,7 @@ class Dispatch extends ConfigAbstract implements SubscriberInterface
             return;
         }
 
+        $this->variables->setModule($request->getModuleName());
         if (!$this->variables->getVariables()) {
             $this->variables->setViewVariables($controller->View()->getAssign());
             $this->variables->render($module);
