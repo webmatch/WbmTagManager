@@ -3,10 +3,15 @@
     <label lang="de">Tag Manager</label>
     <label lang="en">Tag Manager</label>
 
-    <version>3.1.0</version>
+    <version>3.2.0</version>
     <link>http://www.webmatch.de</link>
     <author>Webmatch GmbH</author>
     <compatibility minVersion="5.2.0" />
+
+    <changelog version="3.2.0">
+        <changes lang="de">Support für dataLayer auf Basis von Widget Modulen</changes>
+        <changes lang="en">Added dataLayer support for widget views through custom modules</changes>
+    </changelog>
 
     <changelog version="3.1.0">
         <changes lang="de">Neues Feature: GET Parameters für dataLayer in der Session zwischenspeichern</changes>

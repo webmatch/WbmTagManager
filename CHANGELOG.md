@@ -1,3 +1,6 @@
+## [3.2.0]
+- Added dataLayer support for widget views through custom modules
+
 ## [3.1.0]
 ### New Feature
 
