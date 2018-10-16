@@ -93,7 +93,7 @@ class Dispatch extends ConfigAbstract implements SubscriberInterface
     ) {
         $module = $this->handleDispatch($args, $isPreDispatch);
 
-        $this->variables->setModule('widgets');
+        $this->variables->setModule($module);
 
         // Since SW 5.3 the generic listingCountAction is used for paginated listings.
         // Get the response json body, decode it, prepend the dataLayer to the listing key
@@ -180,7 +180,7 @@ class Dispatch extends ConfigAbstract implements SubscriberInterface
             return null;
         }
 
-        $this->variables->setModule($request->getModuleName());
+        $this->variables->setModule($request->getModuleName() === 'frontend' ? 'frontend' : $oModule);
         if (!$this->variables->getVariables()) {
             $this->variables->setViewVariables($controller->View()->getAssign());
             $this->variables->render($module);
