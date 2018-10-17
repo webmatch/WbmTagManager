@@ -76,10 +76,11 @@ class FilterRender extends ConfigAbstract implements SubscriberInterface
     public function onFilterRender(\Enlight_Event_EventArgs $args)
     {
         $source = $args->getReturn();
+        $request = $this->front->Request();
 
         if (
-            (strpos($source, '<html') === false && !$this->front->Request()->isXmlHttpRequest()) ||
-            in_array(strtolower($this->front->Request()->getModuleName()), ['widgets', 'backend'])
+            (strpos($source, '<html') === false && !$request->isXmlHttpRequest()) ||
+            in_array(strtolower($request->getModuleName()), ['widgets', 'backend'])
         ) {
             return $source;
         }
@@ -89,8 +90,17 @@ class FilterRender extends ConfigAbstract implements SubscriberInterface
         $containerId = $this->pluginConfig('wbmTagManagerContainer');
         $prettyPrint = $this->pluginConfig('wbmTagManagerJsonPrettyPrint');
 
+        $isAjaxVariant = $request->getControllerName() === 'detail' && $request->get('template') === 'ajax';
+
         if ($this->pluginConfig('wbmTagManagerActive') && !empty($containerId)) {
-            if (!$this->front->Request()->isXmlHttpRequest() || strpos($source, '<html') !== false) {
+            if ($isAjaxVariant && $this->variables->getVariables()) {
+                $anchor = '<div class="product--detail-upper block-group">';
+                $source = $this->injectMarkup(
+                    $this->variables->prependDataLayer($anchor, $prettyPrint),
+                    $source,
+                    [$anchor]
+                );
+            } elseif (!$request->isXmlHttpRequest() || strpos($source, '<html') !== false) {
                 $headTag = file_get_contents($this->pluginDir . '/Resources/tags/head.html');
                 $bodyTag = file_get_contents($this->pluginDir . '/Resources/tags/body.html');
 
