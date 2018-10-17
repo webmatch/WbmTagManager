@@ -97,11 +97,15 @@ class FilterRender extends ConfigAbstract implements SubscriberInterface
         $this->variables->setModule('frontend');
 
         if ($isAjaxVariant && $this->variables->getVariables()) {
-            $source = $this->includeDataLayerInProductDetail($source, $prettyPrint);
-        } elseif (!$request->isXmlHttpRequest() || strpos($source, '<html') !== false) {
-            $source = $this->includeDataLayerInHead($source, $containerId, $prettyPrint);
-        } elseif ($this->variables->getVariables()) {
-            $source = $this->variables->prependDataLayer($source, $prettyPrint);
+            return $this->includeDataLayerInProductDetail($source, $prettyPrint);
+        }
+
+        if (!$request->isXmlHttpRequest() || strpos($source, '<html') !== false) {
+            return $this->includeDataLayerInHead($source, $containerId, $prettyPrint);
+        }
+
+        if ($this->variables->getVariables()) {
+            return $this->variables->prependDataLayer($source, $prettyPrint);
         }
 
         return $source;
