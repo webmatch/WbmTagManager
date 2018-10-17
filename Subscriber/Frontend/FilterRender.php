@@ -85,47 +85,80 @@ class FilterRender extends ConfigAbstract implements SubscriberInterface
             return $source;
         }
 
-        $this->variables->setModule('frontend');
-
         $containerId = $this->pluginConfig('wbmTagManagerContainer');
-        $prettyPrint = $this->pluginConfig('wbmTagManagerJsonPrettyPrint');
 
+        if (!$this->pluginConfig('wbmTagManagerActive') || empty($containerId)) {
+            return $source;
+        }
+
+        $prettyPrint = $this->pluginConfig('wbmTagManagerJsonPrettyPrint');
         $isAjaxVariant = $request->getControllerName() === 'detail' && $request->get('template') === 'ajax';
 
-        if ($this->pluginConfig('wbmTagManagerActive') && !empty($containerId)) {
-            if ($isAjaxVariant && $this->variables->getVariables()) {
-                $anchor = '<div class="product--detail-upper block-group">';
-                $source = $this->injectMarkup(
-                    $this->variables->prependDataLayer($anchor, $prettyPrint),
-                    $source,
-                    [$anchor]
-                );
-            } elseif (!$request->isXmlHttpRequest() || strpos($source, '<html') !== false) {
-                $headTag = file_get_contents($this->pluginDir . '/Resources/tags/head.html');
-                $bodyTag = file_get_contents($this->pluginDir . '/Resources/tags/body.html');
+        $this->variables->setModule('frontend');
 
-                $headTag = sprintf($headTag, $containerId);
-                $bodyTag = sprintf($bodyTag, $containerId);
-
-                $headTag = $this->wrapHeadTag($headTag);
-
-                if ($this->variables->getVariables()) {
-                    $headTag = sprintf(
-                        '%s%s%s%s',
-                        '<script>',
-                        'window.dataLayer = window.dataLayer || [];',
-                        '</script>',
-                        $this->variables->prependDataLayer($headTag, $prettyPrint)
-                    );
-                }
-
-                $source = $this->injectMarkup($headTag, $source, ['<meta charset="utf-8">', '<head>']);
-                $source = $this->injectMarkup($bodyTag, $source, ['</noscript>'], true);
-
-            } elseif ($this->variables->getVariables()) {
-                $source = $this->variables->prependDataLayer($source, $prettyPrint);
-            }
+        if ($isAjaxVariant && $this->variables->getVariables()) {
+            $source = $this->includeDataLayerInProductDetail($source, $prettyPrint);
+        } elseif (!$request->isXmlHttpRequest() || strpos($source, '<html') !== false) {
+            $source = $this->includeDataLayerInHead($source, $containerId, $prettyPrint);
+        } elseif ($this->variables->getVariables()) {
+            $source = $this->variables->prependDataLayer($source, $prettyPrint);
         }
+
+        return $source;
+    }
+
+    /**
+     * @param string $source
+     * @param string $containerId
+     * @param bool   $prettyPrint
+     *
+     * @return string
+     */
+    public function includeDataLayerInHead(
+        $source,
+        $containerId,
+        $prettyPrint
+    ) {
+        $headTag = file_get_contents($this->pluginDir . '/Resources/tags/head.html');
+        $bodyTag = file_get_contents($this->pluginDir . '/Resources/tags/body.html');
+
+        $headTag = sprintf($headTag, $containerId);
+        $bodyTag = sprintf($bodyTag, $containerId);
+
+        $headTag = $this->wrapHeadTag($headTag);
+
+        if ($this->variables->getVariables()) {
+            $headTag = sprintf(
+                '%s%s%s%s',
+                '<script>',
+                'window.dataLayer = window.dataLayer || [];',
+                '</script>',
+                $this->variables->prependDataLayer($headTag, $prettyPrint)
+            );
+        }
+
+        $source = $this->injectMarkup($headTag, $source, ['<meta charset="utf-8">', '<head>']);
+        $source = $this->injectMarkup($bodyTag, $source, ['</noscript>'], true);
+
+        return $source;
+    }
+
+    /**
+     * @param string $source
+     * @param bool   $prettyPrint
+     *
+     * @return string
+     */
+    public function includeDataLayerInProductDetail(
+        $source,
+        $prettyPrint
+    ) {
+        $anchor = '<div class="product--detail-upper block-group">';
+        $source = $this->injectMarkup(
+            $this->variables->prependDataLayer($anchor, $prettyPrint),
+            $source,
+            [$anchor]
+        );
 
         return $source;
     }
