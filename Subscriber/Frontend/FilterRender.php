@@ -153,11 +153,10 @@ class FilterRender extends ConfigAbstract implements SubscriberInterface
         $source,
         $prettyPrint
     ) {
-        $anchor = '<div class="product--detail-upper block-group">';
         $source = $this->injectMarkup(
-            $this->variables->prependDataLayer($anchor, $prettyPrint),
+            $this->variables->prependDataLayer('', $prettyPrint),
             $source,
-            [$anchor]
+            ['<div class="product--detail-upper block-group">']
         );
 
         return $source;
