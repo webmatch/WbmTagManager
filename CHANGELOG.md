@@ -1,3 +1,6 @@
+## [3.2.1]
+- Use PostDispatchSecure events for controller forwards
+
 ## [3.2.0]
 - Added dataLayer support for widget views through custom modules
 

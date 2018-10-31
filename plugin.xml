@@ -3,10 +3,15 @@
     <label lang="de">Tag Manager</label>
     <label lang="en">Tag Manager</label>
 
-    <version>3.2.0</version>
+    <version>3.2.1</version>
     <link>http://www.webmatch.de</link>
     <author>Webmatch GmbH</author>
     <compatibility minVersion="5.2.0" />
+
+    <changelog version="3.2.1">
+        <changes lang="de">Nutze Secure Events zur Injektion von Variablen nach Forward-Requests</changes>
+        <changes lang="en">Use PostDispatchSecure events for controller forwards</changes>
+    </changelog>
 
     <changelog version="3.2.0">
         <changes lang="de">Support für dataLayer auf Basis von Widget Modulen</changes>

@@ -64,8 +64,8 @@ class Dispatch extends ConfigAbstract implements SubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            'Enlight_Controller_Action_PostDispatch_Frontend' => 'onPostDispatch',
-            'Enlight_Controller_Action_PostDispatch_Widgets' => 'onWidgetsPostDispatch',
+            'Enlight_Controller_Action_PostDispatchSecure_Frontend' => 'onPostDispatch',
+            'Enlight_Controller_Action_PostDispatchSecure_Widgets' => 'onWidgetsPostDispatch',
             'Enlight_Controller_Action_PreDispatch_Frontend' => 'onPreDispatch',
             'Enlight_Controller_Action_PreDispatch_Widgets' => 'onWidgetsPreDispatch',
         ];
