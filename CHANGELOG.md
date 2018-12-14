@@ -1,3 +1,6 @@
+## [3.2.2]
+- Filter smarty syntax before compiling and strip json induced escapes
+
 ## [3.2.1]
 - Use PostDispatchSecure events for controller forwards
 

@@ -3,10 +3,15 @@
     <label lang="de">Tag Manager</label>
     <label lang="en">Tag Manager</label>
 
-    <version>3.2.1</version>
+    <version>3.2.2</version>
     <link>http://www.webmatch.de</link>
     <author>Webmatch GmbH</author>
     <compatibility minVersion="5.2.0" />
+
+    <changelog version="3.2.2">
+        <changes lang="de">Json encodierte Smarty-Syntax wird demaskiert. Erlaubt bspw jetzt die Verwendung von doppelten Anführungszeichen: |cat:"foo"</changes>
+        <changes lang="en">Json encoded Smarty-Syntax is being unescaped. Now allows the use double quotes e.g. |cat:"foo"</changes>
+    </changelog>
 
     <changelog version="3.2.1">
         <changes lang="de">Nutze Secure Events zur Injektion von Variablen nach Forward-Requests</changes>

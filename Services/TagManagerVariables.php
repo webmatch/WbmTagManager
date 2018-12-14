@@ -234,6 +234,8 @@ class TagManagerVariables implements TagManagerVariablesInterface
 
         $compiler->setContext($this->getViewVariables());
 
+        $string = $this->stripSlashesFromJsonEncodedSmartySyntax($string, $compiler);
+
         try {
             return $compiler->compileString($string);
         } catch (\Exception $exception) {
@@ -274,6 +276,47 @@ class TagManagerVariables implements TagManagerVariablesInterface
                 'to_string',
                 [$this->smartyPlugins, 'toString']
             );
+        }
+    }
+
+    /**
+     * @param string                              $string
+     * @param \Shopware_Components_StringCompiler $compiler
+     *
+     * @return mixed
+     */
+    private function stripSlashesFromJsonEncodedSmartySyntax(
+        $string,
+        \Shopware_Components_StringCompiler $compiler
+    ) {
+        try {
+            $lexer = new \Smarty_Internal_Templatelexer($string, $compiler->getView());
+            $codeSnippets = [];
+            $i = 0;
+            $recording = false;
+
+            while ($lexer->yylex()) {
+                // check for key of 'RDEL'
+                if ($lexer->token === 17 && $recording) {
+                    $recording = false;
+                    $i++;
+                }
+                if ($recording) {
+                    $codeSnippets[$i] .= $lexer->value;
+                }
+                // check for key of 'LDEL', 'LDELIF', 'LDELFOR', 'LDELFOREACH'
+                if (in_array($lexer->token, [16, 22, 24, 28]) && !$recording) {
+                    $recording = true;
+                }
+            }
+
+            foreach ($codeSnippets as $codeSnippet) {
+                $string = str_replace($codeSnippet, stripslashes($codeSnippet), $string);
+            }
+
+            return $string;
+        } catch (\Exception $exception) {
+            return $string;
         }
     }
 }
