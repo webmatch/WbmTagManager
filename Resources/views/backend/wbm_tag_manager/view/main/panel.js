@@ -21,6 +21,7 @@ Ext.define('Shopware.apps.WbmTagManager.view.main.Panel', {
     alias:'widget.tag-manager-panel',
     region:'center',
     autoScroll:true,
+    requires: ['Shopware.apps.WbmTagManager.view.main.CodemirrorPrompt'],
     initComponent:function () {
         var me = this;
         me.store = Ext.create('Shopware.apps.WbmTagManager.store.Property', {
@@ -131,6 +132,40 @@ Ext.define('Shopware.apps.WbmTagManager.view.main.Panel', {
                             xtype: 'textfield',
                             editable: true
                         }
+                    },
+                    {
+                        xtype: 'actioncolumn',
+                        width: 40,
+                        items: [
+                            {
+                                iconCls: 'x-action-col-icon sprite-pencil',
+                                getClass: function(value, metadata, record) {
+                                    if (!record.get("id")) {
+                                        return 'x-hidden';
+                                    }
+                                },
+                                handler: function (view, rowIndex) {
+                                    var rec = view.getStore().getAt(rowIndex),
+                                        messagePrompt = Ext.create('Shopware.apps.WbmTagManager.view.main.CodemirrorPrompt');
+
+                                    messagePrompt.presetValue = rec.get('value');
+                                    messagePrompt.prompt(
+                                        '',
+                                        '',
+                                        function (button, value) {
+                                            if (button === 'ok') {
+                                                rec.set('value', value);
+                                                rec.save();
+                                            }
+                                        }
+                                    );
+                                    messagePrompt.setWidth(600);
+                                    messagePrompt.setHeight(350);
+                                    messagePrompt.promptContainer.setHeight(320);
+                                    messagePrompt.center();
+                                }
+                            }
+                        ]
                     }
                 ],
                 listeners: {

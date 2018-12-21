@@ -1,5 +1,6 @@
 ## [3.2.2]
 - Filter smarty syntax before compiling and strip json induced escapes
+- Added multi-line code editor for property values in backend app
 
 ## [3.2.1]
 - Use PostDispatchSecure events for controller forwards
