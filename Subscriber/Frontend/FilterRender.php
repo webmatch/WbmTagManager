@@ -40,17 +40,18 @@ class FilterRender extends ConfigAbstract implements SubscriberInterface
     private $pluginDir;
 
     /**
-     * @param TagManagerVariables         $variables
+     * @param TagManagerVariables $variables
      * @param \Shopware_Components_Config $config
-     * @param \Enlight_Controller_Front   $front
-     * @param string                      $pluginDir
+     * @param \Enlight_Controller_Front $front
+     * @param string $pluginDir
      */
     public function __construct(
         TagManagerVariables $variables,
         \Shopware_Components_Config $config,
         \Enlight_Controller_Front $front,
         $pluginDir
-    ) {
+    )
+    {
         $this->variables = $variables;
         $this->front = $front;
         $this->pluginDir = $pluginDir;
@@ -77,6 +78,10 @@ class FilterRender extends ConfigAbstract implements SubscriberInterface
     {
         $source = $args->getReturn();
         $request = $this->front->Request();
+
+        if ($this->excludeTraffic()) {
+            return $source;
+        }
 
         if (
             (strpos($source, '<html') === false && !$request->isXmlHttpRequest()) ||
@@ -112,9 +117,39 @@ class FilterRender extends ConfigAbstract implements SubscriberInterface
     }
 
     /**
+     * @return bool
+     */
+    public function excludeTraffic()
+    {
+
+        $myIp = $_SERVER['REMOTE_ADDR'];
+
+        $excludeList = $this->pluginConfig('wbmExcludeTraffic');
+
+        $excludeList = explode("\n", $excludeList);
+
+        foreach ($excludeList as $ipMatch) {
+
+            // Beschreibung nach Hashtag filtern
+            $ipMatch = trim(substr($ipMatch, 0, strpos($ipMatch, "#")));
+
+            // IP (Range) suchen
+            preg_match('/' . $ipMatch . '/', $myIp, $matches);
+
+            if ($matches[0]) {
+                return true;
+            }
+
+        }
+
+        return false;
+
+    }
+
+    /**
      * @param string $source
      * @param string $containerId
-     * @param bool   $prettyPrint
+     * @param bool $prettyPrint
      *
      * @return string
      */
@@ -122,7 +157,8 @@ class FilterRender extends ConfigAbstract implements SubscriberInterface
         $source,
         $containerId,
         $prettyPrint
-    ) {
+    )
+    {
         $headTag = file_get_contents($this->pluginDir . '/Resources/tags/head.html');
         $bodyTag = file_get_contents($this->pluginDir . '/Resources/tags/body.html');
 
@@ -149,14 +185,15 @@ class FilterRender extends ConfigAbstract implements SubscriberInterface
 
     /**
      * @param string $source
-     * @param bool   $prettyPrint
+     * @param bool $prettyPrint
      *
      * @return string
      */
     public function includeDataLayerInProductDetail(
         $source,
         $prettyPrint
-    ) {
+    )
+    {
         $source = $this->injectMarkup(
             $this->variables->prependDataLayer('', $prettyPrint),
             $source,
@@ -169,8 +206,8 @@ class FilterRender extends ConfigAbstract implements SubscriberInterface
     /**
      * @param string $injection
      * @param string $source
-     * @param array  $anchors
-     * @param bool   $before
+     * @param array $anchors
+     * @param bool $before
      *
      * @return string
      */
@@ -179,7 +216,8 @@ class FilterRender extends ConfigAbstract implements SubscriberInterface
         $source,
         $anchors = [],
         $before = false
-    ) {
+    )
+    {
         foreach ($anchors as $anchor) {
             $anchorRegex = '/' . str_replace('/', '\/', $anchor) . '/';
 

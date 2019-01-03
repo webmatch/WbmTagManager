@@ -57,5 +57,21 @@
                 {$smarty.session.Shopware .wbmTagManager.nameOfTheParameter}
             ]]></description>
         </element>
+        <element scope="shop" type="textarea">
+            <name>wbmExcludeTraffic</name>
+            <label lang="de">IP Filter</label>
+            <label lang="en">IP Filter</label>
+            <value/>
+            <description lang="de"><![CDATA[
+                Eine Liste von IP Adressen, in der kein Tracking erfasst wird.
+                Regex IP Adresse - Beschreibung (Optional).
+                Benutze diesen Link: http://www.analyticsmarket.com/freetools/ipregex
+            ]]></description>
+            <description lang="en"><![CDATA[
+                Eine Liste von IP Adressen, in der kein Tracking erfasst wird.
+                Regex IP Address - Description (Optional).
+                Use this: http://www.analyticsmarket.com/freetools/ipregex
+            ]]></description>
+        </element>
     </elements>
 </config>
