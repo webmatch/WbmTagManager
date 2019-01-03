@@ -130,10 +130,8 @@ class FilterRender extends ConfigAbstract implements SubscriberInterface
 
         foreach ($excludeList as $ipMatch) {
 
-            // Beschreibung nach Hashtag filtern
             $ipMatch = trim(substr($ipMatch, 0, strpos($ipMatch, "#")));
 
-            // IP (Range) suchen
             preg_match('/' . $ipMatch . '/', $myIp, $matches);
 
             if ($matches[0]) {
