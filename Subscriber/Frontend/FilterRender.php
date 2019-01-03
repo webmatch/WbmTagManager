@@ -132,10 +132,14 @@ class FilterRender extends ConfigAbstract implements SubscriberInterface
 
             $ipMatch = trim(substr($ipMatch, 0, strpos($ipMatch, "#")));
 
-            preg_match('/' . $ipMatch . '/', $myIp, $matches);
+            if (!empty($ipMatch)) {
 
-            if ($matches[0]) {
-                return true;
+                preg_match('/' . $ipMatch . '/', $myIp, $matches);
+
+                if ($matches[0]) {
+                    return true;
+                }
+
             }
 
         }
