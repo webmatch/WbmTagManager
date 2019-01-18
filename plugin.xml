@@ -3,10 +3,15 @@
     <label lang="de">Tag Manager</label>
     <label lang="en">Tag Manager</label>
 
-    <version>3.2.2</version>
+    <version>3.2.3</version>
     <link>http://www.webmatch.de</link>
     <author>Webmatch GmbH</author>
     <compatibility minVersion="5.2.0" />
+
+    <changelog version="3.2.3">
+        <changes lang="de">Cast boolean property values properly</changes>
+        <changes lang="en">Typumwandlung boolescher Werte in Eigenschaften</changes>
+    </changelog>
 
     <changelog version="3.2.2">
         <changes lang="de">Json encodierte Smarty-Syntax wird demaskiert. Erlaubt bspw jetzt die Verwendung von doppelten Anführungszeichen: |cat:"foo"</changes>

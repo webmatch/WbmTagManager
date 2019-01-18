@@ -1,3 +1,6 @@
+## [3.2.3]
+- Cast boolean property values properly
+
 ## [3.2.2]
 - Filter smarty syntax before compiling and strip json induced escapes
 - Added multi-line code editor for property values in backend app

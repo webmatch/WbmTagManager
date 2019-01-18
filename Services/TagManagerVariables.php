@@ -211,6 +211,7 @@ class TagManagerVariables implements TagManagerVariablesInterface
             case is_array(json_decode($value)):
             case is_int(json_decode($value)):
             case is_float(json_decode($value)):
+            case is_bool(json_decode($value)):
                 $value = json_decode($value);
         }
     }
