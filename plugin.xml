@@ -9,8 +9,8 @@
     <compatibility minVersion="5.2.0" />
 
     <changelog version="3.2.3">
-        <changes lang="de">Cast boolean property values properly</changes>
-        <changes lang="en">Typumwandlung boolescher Werte in Eigenschaften</changes>
+        <changes lang="de">Cast boolean property values properly, type hinted interfaces for service decoration</changes>
+        <changes lang="en">Typumwandlung boolescher Werte in Eigenschaften, typed hinted Interfaces zur Service Decoration</changes>
     </changelog>
 
     <changelog version="3.2.2">

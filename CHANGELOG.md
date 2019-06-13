@@ -1,5 +1,6 @@
 ## [3.2.3]
 - Cast boolean property values properly
+- type hinted interfaces for service decoration
 
 ## [3.2.2]
 - Filter smarty syntax before compiling and strip json induced escapes

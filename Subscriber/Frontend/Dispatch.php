@@ -17,7 +17,7 @@
 namespace WbmTagManager\Subscriber\Frontend;
 
 use Enlight\Event\SubscriberInterface;
-use WbmTagManager\Services\TagManagerVariables;
+use WbmTagManager\Services\TagManagerVariablesInterface;
 
 /**
  * Class Dispatch
@@ -25,7 +25,7 @@ use WbmTagManager\Services\TagManagerVariables;
 class Dispatch extends ConfigAbstract implements SubscriberInterface
 {
     /**
-     * @var TagManagerVariables
+     * @var TagManagerVariablesInterface
      */
     private $variables;
 
@@ -40,13 +40,13 @@ class Dispatch extends ConfigAbstract implements SubscriberInterface
     private $session;
 
     /**
-     * @param TagManagerVariables                   $variables
+     * @param TagManagerVariablesInterface          $variables
      * @param \Shopware_Components_Config           $config
      * @param array                                 $modules
      * @param \Enlight_Components_Session_Namespace $session
      */
     public function __construct(
-        TagManagerVariables $variables,
+        TagManagerVariablesInterface $variables,
         \Shopware_Components_Config $config,
         $modules,
         \Enlight_Components_Session_Namespace $session

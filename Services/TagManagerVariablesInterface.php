@@ -43,4 +43,9 @@ interface TagManagerVariablesInterface
      * @return string
      */
     public function prependDataLayer($source, $prettyPrint = false);
+
+    /**
+     * @param string $module
+     */
+    public function setModule($module);
 }

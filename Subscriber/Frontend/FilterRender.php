@@ -17,7 +17,7 @@
 namespace WbmTagManager\Subscriber\Frontend;
 
 use Enlight\Event\SubscriberInterface;
-use WbmTagManager\Services\TagManagerVariables;
+use WbmTagManager\Services\TagManagerVariablesInterface;
 
 /**
  * Class FilterRender
@@ -25,7 +25,7 @@ use WbmTagManager\Services\TagManagerVariables;
 class FilterRender extends ConfigAbstract implements SubscriberInterface
 {
     /**
-     * @var TagManagerVariables
+     * @var TagManagerVariablesInterface
      */
     private $variables;
 
@@ -40,13 +40,13 @@ class FilterRender extends ConfigAbstract implements SubscriberInterface
     private $pluginDir;
 
     /**
-     * @param TagManagerVariables         $variables
-     * @param \Shopware_Components_Config $config
-     * @param \Enlight_Controller_Front   $front
-     * @param string                      $pluginDir
+     * @param TagManagerVariablesInterface $variables
+     * @param \Shopware_Components_Config  $config
+     * @param \Enlight_Controller_Front    $front
+     * @param string                       $pluginDir
      */
     public function __construct(
-        TagManagerVariables $variables,
+        TagManagerVariablesInterface $variables,
         \Shopware_Components_Config $config,
         \Enlight_Controller_Front $front,
         $pluginDir
