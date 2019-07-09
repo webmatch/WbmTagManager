@@ -33,22 +33,21 @@ Ext.define('Shopware.apps.WbmTagManager.view.main.CodemirrorPrompt', {
     _createCodemirrorPrompt: function() {
         var me = this,
             codemirrorfield = Ext.create('Shopware.form.field.CodeMirror', {
-            id: me.id + '-textfield',
-            anchor: '100%',
-            enableKeyEvents: true,
-            mode: 'smarty',
-            listeners: {
-                    keydown: me.onPromptKey,
-                    scope: me
-                }
+                id: me.id + '-textfield',
+                anchor: '100%',
+                enableKeyEvents: true,
+                mode: 'smarty'
             });
 
-        codemirrorfield.focus = Ext.emptyFn;
-        codemirrorfield.on('editorready', function(editorField, editor) {
+        codemirrorfield.on('editorcreated', function(editor) {
             editor.setValue(me.presetValue);
-            editor.setOption('lineWrapping', true);
             codemirrorfield.focus = function() {
-                codemirrorfield.editor.focus();
+                editor.getSession()._emit('change', {
+                    start: { row: 0, column: 0 },
+                    end: { row: 0, column: 0 },
+                    action: 'insert',
+                    lines: []
+                });
             };
         });
 

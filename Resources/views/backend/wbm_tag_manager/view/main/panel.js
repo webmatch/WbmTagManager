@@ -154,13 +154,13 @@ Ext.define('Shopware.apps.WbmTagManager.view.main.Panel', {
                                         '',
                                         function (button, value) {
                                             if (button === 'ok') {
-                                                rec.set('value', value);
+                                                rec.set('value', value.replace(/(\r\n|\n|\r)/gm, ''));
                                                 rec.save();
                                             }
                                         }
                                     );
                                     messagePrompt.setWidth(600);
-                                    messagePrompt.setHeight(350);
+                                    messagePrompt.setHeight(250);
                                     messagePrompt.promptContainer.setHeight(320);
                                     messagePrompt.center();
                                 }
