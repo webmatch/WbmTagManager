@@ -14,6 +14,12 @@
             <value/>
         </element>
         <element scope="shop" type="boolean">
+            <name>wbmTagManagerCookieConsent</name>
+            <label lang="de">Cookie Consent Unterstützung</label>
+            <label lang="en">Cookie consent support</label>
+            <value>0</value>
+        </element>
+        <element scope="shop" type="boolean">
             <name>wbmTagManagerJsonPrettyPrint</name>
             <label lang="de">Ausgabe formatieren</label>
             <label lang="en">Format Output</label>
