@@ -46,5 +46,12 @@
             <argument>%wbm_tag_manager.plugin_dir%</argument>
             <tag name="shopware.event_subscriber" />
         </service>
+
+        <service id="WbmTagManager\Subscriber\Frontend\CookieConsent">
+            <argument type="service" id="config" />
+            <argument type="service" id="snippets" />
+            <argument>%wbm_tag_manager.plugin_dir%</argument>
+            <tag name="shopware.event_subscriber" />
+        </service>
     </services>
 </container>
