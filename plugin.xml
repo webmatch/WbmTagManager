@@ -3,10 +3,15 @@
     <label lang="de">Tag Manager</label>
     <label lang="en">Tag Manager</label>
 
-    <version>3.2.4</version>
+    <version>3.3.0</version>
     <link>http://www.webmatch.de</link>
     <author>Webmatch GmbH</author>
     <compatibility minVersion="5.2.0" />
+
+    <changelog version="3.3.0">
+        <changes lang="de">Hinzufügen des Supports für den Shopware Cookie Consent Manager</changes>
+        <changes lang="en">Add support for shopware cookie consent manager</changes>
+    </changelog>
 
     <changelog version="3.2.4">
         <changes lang="de">Update für Ace Code-Editor ab Shopware 5.6</changes>
