@@ -2,6 +2,7 @@
 ### New Feature
 
 - Add support for shopware cookie consent manager (https://docs.shopware.com/en/shopware-5-en/settings/privacy)
+- Raise min. compatibility to Shopware `5.6.3`, since Cookie Consent feature is only available from `5.6.3`
 
 ### Changes
 

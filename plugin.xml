@@ -6,7 +6,7 @@
     <version>3.3.0</version>
     <link>http://www.webmatch.de</link>
     <author>Webmatch GmbH</author>
-    <compatibility minVersion="5.2.0" />
+    <compatibility minVersion="5.6.3" />
 
     <changelog version="3.3.0">
         <changes lang="de">Hinzufügen des Supports für den Shopware Cookie Consent Manager</changes>
