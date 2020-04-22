@@ -45,16 +45,10 @@ script:
 after_success:
   - ./build.sh
 
-#matrix:
-#  allow_failures:
-#  - env: SHOPWARE_VERSION="5.2"
-#  - env: SHOPWARE_VERSION="5.5"
-#  - php: nightly
-
 deploy:
   provider: releases
   api_key:
-    secure: F5H9b/vTrvzh5R6yaKkwID9mWK+EuGOBI3KSmzi+mHorbRs/63xHI3YmwkRIAtli0QjDTCQNTUlKiDk1RNK/nKs8cNqcQ7dsI5EgCw3WzhupzWl+8W/mJynh+beFZC4L1UJiapl3CYqqwqcedmz6zgbS9+JqNNjE+8OrKmLgrT3g1xCYK70bnizjJHl3fQfp2GJIrn0vy9cG2NKAFFemhdwOzOwTO8uTTOfGRAn/E5pF97VruF1PjpK30il/dx/UDOALuyxxygvJDJP7tDNTd+j9pjskngz1CGKQo6PBKKUYQ1llqnnB3YbUaGqUamaghFw4hyQfgjcY9zbtMz73szZMO40rViBGl2oQp+Ghm7qQNZGmpMa/LxlPaMNZOmPOvSM6Uc6JAIvzT2OOy15n/C98woDVArl/0yqLXlB7Hfro1yrs43lkaf4YvaZOEnwLIotkqoFa6hvmSrLoLAMtKtwCf3bPxe9/02J/RSYp+l4k4OZ6B3YEIUgucR0ErMSGSb6scC8hJaV1OLc3mNTM8DLzcvcC542Diwy6dg0Tk2okpH1qPggeFdU6vNuC4c48CxlPtKTnfUWmM3/xBcXp4sjFcjeOp5KPEdSK3krvfBLGeeqLo3oeqHvvh/x/we2LdqnMSMAlXAQYSLFFxc4OavYIf7bGIonHeeymwzkCb2g=
+    secure: ${GITHUB_TOKEN}
   file_glob: true
   file: WbmTagManager*.zip
   on:
