@@ -1,3 +1,7 @@
+## [3.3.1]
+
+- Rename Github Token for Travis CI
+
 ## [3.3.0]
 ### New Feature
 

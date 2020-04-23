@@ -3,10 +3,15 @@
     <label lang="de">Tag Manager</label>
     <label lang="en">Tag Manager</label>
 
-    <version>3.3.0</version>
+    <version>3.3.!</version>
     <link>http://www.webmatch.de</link>
     <author>Webmatch GmbH</author>
     <compatibility minVersion="5.6.3" />
+
+    <changelog version="3.3.1">
+        <changes lang="de">Umbenennung des Github Tokens für Travis CI</changes>
+        <changes lang="en">Rename Github token for Travis CI</changes>
+    </changelog>
 
     <changelog version="3.3.0">
         <changes lang="de">Hinzufügen des Supports für den Shopware Cookie Consent Manager</changes>
