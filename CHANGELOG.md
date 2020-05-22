@@ -1,3 +1,8 @@
+## [3.4.0]
+### New Feature
+
+- Add product click tracking support
+
 ## [3.3.0]
 ### New Feature
 

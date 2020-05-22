@@ -3,7 +3,7 @@
     <label lang="de">Tag Manager</label>
     <label lang="en">Tag Manager</label>
 
-    <version>3.3.0</version>
+    <version>3.4.0</version>
     <link>http://www.webmatch.de</link>
     <author>Webmatch GmbH</author>
     <compatibility minVersion="5.6.3" />
