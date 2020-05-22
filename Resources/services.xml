@@ -31,6 +31,12 @@
             <tag name="shopware.event_subscriber" />
         </service>
 
+        <service id="wbm_tag_manager.subscriber.frontend.theme"
+                 class="WbmTagManager\Subscriber\Frontend\ThemeSubscriber">
+            <tag name="shopware.event_subscriber"/>
+            <argument>%wbm_tag_manager.plugin_dir%</argument>
+        </service>
+
         <service id="wbm_tag_manager.subscriber.frontend.dispatch" class="WbmTagManager\Subscriber\Frontend\Dispatch">
             <argument type="service" id="wbm_tag_manager.variables" />
             <argument type="service" id="config" />
