@@ -1,3 +1,7 @@
+## [3.4.0]
+- add possibility to add script-tag-attributes
+- add possibility to extend googletagmanager.com URL
+
 ## [3.3.0]
 ### New Feature
 

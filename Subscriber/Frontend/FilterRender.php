@@ -123,14 +123,20 @@ class FilterRender extends ConfigAbstract implements SubscriberInterface
         $containerId,
         $prettyPrint
     ) {
+        $extendedUrlParams = trim($this->pluginConfig('wbmExtendedURLParameter'));
         $headTag = '';
         if (!$this->pluginConfig('wbmTagManagerCookieConsent')) {
             $headTag = file_get_contents($this->pluginDir . '/Resources/tags/head.html');
-            $headTag = sprintf($headTag, $containerId);
+            $headTag = sprintf(
+                $headTag,
+                (!empty($this->pluginConfig('wbmScriptTagAttributes')) ? ' ' . $this->pluginConfig('wbmScriptTagAttributes') : ''),
+                $extendedUrlParams,
+                $containerId
+            );
         }
 
         $bodyTag = file_get_contents($this->pluginDir . '/Resources/tags/body.html');
-        $bodyTag = sprintf($bodyTag, $containerId);
+        $bodyTag = sprintf($bodyTag, $containerId, $extendedUrlParams);
 
         $headTag = $this->wrapHeadTag($headTag);
 
