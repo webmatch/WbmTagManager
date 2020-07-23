@@ -63,5 +63,45 @@
                 {$smarty.session.Shopware .wbmTagManager.nameOfTheParameter}
             ]]></description>
         </element>
+        <element scope="shop" type="text">
+            <name>wbmScriptTagAttributes</name>
+            <label lang="de">Script-Tag Attribute (optional/expert)</label>
+            <label lang="en">Script-Tag atttributes (optional/expert)</label>
+            <value/>
+            <description lang="de"><![CDATA[
+                Schreiben Sie die Script-Tag Attribute hier rein. Diese werden unverändert dem öffenden Script-Tag
+                hinzugfügt. z.B: <br>type="text/javascript" data-some="thing"<br> wird zu
+                &lt;script type="text/javascript" data-some="thing"&gt; <hr>
+                Änderungen am Inhalt dieses Feldes können dazu führen, dass der Google Tag Manager nicht mehr
+                ordnungsgemäß funktioniert und sollte daher nur von erfahrenden Nutzern durchgeführt werden.
+            ]]></description>
+            <description lang="en"><![CDATA[
+                Add your Script-Tag attributes here. They will be parsed to the opening script-tag. e.g.
+                <br>type="text/javascript" data-some="thing"<br> becomes
+                &lt;script type="text/javascript" data-some="thing"&gt; <hr>
+                Changes to the content of this field can break the funcionality of Google Tag Manager and should
+                therefore only be done by experienced users.
+            ]]></description>
+        </element>
+        <element scope="shop" type="text">
+            <name>wbmExtendedURLParameter</name>
+            <label lang="de">Zusätzliche URL Parameter (optional/expert)</label>
+            <label lang="en">Extended URL parameter (optional/expert)</label>
+            <value/>
+            <description lang="de"><![CDATA[
+                Schreiben Sie zusätzliche GTM-URL Paramter für Test/Staging Umgebung hier rein. Diese werden an die
+                googetagmanger.com URL angehängt. z.B.
+                <br>&amp;gtm_auth=sOmeR4nd0mh45h&amp;gtm_preview=env-69&amp;gtm_cookies_win=x <hr>
+                Änderungen am Inhalt dieses Feldes können dazu führen, dass der Google Tag Manager nicht mehr
+                ordnungsgemäß funktioniert und sollte daher nur von erfahrenden Nutzern durchgeführt werden.
+            ]]></description>
+            <description lang="en"><![CDATA[
+                Add your extending GTM-URL parameter for test/stage environments here. These will be added to the
+                googetagmanger.com URL. e.g.
+                <br>&amp;gtm_auth=sOmeR4nd0mh45h&amp;gtm_preview=env-69&amp;gtm_cookies_win=x <hr>
+                Changes to the content of this field can break the funcionality of Google Tag Manager and should
+                therefore only be done by experienced users.
+            ]]></description>
+        </element>
     </elements>
 </config>

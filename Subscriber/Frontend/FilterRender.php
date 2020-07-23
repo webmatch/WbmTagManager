@@ -123,14 +123,20 @@ class FilterRender extends ConfigAbstract implements SubscriberInterface
         $containerId,
         $prettyPrint
     ) {
+        $extendedUrlParams = trim($this->pluginConfig('wbmExtendedURLParameter'));
         $headTag = '';
         if (!$this->pluginConfig('wbmTagManagerCookieConsent')) {
             $headTag = file_get_contents($this->pluginDir . '/Resources/tags/head.html');
-            $headTag = sprintf($headTag, $containerId);
+            $headTag = sprintf(
+                $headTag,
+                (!empty($this->pluginConfig('wbmScriptTagAttributes')) ? ' ' . $this->pluginConfig('wbmScriptTagAttributes') : ''),
+                $extendedUrlParams,
+                $containerId
+            );
         }
 
         $bodyTag = file_get_contents($this->pluginDir . '/Resources/tags/body.html');
-        $bodyTag = sprintf($bodyTag, $containerId);
+        $bodyTag = sprintf($bodyTag, $containerId, $extendedUrlParams);
 
         $headTag = $this->wrapHeadTag($headTag);
 
@@ -145,7 +151,7 @@ class FilterRender extends ConfigAbstract implements SubscriberInterface
         }
 
         $source = $this->injectMarkup($headTag, $source, ['<meta charset="utf-8">', '<head>']);
-        $source = $this->injectMarkup($bodyTag, $source, ['</noscript>'], true);
+        $source = $this->injectMarkup($bodyTag, $source, ['<body[^>]*>']);
 
         return $source;
     }
@@ -186,11 +192,11 @@ class FilterRender extends ConfigAbstract implements SubscriberInterface
         foreach ($anchors as $anchor) {
             $anchorRegex = '/' . str_replace('/', '\/', $anchor) . '/';
 
-            if (preg_match($anchorRegex, $source)) {
+            if (preg_match($anchorRegex, $source, $matches)) {
                 if ($before) {
-                    $injection .= $anchor;
+                    $injection .= $matches[0];
                 } else {
-                    $injection = $anchor . $injection;
+                    $injection = $matches[0] . $injection;
                 }
 
                 $source = preg_replace(
