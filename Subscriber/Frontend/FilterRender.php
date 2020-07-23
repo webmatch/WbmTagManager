@@ -151,7 +151,7 @@ class FilterRender extends ConfigAbstract implements SubscriberInterface
         }
 
         $source = $this->injectMarkup($headTag, $source, ['<meta charset="utf-8">', '<head>']);
-        $source = $this->injectMarkup($bodyTag, $source, ['</noscript>'], true);
+        $source = $this->injectMarkup($bodyTag, $source, ['<body[^>]*>']);
 
         return $source;
     }
@@ -192,11 +192,11 @@ class FilterRender extends ConfigAbstract implements SubscriberInterface
         foreach ($anchors as $anchor) {
             $anchorRegex = '/' . str_replace('/', '\/', $anchor) . '/';
 
-            if (preg_match($anchorRegex, $source)) {
+            if (preg_match($anchorRegex, $source, $matches)) {
                 if ($before) {
-                    $injection .= $anchor;
+                    $injection .= $matches[0];
                 } else {
-                    $injection = $anchor . $injection;
+                    $injection = $matches[0] . $injection;
                 }
 
                 $source = preg_replace(
