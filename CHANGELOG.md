@@ -1,7 +1,6 @@
 ## [3.4.0]
-### New Feature
-
-- Add product click tracking support
+- add possibility to add script-tag-attributes
+- add possibility to extend googletagmanager.com URL
 
 ## [3.3.0]
 ### New Feature
