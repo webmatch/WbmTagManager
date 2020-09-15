@@ -1,5 +1,6 @@
 ## [3.5.0]
 - Add product click tracking support
+- Added default dataLayers with values
 
 ## [3.4.0]
 - add possibility to add script-tag-attributes

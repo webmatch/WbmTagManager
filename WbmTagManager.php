@@ -102,6 +102,10 @@ class WbmTagManager extends \Shopware\Components\Plugin
             $sql .= file_get_contents($this->getPath() . '/Resources/sql/update.3.0.0.sql');
             $this->container->get('shopware.db')->query($sql);
         }
+        if (version_compare($currentVersion, '3.5.0', '<')) {
+            $sql .= file_get_contents($this->getPath() . '/Resources/sql/update.3.5.0.sql');
+            $this->container->get('shopware.db')->query($sql);
+        }
 
         $context->scheduleClearCache(InstallContext::CACHE_LIST_ALL);
     }
