@@ -1,3 +1,6 @@
+## [3.5.1]
+- move tag manager script to the head
+
 ## [3.5.0]
 - Add product click tracking support
 
