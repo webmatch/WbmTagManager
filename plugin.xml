@@ -3,10 +3,15 @@
     <label lang="de">Tag Manager</label>
     <label lang="en">Tag Manager</label>
 
-    <version>3.5.0</version>
+    <version>3.5.1</version>
     <link>http://www.webmatch.de</link>
     <author>Webmatch GmbH</author>
     <compatibility minVersion="5.6.3" />
+
+    <changelog version="3.5.1">
+        <changes lang="de">Behebt XSS Sicherheitslücke über den Suchbegriff auf der Suchseite</changes>
+        <changes lang="en">Fix XSS security breach over site search term</changes>
+    </changelog>
 
     <changelog version="3.5.0">
         <changes lang="de">Hinzufügen der Möglichkeit des tracken von Produktklicks</changes>
