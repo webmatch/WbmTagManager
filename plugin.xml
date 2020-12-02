@@ -7,6 +7,8 @@
     <copyright>Webmatch GmbH</copyright>
     <license>proprietary</license>
     <link>http://www.webmatch.de</link>
+    <description lang="en">Google Tag Manager + Enhanced E-Commerce Tracking for Shopware</description>
+    <description lang="de">Google Tag Manager + Enhanced E-Commerce Tracking für Shopware</description>
     <author>Webmatch GmbH</author>
     <compatibility minVersion="5.6.3" />
 
