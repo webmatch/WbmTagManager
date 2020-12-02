@@ -4,6 +4,8 @@
     <label lang="en">Tag Manager</label>
 
     <version>3.5.1</version>
+    <copyright>Webmatch GmbH</copyright>
+    <license>proprietary</license>
     <link>http://www.webmatch.de</link>
     <author>Webmatch GmbH</author>
     <compatibility minVersion="5.6.3" />
