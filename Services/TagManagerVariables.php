@@ -173,15 +173,21 @@ class TagManagerVariables implements TagManagerVariablesInterface
      */
     public function prependDataLayer($source, $prettyPrint = false)
     {
+        $variables = $this->getVariables();
+
+        array_walk_recursive($variables, static function (&$item) {
+            $item = htmlspecialchars($item);
+        });
+
         return sprintf(
             '%s%s%s%s',
             '<script>',
             sprintf(
                 'window.dataLayer.push(%s);',
-                json_encode(
-                    $this->getVariables(),
-                    ($prettyPrint) ? JSON_PRETTY_PRINT : null
-                )
+                    json_encode(
+                        $variables,
+                        ($prettyPrint) ? JSON_PRETTY_PRINT : null
+                    )
             ),
             '</script>',
             $source
