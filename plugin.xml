@@ -3,7 +3,7 @@
     <label lang="de">Tag Manager</label>
     <label lang="en">Tag Manager</label>
 
-    <version>3.5.1</version>
+    <version>3.5.2</version>
     <copyright>Webmatch GmbH</copyright>
     <license>proprietary</license>
     <link>http://www.webmatch.de</link>
@@ -11,6 +11,11 @@
     <description lang="de">Google Tag Manager + Enhanced E-Commerce Tracking für Shopware</description>
     <author>Webmatch GmbH</author>
     <compatibility minVersion="5.6.3" />
+
+    <changelog version="3.5.2">
+        <changes lang="de">Verschiebt das Google Tag Manager Skript in den head</changes>
+        <changes lang="en">Move tag manager script to the head</changes>
+    </changelog>
 
     <changelog version="3.5.1">
         <changes lang="de">Behebt XSS Sicherheitslücke über den Suchbegriff auf der Suchseite</changes>
