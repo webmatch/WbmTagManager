@@ -1,3 +1,6 @@
+## [3.5.3]
+- Add compatibility for Shopware 5.7
+
 ## [3.5.2]
 - move tag manager script to the head
 
