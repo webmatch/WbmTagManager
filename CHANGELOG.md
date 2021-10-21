@@ -1,3 +1,6 @@
+## [3.5.4]
+- Fix missing removeFromCart tracking on the /checkout/cart page, tracking is not configurable
+
 ## [3.5.3]
 - Add compatibility for Shopware 5.7
 
