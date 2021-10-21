@@ -28,9 +28,5 @@
         }
     });
 
-    $.subscribe('plugin/swInfiniteScrolling/onFetchNewPageFinished', function () {
-        StateManager.addPlugin('.cart-item-delete', 'wbmRemoveFromCartTracking');
-    });
-
     StateManager.addPlugin('.cart-item-delete', 'wbmRemoveFromCartTracking');
 })(jQuery, window);
