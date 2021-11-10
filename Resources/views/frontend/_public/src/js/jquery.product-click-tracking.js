@@ -4,6 +4,10 @@
             var me = this;
 
             me.setImpressions();
+            
+            if (me.impressions === undefined) {
+                return;
+            }
 
             me._on(me.$el, 'click', $.proxy(me.onProductClicked, me));
         },
