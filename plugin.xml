@@ -3,7 +3,7 @@
     <label lang="de">Tag Manager</label>
     <label lang="en">Tag Manager</label>
 
-    <version>3.5.3</version>
+    <version>3.5.4</version>
     <copyright>Webmatch GmbH</copyright>
     <license>proprietary</license>
     <link>http://www.webmatch.de</link>
@@ -11,6 +11,11 @@
     <description lang="de">Google Tag Manager + Enhanced E-Commerce Tracking für Shopware</description>
     <author>Webmatch GmbH</author>
     <compatibility minVersion="5.6.3" />
+
+    <changelog version="3.5.4">
+        <changes lang="de">Behebt einen Null-Pointer Exception beim tracken der Produktklicks (Danke an @nicoanders)</changes>
+        <changes lang="en">Fix null pointer exception for tracking of product clicks (thanks to @nicoanders)</changes>
+    </changelog>
 
     <changelog version="3.5.3">
         <changes lang="de">Hinzufügen der Kompatibilität für Shopware 5.7</changes>
