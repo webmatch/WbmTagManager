@@ -103,5 +103,11 @@
                 therefore only be done by experienced users.
             ]]></description>
         </element>
+                <element scope="shop" type="boolean">
+            <name>wbmTagManagerPagespeed</name>
+            <label lang="de">Pagespeed Optimierung</label>
+            <label lang="en">Optimize for Pagespeed</label>
+            <value>1</value>
+        </element>
     </elements>
 </config>
