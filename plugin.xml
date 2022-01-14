@@ -17,6 +17,11 @@
         <changes lang="en">Fix missing removeFromCart tracking on the cart page, data is not configurable in the backend</changes>
     </changelog>
 
+    <changelog version="3.5.4">
+        <changes lang="de">Behebt einen Null-Pointer Exception beim tracken der Produktklicks (Danke an @nicoanders)</changes>
+        <changes lang="en">Fix null pointer exception for tracking of product clicks (thanks to @nicoanders)</changes>
+    </changelog>
+
     <changelog version="3.5.3">
         <changes lang="de">Hinzufügen der Kompatibilität für Shopware 5.7</changes>
         <changes lang="en">Add compatibility for Shopware 5.7</changes>
