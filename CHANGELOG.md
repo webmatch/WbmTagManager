@@ -1,4 +1,7 @@
 ## [3.5.4]
+- Fix missing removeFromCart tracking on the /checkout/cart page, tracking is not configurable
+
+## [3.5.4]
 - Behebt einen Null-Pointer Exception beim tracken der Produktklicks (Danke an @nicoanders)
 
 ## [3.5.3]
