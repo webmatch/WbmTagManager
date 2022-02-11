@@ -92,28 +92,9 @@ class Dispatch extends ConfigAbstract implements SubscriberInterface
         $isPreDispatch = false
     ) {
         $module = $this->handleDispatch($args, $isPreDispatch);
-
         $this->variables->setModule($module);
 
-        // Since SW 5.3 the generic listingCountAction is used for paginated listings.
-        // Get the response json body, decode it, prepend the dataLayer to the listing key
-        // and set json encoded markup as response body.
-        if ($module == 'widgets_listing_listingcount') {
-            /** @var \Enlight_Controller_Response_ResponseHttp $response */
-            $response = $args->getResponse();
-            $data = json_decode($response->getBody(), true);
-
-            if (isset($data['listing'])) {
-                if ($this->variables->getVariables()) {
-                    $data['listing'] = $this->variables->prependDataLayer(
-                        $data['listing'],
-                        $this->pluginConfig('wbmTagManagerJsonPrettyPrint')
-                    );
-
-                    $response->setBody(json_encode($data));
-                }
-            }
-        } elseif ($this->variables->getVariables()) {
+        if ($this->variables->getVariables()) {
             $args->getResponse()->appendBody(
                 $this->variables->prependDataLayer('', $this->pluginConfig('wbmTagManagerJsonPrettyPrint'))
             );
