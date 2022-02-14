@@ -77,6 +77,22 @@ class FilterRender extends ConfigAbstract implements SubscriberInterface
     {
         $source = $args->getReturn();
         $request = $this->front->Request();
+        $containerId = $this->pluginConfig('wbmTagManagerContainer');
+        $prettyPrint = $this->pluginConfig('wbmTagManagerJsonPrettyPrint');
+
+        // Check if plugins is active
+        if (!$this->pluginConfig('wbmTagManagerActive') || empty($containerId)) {
+            return $source;
+        }
+
+        if(
+            $request->isXmlHttpRequest() &&
+            $request->getModuleName() === 'widgets' &&
+            $request->getControllerName() === 'listing' &&
+            $request->getActionName() === 'listingCount'
+        ) {
+            return $this->includeDataLayerInAjaxListing($source, $prettyPrint);
+        }
 
         if (
             (strpos($source, '<html') === false && !$request->isXmlHttpRequest()) ||
@@ -85,17 +101,9 @@ class FilterRender extends ConfigAbstract implements SubscriberInterface
             return $source;
         }
 
-        $containerId = $this->pluginConfig('wbmTagManagerContainer');
-
-        if (!$this->pluginConfig('wbmTagManagerActive') || empty($containerId)) {
-            return $source;
-        }
-
-        $prettyPrint = $this->pluginConfig('wbmTagManagerJsonPrettyPrint');
-        $isAjaxVariant = $request->getControllerName() === 'detail' && $request->get('template') === 'ajax';
-
         $this->variables->setModule('frontend');
 
+        $isAjaxVariant = $request->getControllerName() === 'detail' && $request->get('template') === 'ajax';
         if ($isAjaxVariant && $this->variables->getVariables()) {
             return $this->includeDataLayerInProductDetail($source, $prettyPrint);
         }
@@ -170,6 +178,31 @@ class FilterRender extends ConfigAbstract implements SubscriberInterface
             $this->variables->prependDataLayer('', $prettyPrint),
             $source,
             ['<div class="product--detail-upper block-group">']
+        );
+
+        return $source;
+    }
+
+    /**
+     * Include the dataLayer in the ajax listing.
+     * The dataLayer must be in the DOM (inside <div id="listing">) of
+     * the page and for the script tag to be executed.
+     * The function sendListingRequest in jquery.listing-actions.js only
+     * includes the content of #listing into the page.
+     *
+     * @param string $source
+     * @param bool   $prettyPrint
+     *
+     * @return string
+     */
+    public function includeDataLayerInAjaxListing(
+        $source,
+        $prettyPrint
+    ) {
+        $source = $this->injectMarkup(
+            $this->variables->prependDataLayer('', $prettyPrint),
+            $source,
+            ['<div id="listing">']
         );
 
         return $source;

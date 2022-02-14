@@ -94,7 +94,11 @@ class Dispatch extends ConfigAbstract implements SubscriberInterface
         $module = $this->handleDispatch($args, $isPreDispatch);
         $this->variables->setModule($module);
 
-        if ($this->variables->getVariables()) {
+        if ($module == 'widgets_listing_listingcount') {
+            // data layer will be included in:
+            // Subscriber/Frontend/FilterRender.php::onFilterRender
+            return;
+        }else if ($this->variables->getVariables()) {
             $args->getResponse()->appendBody(
                 $this->variables->prependDataLayer('', $this->pluginConfig('wbmTagManagerJsonPrettyPrint'))
             );
