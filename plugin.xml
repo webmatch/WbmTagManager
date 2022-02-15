@@ -10,11 +10,11 @@
     <description lang="en">Google Tag Manager + Enhanced E-Commerce Tracking for Shopware</description>
     <description lang="de">Google Tag Manager + Enhanced E-Commerce Tracking für Shopware</description>
     <author>Webmatch GmbH</author>
-    <compatibility minVersion="5.6.3" />
+    <compatibility minVersion="5.7.7" />
 
-    <changelog version="3.5.5">
-        <changes lang="de">Behebt fehlendes Tracking für removeFromCart auf der Warenkorb-Seite, die Daten sind nicht konfigurierbar im Backend</changes>
-        <changes lang="en">Fix missing removeFromCart tracking on the cart page, data is not configurable in the backend</changes>
+    <changelog version="UNRELEASED">
+        <changes lang="de">Behebt fehlendes Tracking für removeFromCart auf der Warenkorb-Seite, die Daten sind nicht konfigurierbar im Backend; Fehler im Tracking des Listings für per Ajax geladene Produkte (widgets/listing/listingCount) behoben</changes>
+        <changes lang="en">Fix missing removeFromCart tracking on the cart page, data is not configurable in the backend; Fix tracking in listing for ajax loaded products (widgets/listing/listingCount)</changes>
     </changelog>
 
     <changelog version="3.5.4">

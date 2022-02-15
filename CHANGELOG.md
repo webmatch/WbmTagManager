@@ -1,8 +1,9 @@
-## [3.5.4]
+## UNRELEASED
 - Fix missing removeFromCart tracking on the /checkout/cart page, tracking is not configurable
+- Fix tracking in listing for ajax loaded products (widgets/listing/listingCount)
 
 ## [3.5.4]
-- Behebt einen Null-Pointer Exception beim tracken der Produktklicks (Danke an @nicoanders)
+- Fix null pointer exception for tracking of product clicks (thanks to @nicoanders)
 
 ## [3.5.3]
 - Add compatibility for Shopware 5.7
