@@ -3,7 +3,7 @@
     <label lang="de">Tag Manager</label>
     <label lang="en">Tag Manager</label>
 
-    <version>3.5.5</version>
+    <version>3.5.6</version>
     <copyright>Webmatch GmbH</copyright>
     <license>proprietary</license>
     <link>http://www.webmatch.de</link>
@@ -11,6 +11,11 @@
     <description lang="de">Google Tag Manager + Enhanced E-Commerce Tracking für Shopware</description>
     <author>Webmatch GmbH</author>
     <compatibility minVersion="5.6.3" />
+
+    <changelog version="3.5.6">
+        <changes lang="de">Fügt dem addToCart und removeFromCart Datalayer den Artikelnamen hinzu</changes>
+        <changes lang="en">Add article name property to the datalayer for addToCart and removeFromCart events</changes>
+    </changelog>
 
     <changelog version="3.5.5">
         <changes lang="de">Behebt fehlendes Tracking für removeFromCart auf der Warenkorb-Seite, die Daten sind nicht konfigurierbar im Backend</changes>
