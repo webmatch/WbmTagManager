@@ -1,3 +1,6 @@
+## [3.5.5]
+- Add article name property to addToCart and removeFromCart event
+
 ## [3.5.4]
 - Fix missing removeFromCart tracking on the /checkout/cart page, tracking is not configurable
 
