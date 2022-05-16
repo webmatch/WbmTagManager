@@ -23,9 +23,12 @@ class ThemeSubscriber implements SubscriberInterface
 
     public function addJsFiles(): ArrayCollection
     {
-        $jsFiles = [];
         $jsDir = $this->pluginDir . '/Resources/views/frontend/_public/src/js/';
-        $jsFiles[] = $jsDir . 'jquery.product-click-tracking.js';
+
+        $jsFiles = [
+            $jsDir . 'jquery.product-click-tracking.js',
+            $jsDir . 'jquery.remove-from-cart-tracking.js',
+        ];
 
         return new ArrayCollection($jsFiles);
     }
