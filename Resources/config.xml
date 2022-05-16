@@ -103,5 +103,19 @@
                 therefore only be done by experienced users.
             ]]></description>
         </element>
+                <element scope="shop" type="boolean">
+            <name>wbmTagManagerPagespeed</name>
+            <label lang="de">Pagespeed Optimierung</label>
+            <label lang="en">Optimize for Pagespeed</label>
+            <value>1</value>
+            <description lang="de"><![CDATA[
+                Die Aktivierung dieses Feldes kann dazu führen, dass der Google Tag Manager nicht mehr
+                ordnungsgemäß funktioniert und sollte daher nur von erfahrenden Nutzern durchgeführt werden.
+            ]]></description>
+            <description lang="en"><![CDATA[
+                Activation of this field can break the funcionality of Google Tag Manager and should
+                therefore only be done by experienced users.
+            ]]></description>
+        </element>
     </elements>
 </config>
