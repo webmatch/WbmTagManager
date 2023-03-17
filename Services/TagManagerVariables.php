@@ -176,7 +176,9 @@ class TagManagerVariables implements TagManagerVariablesInterface
         $variables = $this->getVariables();
 
         array_walk_recursive($variables, static function (&$item) {
-            $item = htmlspecialchars($item);
+            if(gettype($item) === 'string') {
+                $item = htmlspecialchars($item);
+            }
         });
 
         return sprintf(
