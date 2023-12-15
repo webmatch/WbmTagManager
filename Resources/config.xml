@@ -13,6 +13,18 @@
             <label lang="en">Container ID</label>
             <value/>
         </element>
+        <element scope="shop" type="text">
+            <name>wbmTagManagerDomain</name>
+            <label lang="de">benutzerdefinierte Domain</label>
+            <label lang="en">Custom domain</label>
+            <value/>
+            <description lang="de"><![CDATA[
+                Schreiben Sie die benutzerdefinierte Domain zum Laden des Google Tag Mangers von einem eigenen Server hier rein. Das Google Skript gtm.js kann so direkt von ihrem Server statt den Google-Servern geladen werden. Z.B. www.tagging.example.com
+            ]]></description>
+            <description lang="en"><![CDATA[
+                Enter the custom domain for loading the Google Tag Manager from your own server here. The Google script gtm.js can then be loaded directly from your server instead of the Google servers. E.G. www.tagging.example.com
+            ]]></description>
+        </element>
         <element scope="shop" type="boolean">
             <name>wbmTagManagerCookieConsent</name>
             <label lang="de">Cookie Consent Unterstützung</label>

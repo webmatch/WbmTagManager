@@ -123,6 +123,7 @@ class FilterRender extends ConfigAbstract implements SubscriberInterface
         $containerId,
         $prettyPrint
     ) {
+        $domain = empty($this->pluginConfig('wbmTagManagerDomain')) ? 'www.googletagmanager.com' : $this->pluginConfig('wbmTagManagerDomain');
         $extendedUrlParams = trim($this->pluginConfig('wbmExtendedURLParameter'));
         $headTag = '';
         if (!$this->pluginConfig('wbmTagManagerCookieConsent')) {
@@ -134,13 +135,14 @@ class FilterRender extends ConfigAbstract implements SubscriberInterface
             $headTag = sprintf(
                 $headTag,
                 (!empty($this->pluginConfig('wbmScriptTagAttributes')) ? ' ' . $this->pluginConfig('wbmScriptTagAttributes') : ''),
+                $domain,
                 $extendedUrlParams,
                 $containerId
             );
         }
 
         $bodyTag = file_get_contents($this->pluginDir . '/Resources/tags/body.html');
-        $bodyTag = sprintf($bodyTag, $containerId, $extendedUrlParams);
+        $bodyTag = sprintf($bodyTag, $domain, $containerId, $extendedUrlParams);
 
         $headTag = $this->wrapHeadTag($headTag);
 
